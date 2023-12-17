@@ -39,6 +39,12 @@ target 'BusinessSchudle' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  # Add the CocoaAsyncSocket pod here
+  pod 'CocoaAsyncSocket'
+  pod 'RNCPicker'
+  pod 'react-native-i18n'
+
+
   target 'BusinessSchudleTests' do
     inherit! :complete
     # Pods for testing
@@ -52,4 +58,6 @@ target 'BusinessSchudle' do
       :mac_catalyst_enabled => false
     )
   end
+
+
 end

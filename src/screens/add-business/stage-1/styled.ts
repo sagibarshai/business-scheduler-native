@@ -3,7 +3,7 @@ import RTLText from "../../../components/RTL/text";
 
 export const StyledStage1 = styled.View`
     /* display: flex; */
-    gap: ${props => props.theme.spaces.l};
+    gap: ${props => props.theme.spaces.m};
     height: 100%;
 `
 export const StyledStage1Title = styled.Text`

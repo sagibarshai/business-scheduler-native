@@ -1,0 +1,10 @@
+{
+    "prettier.printWidth": 100099,
+    "cSpell.blockCheckingWhenAverageChunkSizeGreaterThan": 80,
+    "typescript.format.enable": true,
+    "typescript.format.insertSpaceAfterTypeAssertion": true,
+    "typescript.inlayHints.enumMemberValues.enabled": true,
+    "typescript.tsdk": "",
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": false
+}

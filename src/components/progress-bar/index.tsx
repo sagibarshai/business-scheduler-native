@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled, { css } from "styled-components/native";
 import RTLText from "../RTL/text";
 import RTLRow from "../RTL/row";
 
@@ -12,7 +12,7 @@ interface Props {
 
 const StyledProgressbarWrapper = styled.View`
   width: 85%;
-  height: 10px;
+  height: 11px;
   border: ${(props) => props.theme.border.width.m} ${(props) => props.theme.border.style.regular} ${(props) => props.theme.border.colors.aqua};
   background-color: transparent;
   position: relative;

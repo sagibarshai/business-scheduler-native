@@ -1,12 +1,13 @@
-import styled from 'styled-components/native';
-import RTLText from '../RTL/text';
-import Day from '../select-day';
-import {StyledDaysWrapper} from './styled';
+import styled from "styled-components/native";
+import RTLText from "../RTL/text";
+import Day from "../select-day";
+import { StyledDaysWrapper } from "./styled";
 
 export type Days = {
   name: string;
   selected: boolean;
   disabled: boolean;
+  longName: string;
 }[];
 interface Props {
   selectedDays: Days;
@@ -14,10 +15,10 @@ interface Props {
   days: Days;
 }
 
-const SelectDays = ({selectedDays, setSelectedDays, days}: Props) => {
+const SelectDays = ({ selectedDays, setSelectedDays, days }: Props) => {
   const onToggleDay = (day: string) => {
     const updatedDays = [...days];
-    const dayIndex = updatedDays.findIndex(d => d.name === day);
+    const dayIndex = updatedDays.findIndex((d) => d.name === day);
     const existingDay = updatedDays[dayIndex];
     if (!existingDay) return;
     existingDay.selected = !existingDay.selected;
@@ -28,14 +29,8 @@ const SelectDays = ({selectedDays, setSelectedDays, days}: Props) => {
   return (
     <>
       <StyledDaysWrapper>
-        {selectedDays.map(day => (
-          <Day
-            disabled={day.disabled}
-            key={day.name}
-            onTouch={() => onToggleDay(day.name)}
-            dayText={day.name}
-            selected={day.selected}
-          />
+        {selectedDays.map((day) => (
+          <Day disabled={day.disabled} key={day.name} onTouch={() => onToggleDay(day.name)} dayText={day.name} selected={day.selected} />
         ))}
       </StyledDaysWrapper>
     </>

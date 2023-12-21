@@ -9,8 +9,12 @@ declare module "styled-components/native" {
           texts: {};
         };
         lights: {
-          backgrounds: { appBackground: string; aqua: string; purple: string,black:string,disabledGray:string };
+          backgrounds: { appBackground: string; aqua: string; purple: string,black:string };
           texts: { white: string; black: string ,aqua:string};
+          disabled:{
+            gray:string
+            aqua:string
+          }
         };
       };
     };
@@ -69,7 +73,7 @@ declare module "styled-components/native" {
     };
     icons:{
       sizes:{m:number}
-      colors:{aqua:string}
+      colors:{aqua:string, aquaDisabled:string}
     }
   }
 }

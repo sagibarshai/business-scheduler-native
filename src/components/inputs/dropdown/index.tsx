@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components/native";
-import { Text, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import RTLText from "../../RTL/text";
 import { ScrollView } from "react-native";
+import { theme } from "../../../../theme";
 
 interface StyledProps {
   width?: string;
@@ -75,7 +75,7 @@ export const Dropdown = ({ options, width, height, isOpen, onToggle }: Props) =>
     <DropdownContainer height={height} width={width}>
       <DropdownButton onPress={onToggle}>
         <StyledDropdownText>{selectedOption}</StyledDropdownText>
-        <Icon size={15} name="chevron-down" />
+        <Icon color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
       </DropdownButton>
       {isOpen && (
         <DropdownList height={height} width={width}>

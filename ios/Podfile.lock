@@ -944,8 +944,6 @@ PODS:
   - React-Mapbuffer (0.73.0):
     - glog
     - React-debug
-  - react-native-date-picker (4.3.4):
-    - React-Core
   - react-native-restart (0.0.27):
     - React-Core
   - React-nativeconfig (0.73.0)
@@ -1178,7 +1176,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector-modern`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
-  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-restart (from `../node_modules/react-native-restart`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1276,8 +1273,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   React-Mapbuffer:
     :path: "../node_modules/react-native/ReactCommon"
-  react-native-date-picker:
-    :path: "../node_modules/react-native-date-picker"
   react-native-restart:
     :path: "../node_modules/react-native-restart"
   React-nativeconfig:
@@ -1367,7 +1362,6 @@ SPEC CHECKSUMS:
   React-jsinspector: 9f6fb9ed9f03a0fb961ab8dc2e0e0ee0dc729e77
   React-logger: 008caec0d6a587abc1e71be21bfac5ba1662fe6a
   React-Mapbuffer: 58fe558faf52ecde6705376700f848d0293d1cef
-  react-native-date-picker: db26a4dc48fe4e7c3c3afd5008519fad1091c524
   react-native-restart: 7595693413fe3ca15893702f2c8306c62a708162
   React-nativeconfig: a063483672b8add47a4875b0281e202908ff6747
   React-NativeModulesApple: 169506a5fd708ab22811f76ee06a976595c367a1
@@ -1394,6 +1388,6 @@ SPEC CHECKSUMS:
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 20d6a900dcc8d61d5e3b799bbf627cc34474a8c4
 
-PODFILE CHECKSUM: 5b3b7c3cb4284b55068296d8646256d0a3a35aa7
+PODFILE CHECKSUM: a6f0cf142a05631d6758e472994ba796de4bdec8
 
 COCOAPODS: 1.14.3

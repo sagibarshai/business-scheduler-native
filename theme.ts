@@ -13,9 +13,13 @@ export const theme: DefaultTheme = {
           aqua: "rgba(7, 137, 179, 1)",
           purple: "rgba(51, 47, 68, 1)",
           black:"rgba(0,0,0,1)",
-          disabledGray:"rgba(202, 201, 201, 0.7)"
         },
         texts: { black: "rgba(0,0,0,0.8)", white: "rgba(255,255,255,1)", aqua:"rgba(7, 137, 179, 1)" },
+        disabled:{
+          gray:"rgba(202, 201, 201, 0.7)",
+          aqua:"rgba(7, 137, 179, 1)"
+
+        }
       },
     },
   },
@@ -62,7 +66,7 @@ export const theme: DefaultTheme = {
     }
   },
   icons:{
-    sizes:{m:20},
-    colors:{aqua:"rgba(7, 137, 179, 1)"}
+    sizes:{m:22},
+    colors:{aqua:"rgba(7, 137, 179, 1)", aquaDisabled:"rgba(7, 137, 179, 0.5)"}
   } 
 };

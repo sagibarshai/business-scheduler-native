@@ -41,8 +41,6 @@ target 'BusinessSchudle' do
 
   # Add the CocoaAsyncSocket pod here
   pod 'CocoaAsyncSocket'
-  pod 'RNCPicker'
-  pod 'react-native-i18n'
 
 
   target 'BusinessSchudleTests' do

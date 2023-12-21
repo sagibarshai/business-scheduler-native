@@ -2,6 +2,7 @@ import styled, {css} from 'styled-components/native';
 
 interface StyledProps {
   selected: boolean;
+  disabled: boolean;
 }
 interface Props extends StyledProps {
   dayText: string;
@@ -12,10 +13,14 @@ const StyledDayWrapper = styled.View<StyledProps>`
   width: 42px;
   height: 42px;
   border-radius: 100px;
-  background-color: ${props =>
-    props.selected
-      ? props.theme.palette.colors.lights.backgrounds.aqua
-      : 'transparent'};
+  background-color: ${props => {
+    if (props.disabled)
+      return props.theme.palette.colors.lights.backgrounds.disabledGray;
+    else if (props.selected)
+      return props.theme.palette.colors.lights.backgrounds.aqua;
+    else if (!props.selected) return 'transparent';
+  }};
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,18 +34,24 @@ const StyledDayWrapper = styled.View<StyledProps>`
         `};
 `;
 
-const StyledDayText = styled.Text<StyledProps>`
-  color: ${props =>
-    props.selected
-      ? props.theme.palette.colors.lights.texts.white
-      : props.theme.palette.colors.lights.texts.black};
+const StyledDayText = styled.Text<Omit<StyledProps, 'disabled'>>`
+  color: ${props => {
+    if (!props.selected || props.disabled)
+      return props.theme.palette.colors.lights.texts.black;
+    else return props.theme.palette.colors.lights.texts.white;
+  }};
   font-weight: ${props => props.theme.fonts.weights.l};
 `;
 
-const Day = ({selected, dayText, onTouch}: Props) => {
+const Day = ({selected, dayText, onTouch, disabled}: Props) => {
   return (
-    <StyledDayWrapper onTouchEnd={onTouch} selected={selected}>
-      <StyledDayText selected={selected}>{dayText}</StyledDayText>
+    <StyledDayWrapper
+      disabled={disabled}
+      onTouchEnd={disabled ? () => {} : onTouch}
+      selected={selected}>
+      <StyledDayText disabled={disabled} selected={selected}>
+        {dayText}
+      </StyledDayText>
     </StyledDayWrapper>
   );
 };

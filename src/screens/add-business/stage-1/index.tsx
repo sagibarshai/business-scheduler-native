@@ -18,13 +18,13 @@ import SelectDaysAndHours from './select-days-and-hours';
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
 const days: Days = [
-  {name: 'א', selected: false},
-  {name: 'ב', selected: false},
-  {name: 'ג', selected: false},
-  {name: 'ד', selected: false},
-  {name: 'ה', selected: false},
-  {name: 'ו', selected: false},
-  {name: 'ש', selected: false},
+  {name: 'א', selected: false, disabled: false},
+  {name: 'ב', selected: false, disabled: false},
+  {name: 'ג', selected: false, disabled: false},
+  {name: 'ד', selected: false, disabled: false},
+  {name: 'ה', selected: false, disabled: false},
+  {name: 'ו', selected: false, disabled: false},
+  {name: 'ש', selected: false, disabled: false},
 ];
 
 const Stage1 = () => {

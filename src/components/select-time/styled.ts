@@ -21,6 +21,7 @@ export const StyledTimeButton = styled.TouchableOpacity`
     display: flex;
     align-items: center;
     justify-content: center;
+    
 `
 export const StyledTimeText = styled.Text`
   color: ${props => props.theme.inputs.placeholders.colors.blackAlpha7};

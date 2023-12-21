@@ -32,3 +32,15 @@ export const StyledTimeSaveButtonText = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.l};
     font-weight: ${props => props.theme.fonts.weights.l};
 `
+export const StyledDaysAndHoursDisplayWrapper = styled.View`
+    display: flex;
+`
+export const StyledRow = styled.View`
+    display: flex;
+    flex-direction: row;
+`
+export const StyledText = styled.Text`
+    color: ${props => props.theme.palette.colors.lights.texts.black};
+    font-size: ${props => props.theme.fonts.sizes.l};
+    font-weight: ${props => props.theme.fonts.weights.l};
+`

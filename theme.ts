@@ -12,7 +12,8 @@ export const theme: DefaultTheme = {
           appBackground: "rgba(255,255,255,1)",
           aqua: "rgba(7, 137, 179, 1)",
           purple: "rgba(51, 47, 68, 1)",
-          black:"rgba(0,0,0,1)"
+          black:"rgba(0,0,0,1)",
+          disabledGray:"rgba(202, 201, 201, 0.7)"
         },
         texts: { black: "rgba(0,0,0,0.8)", white: "rgba(255,255,255,1)", aqua:"rgba(7, 137, 179, 1)" },
       },

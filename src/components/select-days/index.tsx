@@ -6,6 +6,7 @@ import {StyledDaysWrapper} from './styled';
 export type Days = {
   name: string;
   selected: boolean;
+  disabled: boolean;
 }[];
 interface Props {
   selectedDays: Days;
@@ -29,6 +30,7 @@ const SelectDays = ({selectedDays, setSelectedDays, days}: Props) => {
       <StyledDaysWrapper>
         {selectedDays.map(day => (
           <Day
+            disabled={day.disabled}
             key={day.name}
             onTouch={() => onToggleDay(day.name)}
             dayText={day.name}

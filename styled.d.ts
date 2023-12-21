@@ -9,7 +9,7 @@ declare module "styled-components/native" {
           texts: {};
         };
         lights: {
-          backgrounds: { appBackground: string; aqua: string; purple: string,black:string };
+          backgrounds: { appBackground: string; aqua: string; purple: string,black:string,disabledGray:string };
           texts: { white: string; black: string ,aqua:string};
         };
       };

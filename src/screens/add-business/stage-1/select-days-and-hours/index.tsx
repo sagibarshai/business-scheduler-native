@@ -35,7 +35,6 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
   const [parseEndHour, setParseEndHour] = useState<string>("18:00");
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<SelectedHoursAndDays>([]);
   const [errors, setErrors] = useState<Errors>([]);
-  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [editIndex, setEditIndex] = useState<number>(-1);
 
   const onSaveWorkingHours = (event: DateTimePickerEvent, role: Role) => {
@@ -70,7 +69,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
       return;
     }
     let updatedRows = [...selectedDaysAndHours.map((row) => ({ ...row, editMode: false }))];
-    if (!isEdit && !selectedDaysAndHours[editIndex]) {
+    if (editIndex < 0) {
       updatedRows.push({
         days: days.filter((day) => (day.selected ? day : false)),
         from: parseStartHour,
@@ -92,7 +91,6 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
     }
     setSelectedDays(updatedDays);
     setSelectedDaysAndHours(updatedRows);
-    setIsEdit(false);
     setEditIndex(-1);
   };
 
@@ -101,7 +99,6 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
   }, [days]);
 
   const onEditRow = (rowIndex: number) => {
-    if (isEdit) return;
     const existingRow = selectedDaysAndHours[rowIndex];
     existingRow.editMode = true;
     let updatedDaysAndHours = [...selectedDaysAndHours];
@@ -118,10 +115,9 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
     setParseEndHour(existingRow.to);
     setParseStartHour(existingRow.from);
     setSelectedDaysAndHours(updatedDaysAndHours);
-    setIsEdit(true);
     setEditIndex(rowIndex);
   };
-
+  console.log("editIndex ", editIndex);
   return (
     <StyledWrapper>
       <SelectDays days={days} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
@@ -134,20 +130,20 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
         </StyledTimeWrapper>
         <StyledTimeWrapper>
           <StyledTimeSaveButton disabled={!checkIfFormIsValid()} onPress={onSaveWorkingDaysAndHours}>
-            <StyledTimeSaveButtonText>{isEdit ? "שינוי" : "הוספה"}</StyledTimeSaveButtonText>
+            <StyledTimeSaveButtonText>{editIndex < 0 ? "שינוי" : "הוספה"}</StyledTimeSaveButtonText>
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
       <StyledDaysAndHoursDisplayWrapper>
         {selectedDaysAndHours.map((row, rowIndex) => (
           <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
-            <Icon onPress={() => onEditRow(rowIndex)} color={isEdit ? theme.icons.colors.aquaDisabled : theme.icons.colors.aqua} size={theme.icons.sizes.m} name="edit" />
+            <Icon onPress={() => onEditRow(rowIndex)} color={editIndex < 0 ? theme.icons.colors.aquaDisabled : theme.icons.colors.aqua} size={theme.icons.sizes.m} name="edit" />
             <StyledRow>
               <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
               {row.days.map((day, dayIndex) => (
                 <StyledText key={day.name}>
                   {" "}
-                  {day.longName}
+                  {day.name}
                   {dayIndex === row.days.length - 1 ? ": " : ", "}
                 </StyledText>
               ))}

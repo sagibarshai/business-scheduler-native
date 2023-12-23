@@ -1,9 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components/native";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import RTLText from "../../RTL/text";
 import { ScrollView } from "react-native";
 import { theme } from "../../../../theme";
+
+import { View } from "react-native";
+import { Button, Menu, Divider, Provider } from "react-native-paper";
 
 interface StyledProps {
   width?: string;

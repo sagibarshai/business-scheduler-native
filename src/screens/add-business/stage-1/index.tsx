@@ -40,7 +40,7 @@ const Stage1 = () => {
 
         <StyledDaysAndLabelWrapper>
           <StyledLabelIconWrapper>
-            <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-outline" />
+            <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
             <StyledDaysLabel>ימים ושעות</StyledDaysLabel>
           </StyledLabelIconWrapper>
           <SelectDaysAndHours days={selectedDays} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />

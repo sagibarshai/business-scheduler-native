@@ -30,6 +30,8 @@ const StyledDayWrapper = styled.View<StyledProps>`
           ${(props) => props.theme.border.style.regular}
     ${(props) => props.theme.border.colors.black}
         `};
+
+  transition: all 2s ease;
 `;
 
 const StyledDayText = styled.Text<Omit<StyledProps, "disabled">>`

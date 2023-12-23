@@ -11,3 +11,12 @@ export const StyledLabel = styled(RTLText)`
   font-size: ${props => props.theme.fonts.sizes.m};
 `;
 
+export const StyledTimeButton = styled.TouchableOpacity`
+  border: ${props  => props.theme.border.width.m} ${props  => props.theme.border.style.regular} ${props  => props.theme.border.colors.black} ;
+  height: ${props => props.theme.inputs.sizes.m.height};
+  border-radius: ${props => props.theme.border.radiuses.m};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+`

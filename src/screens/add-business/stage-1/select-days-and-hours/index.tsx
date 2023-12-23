@@ -1,29 +1,18 @@
-import SelectDays, { Days } from "../../../../components/select-days";
-import SelectTime, { Role } from "../../../../components/select-time";
-
-import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledDaysAndHoursDisplayWrapper, StyledRow, StyledText, StyledRowAndIconWrapper } from "./styled";
 import { useEffect, useState } from "react";
-import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import Icon from "react-native-vector-icons/FontAwesome5";
+
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+import SelectDays from "../../../../components/select-days";
+import SelectTime from "../../../../components/select-time";
+
 import { theme } from "../../../../../theme";
 
-type Errors = {
-  message: string;
-  filed: string;
-}[];
+import { type DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { type Errors, Props, SelectedHoursAndDays } from "./types";
+import { type Role } from "../../../../components/select-time";
 
-type SelectedHoursAndDays = {
-  days: Days;
-  from: string;
-  to: string;
-  editMode: boolean;
-}[];
+import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledDaysAndHoursDisplayWrapper, StyledRow, StyledText, StyledRowAndIconWrapper } from "./styled";
 
-interface Props {
-  selectedDays: Days;
-  setSelectedDays: React.Dispatch<React.SetStateAction<Days>>;
-  days: Days;
-}
 const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
 let dateWithTime18: Date = new Date(now.setHours(18, 0, 0));
@@ -41,8 +30,8 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
     const date = new Date(event.nativeEvent.timestamp);
     const time = date.toLocaleTimeString("en-US", {
       timeZone: "Asia/Jerusalem",
+      hour12: false,
     });
-
     const splitTime = time.split(":");
     const fTime = splitTime[0] + ":" + splitTime[1];
     if (role === "from") {
@@ -63,34 +52,39 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
   const onSaveWorkingDaysAndHours = () => {
     const isFormValid = checkIfFormIsValid();
     if (!isFormValid) {
-      const updatedErrors: Errors = [...errors];
+      const updatedErrors: Errors = [...errors]; // copy the previous errors
       updatedErrors.push({ filed: "days", message: "No days was selected" });
       setErrors(updatedErrors);
       return;
     }
-    let updatedRows = [...selectedDaysAndHours.map((row) => ({ ...row, editMode: false }))];
+
+    let updatedSelectedDaysAndHours = [...selectedDaysAndHours.map((row) => ({ ...row, editMode: false }))]; // reset all edit mode if have
+    // on add mode
     if (editIndex < 0) {
-      updatedRows.push({
+      updatedSelectedDaysAndHours.push({
         days: days.filter((day) => (day.selected ? day : false)),
         from: parseStartHour,
         to: parseEndHour,
         editMode: false,
       });
-    } else {
-      updatedRows[editIndex].from = parseStartHour;
-      updatedRows[editIndex].to = parseEndHour;
-      updatedRows[editIndex].days = days.filter((day) => day.selected);
+    }
+    // on save after edit
+    else {
+      updatedSelectedDaysAndHours[editIndex].from = parseStartHour;
+      updatedSelectedDaysAndHours[editIndex].to = parseEndHour;
+      updatedSelectedDaysAndHours[editIndex].days = days.filter((day) => day.selected);
     }
 
+    // set all the selected days to disabled true and selected false after save
     const updatedDays = [...selectedDays];
-    for (let day of selectedDays) {
+    for (let day of updatedDays) {
       if (day.selected) {
         day.disabled = true;
         day.selected = false;
       }
     }
     setSelectedDays(updatedDays);
-    setSelectedDaysAndHours(updatedRows);
+    setSelectedDaysAndHours(updatedSelectedDaysAndHours);
     setEditIndex(-1);
   };
 
@@ -117,27 +111,33 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
     setSelectedDaysAndHours(updatedDaysAndHours);
     setEditIndex(rowIndex);
   };
-  console.log("editIndex ", editIndex);
   return (
     <StyledWrapper>
       <SelectDays days={days} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
       <StyledSelectTimeWrapper>
         <StyledTimeWrapper>
-          <SelectTime role="from" defaultValue={startHour as Date} onChange={onSaveWorkingHours} labelText="שעת פתיחה" />
+          <SelectTime defaultParsedValue={parseStartHour} role="from" defaultValue={startHour as Date} onChange={onSaveWorkingHours} labelText="שעת פתיחה" />
         </StyledTimeWrapper>
         <StyledTimeWrapper>
-          <SelectTime onChange={onSaveWorkingHours} defaultValue={endHour as Date} role="to" labelText="עד מתי?" />
+          <SelectTime defaultParsedValue={parseEndHour} onChange={onSaveWorkingHours} defaultValue={endHour as Date} role="to" labelText="עד מתי?" />
         </StyledTimeWrapper>
         <StyledTimeWrapper>
           <StyledTimeSaveButton disabled={!checkIfFormIsValid()} onPress={onSaveWorkingDaysAndHours}>
-            <StyledTimeSaveButtonText>{editIndex < 0 ? "שינוי" : "הוספה"}</StyledTimeSaveButtonText>
+            <StyledTimeSaveButtonText>{editIndex >= 0 ? "שינוי" : "הוספה"}</StyledTimeSaveButtonText>
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
       <StyledDaysAndHoursDisplayWrapper>
         {selectedDaysAndHours.map((row, rowIndex) => (
           <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
-            <Icon onPress={() => onEditRow(rowIndex)} color={editIndex < 0 ? theme.icons.colors.aquaDisabled : theme.icons.colors.aqua} size={theme.icons.sizes.m} name="edit" />
+            <Icon
+              onPress={() => {
+                if (editIndex < 0) onEditRow(rowIndex);
+              }}
+              color={theme.icons.colors.aqua}
+              size={theme.icons.sizes.m}
+              name="pencil-outline"
+            />
             <StyledRow>
               <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
               {row.days.map((day, dayIndex) => (

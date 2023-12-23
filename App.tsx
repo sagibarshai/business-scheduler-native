@@ -1,17 +1,27 @@
-import styled from 'styled-components/native';
-import {Provider} from 'react-redux';
-import store from './redux/store';
+import styled from "styled-components/native";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
-import {ThemeProvider} from 'styled-components/native';
-import {theme} from './theme';
-import AddNewBusiness from './src/screens/add-business';
-import {I18nManager, Text} from 'react-native';
-import {useEffect} from 'react';
+import { ThemeProvider } from "styled-components/native";
+import { theme } from "./theme";
+import AddNewBusiness from "./src/screens/add-business";
+import { I18nManager } from "react-native";
+import { useEffect } from "react";
+import { Platform } from "react-native";
+import { css } from "styled-components";
 
 const StyledView = styled.View`
+  ${() =>
+    Platform.OS === "ios"
+      ? css`
+          width: 90%;
+          height: 80%;
+        `
+      : css`
+          width: 90%;
+          height: 90%;
+        `}
   display: flex;
-  width: 90%;
-  height: 80%;
   margin: auto;
   flex-direction: row;
 `;

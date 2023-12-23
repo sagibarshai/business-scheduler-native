@@ -46,7 +46,7 @@ export const theme: DefaultTheme = {
     xl:'50px',
   },
   border: {
-    colors: { black: "rgba(0,0,0,1)", aqua: "rgba(7, 137, 179, 1)" },
+    colors: { black: "rgba(0,0,0,1)", aqua: "rgba(7, 137, 179, 1)", aquaAlpha5: "rgba(7, 137, 179, 0.5)" },
     width: { m: "1px" },
     radiuses: { m: "6px", l:'10px',xl:'16px' },
     style: {

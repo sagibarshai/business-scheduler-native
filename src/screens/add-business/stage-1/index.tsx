@@ -34,7 +34,7 @@ const Stage1 = () => {
         <Progressbar currentStage={1} stages={5} />
         <StyledStage1Title>כניסה למערכת</StyledStage1Title>
         <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
-        <Dropdown isOpen={isDropdownOpen} onToggle={onToggleDropdown} options={["מספרה", "כושר ותזונה", "לק גל"]} />
+        <Dropdown isOpen={isDropdownOpen} onToggle={onToggleDropdown} options={["מספרה", "כושר ותזונה", "לק גל", "הההגמספרה", "כושר ותכגכגזונה", "לקכגגכ גל", "מdsdsספרה", "כושר ותזdssdונה", "לdsdsdsק גל", "ההdsdsהגמספרה", "כושר dsds", "לקכגגכ גלdsds"]} />
         <TextInput label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
         <TextInput label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
 

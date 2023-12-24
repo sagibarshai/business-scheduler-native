@@ -15,7 +15,7 @@ const StyledView = styled.View`
     Platform.OS === "ios"
       ? css`
           width: 90%;
-          height: 80%;
+          height: 85%;
         `
       : css`
           width: 90%;
@@ -23,7 +23,6 @@ const StyledView = styled.View`
         `}
   display: flex;
   margin: auto;
-  flex-direction: row;
 `;
 
 const App = () => {

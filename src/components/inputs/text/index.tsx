@@ -1,5 +1,7 @@
 import styled from "styled-components/native";
 import RTLText from "../../RTL/text";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import React from "react";
 
 interface StyledProps {
   width?: string;
@@ -9,6 +11,7 @@ interface StyledProps {
 interface Props extends StyledProps {
   icon: JSX.Element;
   label: string;
+  onChange: (event: NativeSyntheticEvent<TextInputChangeEventData>) => void;
 }
 
 const StyledCol = styled.View`
@@ -38,15 +41,14 @@ const StyledInputLabel = styled(RTLText)`
   font-size: ${(props) => props.theme.fonts.sizes.m};
 `;
 
-const TextInput = ({ icon, label, ...props }: Props) => (
+const TextInput = ({ icon, label, onChange, ...props }: Props) => (
   <StyledCol>
     <StyledRow>
       <RTLText>{icon}</RTLText>
-
       <StyledInputLabel>{label}</StyledInputLabel>
     </StyledRow>
 
-    <StyledPrimaryInput {...props} />
+    <StyledPrimaryInput onChange={(event) => onChange(event)} {...props} />
   </StyledCol>
 );
 

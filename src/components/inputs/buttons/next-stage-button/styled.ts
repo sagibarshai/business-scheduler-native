@@ -10,6 +10,7 @@ export const StyledNextStageButton = styled.TouchableOpacity<StyledProps>`
     border-radius: ${props => props.theme.border.radiuses.l};
     position: sticky;
     bottom:0;
+    
 
     ${props => props.disabled ? css`
         opacity: 0.8;
@@ -22,7 +23,7 @@ export const StyledNextStageButton = styled.TouchableOpacity<StyledProps>`
 export const StyledRow = styled.View`
     height: 100%;
     width: 100%;
-    align-items: center;
+    align-items: start;
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -31,6 +32,10 @@ export const StyledRow = styled.View`
 
 `
 export const StyledIconWrapper = styled.View`
+    align-self: center;
+    justify-self: center;
+    position: absolute;
+    right: 10px;
     
     `
 export const StyledNextStageButtonText = styled.Text`

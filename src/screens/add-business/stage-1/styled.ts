@@ -1,10 +1,22 @@
 import styled from "styled-components/native";
 import RTLText from "../../../components/RTL/text";
 
-export const StyledStage1 = styled.View`
-    /* display: flex; */
-    gap: ${props => props.theme.spaces.m};
+export const StyledStage1ScrollableView = styled.ScrollView`
     height: 100%;
+`
+
+
+export const StyledStage1Wrapper = styled.View`
+    display: flex;
+    height: 100%; 
+    gap: ${props => props.theme.spaces.m};
+  
+`
+
+export const StyledStage1Content = styled.View`
+    display: flex;
+    gap: ${props => props.theme.spaces.m};
+
 `
 export const StyledStage1Title = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.title}; 

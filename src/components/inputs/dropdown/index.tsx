@@ -27,8 +27,8 @@ export const Dropdown = ({ options, width, height, isOpen, onToggle }: Props) =>
         <DropdownList height={height} width={width}>
           <ScrollView>
             {options.map((option) => (
-              <StyledDropdownItem key={option} onPress={() => handleSelectOption(option)}>
-                <StyledDropdownOption>{option}</StyledDropdownOption>
+              <StyledDropdownItem key={option}>
+                <StyledDropdownOption onPress={() => handleSelectOption(option)}>{option}</StyledDropdownOption>
               </StyledDropdownItem>
             ))}
           </ScrollView>

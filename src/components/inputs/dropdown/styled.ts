@@ -21,25 +21,28 @@ export const DropdownButton = styled.TouchableOpacity`
 
 export const DropdownList = styled.View<StyledProps>`
   position: absolute;
-  top: 40px; /* Adjust the top position as needed */
+  top: 40px; 
   border: ${(props) => props.theme.border.width.m} ${(props) => props.theme.border.style.regular} ${(props) => props.theme.border.colors.black};
   z-index: 10;
   width: 100%;
-  display: flex;
-  flex-direction: column;
   background-color: white;
   max-height: 250px;
   border-radius: ${(props) => props.theme.border.radiuses.m};
+  
 `;
 
 export const StyledDropdownItem = styled.TouchableOpacity`
   padding: 8px;
   border-bottom-width: 1px;
   border-color: ${(props) => props.theme.border.colors.aquaAlpha5};
+  
+  
+
 `;
 export const StyledDropdownOption = styled.Text`
   font-weight: ${(props) => props.theme.fonts.weights.m};
   font-size: ${(props) => props.theme.fonts.sizes.m};
+  
 `;
 export const StyledDropdownText = styled.Text`
   font-weight: ${(props) => props.theme.fonts.weights.l};

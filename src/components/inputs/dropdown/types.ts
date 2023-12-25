@@ -7,4 +7,7 @@ export interface StyledProps {
     options: string[];
     isOpen: boolean;
     onToggle: () => void;
+    option:string;
+    onSelect:(option:string) => void
   }
+  

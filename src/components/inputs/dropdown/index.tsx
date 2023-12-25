@@ -9,18 +9,16 @@ import { Props } from "./types";
 
 import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption } from "./styled";
 
-export const Dropdown = ({ options, width, height, isOpen, onToggle }: Props) => {
-  const [selectedOption, setSelectedOption] = useState<string>("קטגוריה");
-
+const Dropdown = ({ options, width, height, isOpen, onToggle, onSelect, option }: Props) => {
   const handleSelectOption = (option: string) => {
-    setSelectedOption(option);
+    onSelect(option);
     onToggle();
   };
 
   return (
     <DropdownContainer height={height} width={width}>
       <DropdownButton onPress={onToggle}>
-        <StyledDropdownText>{selectedOption}</StyledDropdownText>
+        <StyledDropdownText>{option}</StyledDropdownText>
         <Icon color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
       </DropdownButton>
       {isOpen && (
@@ -37,3 +35,4 @@ export const Dropdown = ({ options, width, height, isOpen, onToggle }: Props) =>
     </DropdownContainer>
   );
 };
+export default Dropdown;

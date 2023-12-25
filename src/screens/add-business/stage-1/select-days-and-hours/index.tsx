@@ -17,7 +17,7 @@ const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
 let dateWithTime18: Date = new Date(now.setHours(18, 0, 0));
 
-const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, setSelectedDaysAndHours }: Props) => {
+const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, setSelectedDaysAndHours, error, isValid }: Props) => {
   const [startHour, setStartHour] = useState<Date>(dateWithTime10);
   const [endHour, setEndHour] = useState<Date>(dateWithTime18);
   const [parseStartHour, setParseStartHour] = useState<string>("10:00");
@@ -110,6 +110,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
     setSelectedDaysAndHours(updatedDaysAndHours);
     setEditIndex(rowIndex);
   };
+
   return (
     <StyledWrapper>
       <SelectDays days={days} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
@@ -126,36 +127,40 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
-      <StyledDaysAndHoursDisplayWrapper>
-        {selectedDaysAndHours.map((row, rowIndex) => (
-          <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
-            <Icon
-              onPress={() => {
-                if (editIndex < 0) onEditRow(rowIndex);
-              }}
-              color={theme.icons.colors.aqua}
-              size={theme.icons.sizes.m}
-              name="pencil-outline"
-            />
-            <StyledRow>
-              <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
-              {row.days.map((day, dayIndex) => (
-                <StyledText key={day.name}>
+      {isValid ? (
+        <StyledDaysAndHoursDisplayWrapper>
+          {selectedDaysAndHours.map((row, rowIndex) => (
+            <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
+              <Icon
+                onPress={() => {
+                  if (editIndex < 0) onEditRow(rowIndex);
+                }}
+                color={theme.icons.colors.aqua}
+                size={theme.icons.sizes.m}
+                name="pencil-outline"
+              />
+              <StyledRow>
+                <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
+                {row.days.map((day, dayIndex) => (
+                  <StyledText key={day.name}>
+                    {" "}
+                    {day.name}
+                    {dayIndex === row.days.length - 1 ? ": " : ", "}
+                  </StyledText>
+                ))}
+                <StyledText>
                   {" "}
-                  {day.name}
-                  {dayIndex === row.days.length - 1 ? ": " : ", "}
+                  {" - "}
+                  {row.from}{" "}
                 </StyledText>
-              ))}
-              <StyledText>
-                {" "}
-                {" - "}
-                {row.from}{" "}
-              </StyledText>
-              <StyledText>{row.to}</StyledText>
-            </StyledRow>
-          </StyledRowAndIconWrapper>
-        ))}
-      </StyledDaysAndHoursDisplayWrapper>
+                <StyledText>{row.to}</StyledText>
+              </StyledRow>
+            </StyledRowAndIconWrapper>
+          ))}
+        </StyledDaysAndHoursDisplayWrapper>
+      ) : (
+        <StyledText>{error}</StyledText>
+      )}
     </StyledWrapper>
   );
 };

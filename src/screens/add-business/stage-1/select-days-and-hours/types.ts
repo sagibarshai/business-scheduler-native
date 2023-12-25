@@ -18,4 +18,6 @@ export type Errors = {
     days: Days;
     selectedDaysAndHours:SelectedHoursAndDays
     setSelectedDaysAndHours:React.Dispatch<React.SetStateAction<SelectedHoursAndDays>>
+    error:string | null
+    isValid:boolean
   }

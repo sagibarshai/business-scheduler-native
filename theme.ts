@@ -44,7 +44,7 @@ export const theme: DefaultTheme = {
   spaces:{
     xs:'4px',
     s:'8px',
-    m:'16px',
+    m:'24px',
     l:"32px",
     xl:'50px',
   },

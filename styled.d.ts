@@ -16,6 +16,9 @@ declare module "styled-components/native" {
             aqua:string
             purple:string
           }
+          errors:{
+            red:string
+          }
         };
       };
     };

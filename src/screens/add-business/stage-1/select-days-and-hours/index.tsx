@@ -17,12 +17,11 @@ const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
 let dateWithTime18: Date = new Date(now.setHours(18, 0, 0));
 
-const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days }: Props) => {
+const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, setSelectedDaysAndHours }: Props) => {
   const [startHour, setStartHour] = useState<Date>(dateWithTime10);
   const [endHour, setEndHour] = useState<Date>(dateWithTime18);
   const [parseStartHour, setParseStartHour] = useState<string>("10:00");
   const [parseEndHour, setParseEndHour] = useState<string>("18:00");
-  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<SelectedHoursAndDays>([]);
   const [errors, setErrors] = useState<Errors>([]);
   const [editIndex, setEditIndex] = useState<number>(-1);
 

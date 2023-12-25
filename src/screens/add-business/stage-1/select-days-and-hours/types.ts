@@ -16,4 +16,6 @@ export type Errors = {
     selectedDays: Days;
     setSelectedDays: React.Dispatch<React.SetStateAction<Days>>;
     days: Days;
+    selectedDaysAndHours:SelectedHoursAndDays
+    setSelectedDaysAndHours:React.Dispatch<React.SetStateAction<SelectedHoursAndDays>>
   }

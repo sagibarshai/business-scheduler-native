@@ -19,7 +19,9 @@ export const theme: DefaultTheme = {
           gray:"rgba(202, 201, 201, 0.7)",
           aqua:"rgba(7, 137, 179, 1)",
           purple:"rgba(51, 47, 68, 1)"
-
+        },
+        errors:{
+          red:"rgba(227 ,6 ,19 ,1)"
         }
       },
     },

@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import RTLText from "../../../../components/RTL/text";
 
 export const StyledWrapper = styled.View`
     display: flex;
@@ -46,8 +47,14 @@ export const StyledRowAndIconWrapper = styled(StyledRow)<{editMode:boolean}>`
     width: 100%;
     opacity: ${props => props.editMode ? 0.5 : 1};
 `
-export const StyledText = styled.Text`
+export const StyledText = styled(RTLText)`
     color: ${props => props.theme.palette.colors.lights.texts.black};
     font-size: ${props => props.theme.fonts.sizes.l};
     font-weight: ${props => props.theme.fonts.weights.l};
 `
+export const StyledErrorMessage = styled(RTLText)`
+    color: ${(props) => props.theme.palette.colors.lights.errors.red};
+    font-size: ${(props) => props.theme.fonts.sizes.m};
+    font-weight: ${(props) => props.theme.fonts.weights.m};
+    text-align: left;
+    padding-left: ${(props) => props.theme.spaces.xs};`

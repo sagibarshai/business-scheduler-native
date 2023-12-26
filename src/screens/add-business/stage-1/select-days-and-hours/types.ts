@@ -17,7 +17,6 @@ export type Errors = {
     setSelectedDays: React.Dispatch<React.SetStateAction<Days>>;
     days: Days;
     selectedDaysAndHours:SelectedHoursAndDays
-    setSelectedDaysAndHours:React.Dispatch<React.SetStateAction<SelectedHoursAndDays>>
+    onSubmitDaysAndHours: (data: SelectedHoursAndDays) => void
     error:string | null
-    isValid:boolean
   }

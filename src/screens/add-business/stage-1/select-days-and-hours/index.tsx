@@ -11,13 +11,13 @@ import { type DateTimePickerEvent } from "@react-native-community/datetimepicker
 import { type Errors, Props, SelectedHoursAndDays } from "./types";
 import { type Role } from "../../../../components/select-time";
 
-import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledDaysAndHoursDisplayWrapper, StyledRow, StyledText, StyledRowAndIconWrapper } from "./styled";
+import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledDaysAndHoursDisplayWrapper, StyledRow, StyledText, StyledRowAndIconWrapper, StyledErrorMessage } from "./styled";
 
 const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
 let dateWithTime18: Date = new Date(now.setHours(18, 0, 0));
 
-const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, setSelectedDaysAndHours, error, isValid }: Props) => {
+const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, onSubmitDaysAndHours, error }: Props) => {
   const [startHour, setStartHour] = useState<Date>(dateWithTime10);
   const [endHour, setEndHour] = useState<Date>(dateWithTime18);
   const [parseStartHour, setParseStartHour] = useState<string>("10:00");
@@ -83,7 +83,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
       }
     }
     setSelectedDays(updatedDays);
-    setSelectedDaysAndHours(updatedSelectedDaysAndHours);
+    onSubmitDaysAndHours(updatedSelectedDaysAndHours);
     setEditIndex(-1);
   };
 
@@ -107,7 +107,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
     setSelectedDays(updatedSelectedDays);
     setParseEndHour(existingRow.to);
     setParseStartHour(existingRow.from);
-    setSelectedDaysAndHours(updatedDaysAndHours);
+    onSubmitDaysAndHours(updatedDaysAndHours);
     setEditIndex(rowIndex);
   };
 
@@ -127,7 +127,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
-      {isValid ? (
+      {!error ? (
         <StyledDaysAndHoursDisplayWrapper>
           {selectedDaysAndHours.map((row, rowIndex) => (
             <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
@@ -159,7 +159,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
           ))}
         </StyledDaysAndHoursDisplayWrapper>
       ) : (
-        <StyledText>{error}</StyledText>
+        <StyledErrorMessage>{error}</StyledErrorMessage>
       )}
     </StyledWrapper>
   );

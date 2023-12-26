@@ -1,6 +1,7 @@
 export interface StyledProps {
     width?: string;
     height?: string;
+    error:string
   }
   
   export interface Props extends StyledProps {
@@ -9,5 +10,6 @@ export interface StyledProps {
     onToggle: () => void;
     option:string;
     onSelect:(option:string) => void
+    error:string 
   }
   

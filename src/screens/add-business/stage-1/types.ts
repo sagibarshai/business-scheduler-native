@@ -1,7 +1,6 @@
-export type InputState = {
-
+export type InputState<T> = {
     isVisited: boolean;
     isActive: boolean;
-    value: string;
-    error: string | null;
+    value: T;
+    error: string ;
 }  

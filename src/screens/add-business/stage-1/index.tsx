@@ -97,20 +97,17 @@ const Stage1 = () => {
       errorsNavigation(errs);
       return;
     }
-    // console.log("move to next stage !");
+    console.log("move to next stage !");
   };
 
   const errorsNavigation = (errs: string[]) => {
     if (scrollableRef.current) {
       if (errs?.length) {
-        console.log("yey must scroll !!", errs.length);
         if (errs?.length === 1 && selectedDaysAndHours.error) scrollableRef.current.scrollToEnd({ animated: true });
         else scrollableRef.current.scrollTo({ x: 0, y: 0, animated: true });
       }
     }
   };
-
-  console.log(selectedDaysAndHours);
 
   return (
     <StyledStage1Wrapper onTouchEnd={() => isCategoryOpen && onToggleCategoryDropdown()}>

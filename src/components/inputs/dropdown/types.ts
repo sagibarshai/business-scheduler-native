@@ -11,5 +11,6 @@ export interface StyledProps {
     option:string;
     onSelect:(option:string) => void
     error:string 
+    
   }
   

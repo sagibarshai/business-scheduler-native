@@ -1,19 +1,9 @@
-import styled from "styled-components/native";
-import RTLText from "../RTL/text";
 import Day from "../select-day";
+
+import { type Days, type Props } from "./types";
+
 import { StyledDaysWrapper } from "./styled";
 
-export type Days = {
-  name: string;
-  selected: boolean;
-  disabled: boolean;
-  longName: string;
-}[];
-interface Props {
-  selectedDays: Days;
-  setSelectedDays: React.Dispatch<React.SetStateAction<Days>>;
-  days: Days;
-}
 export const days: Days = [
   { name: "א", selected: false, disabled: false, longName: "ראשון" },
   { name: "ב", selected: false, disabled: false, longName: "שני" },
@@ -26,7 +16,6 @@ export const days: Days = [
 
 const SelectDays = ({ selectedDays, setSelectedDays, days }: Props) => {
   const onToggleDay = (day: string) => {
-    // onChange();
     const updatedDays = [...days];
     const dayIndex = updatedDays.findIndex((d) => d.name === day);
     const existingDay = updatedDays[dayIndex];

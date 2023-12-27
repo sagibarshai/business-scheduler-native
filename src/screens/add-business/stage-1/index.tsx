@@ -9,7 +9,7 @@ import SelectDaysAndHours from "./select-days-and-hours";
 import NextStageButton from "../../../components/inputs/buttons/next-stage-button";
 
 import { theme } from "../../../../theme";
-import { type Days, days } from "../../../components/select-days";
+import { days } from "../../../components/select-days";
 import { addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, editModeErrorMessage, nameErrorMessage } from "./errors/messages";
 
 import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1ScrollableView, StyledStage1Wrapper, StyledStage1Content } from "./styled";
@@ -18,6 +18,8 @@ import { type TextInputChangeEventData } from "react-native";
 import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "./types";
+import { type Days } from "../../../components/select-days/types";
+
 import { ScrollView } from "react-native";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)

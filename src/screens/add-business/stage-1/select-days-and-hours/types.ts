@@ -1,4 +1,4 @@
-import { Days } from "../../../../components/select-days";
+import { type Days } from "../../../../components/select-days/types";
 
 export type Errors = {
     message: string;

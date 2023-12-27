@@ -43,7 +43,7 @@ const Stage1 = () => {
   };
 
   // days and hours
-  const onEditDaysAndHours = () => setSelectedDaysAndHours({ ...selectedDaysAndHours, isEditMode: true });
+  const onEditDaysAndHours = () => setSelectedDaysAndHours({ ...selectedDaysAndHours, isEditMode: true, error: "" });
 
   const onSubmitDaysAndHours = (data: SelectedHoursAndDays) => setSelectedDaysAndHours({ ...selectedDaysAndHours, value: data, error: "", isEditMode: false });
 
@@ -76,13 +76,13 @@ const Stage1 = () => {
     let errs = [];
     if (businessAddress.error) errs.push(businessAddress.error);
     if (businessName.error) errs.push(businessName.error);
+    if (!category.value) errs.push(category.error);
     if (!selectedDaysAndHours.value.length) errs.push(selectedDaysAndHours.error);
-    if (selectedDaysAndHours.isEditMode) {
+    else if (selectedDaysAndHours.isEditMode) {
       errs.push(editModeErrorMessage);
+      // set this error only on submit !
       setSelectedDaysAndHours({ ...selectedDaysAndHours, error: editModeErrorMessage });
     }
-    if (!category.value) errs.push(category.error);
-
     if (errs.length > 0) return errs;
     return null;
   };
@@ -108,6 +108,8 @@ const Stage1 = () => {
     }
   };
 
+  console.log(selectedDaysAndHours);
+
   return (
     <StyledStage1Wrapper onTouchEnd={() => isCategoryOpen && onToggleCategoryDropdown()}>
       <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1 }}>
@@ -123,7 +125,7 @@ const Stage1 = () => {
               <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
               <StyledDaysLabel>ימים ושעות</StyledDaysLabel>
             </StyledLabelIconWrapper>
-            <SelectDaysAndHours error={isFormSubmitted && !selectedDaysAndHours.isEditMode ? selectedDaysAndHours.error : ""} selectedDaysAndHours={selectedDaysAndHours.value} onEditMode={onEditDaysAndHours} onSubmitDaysAndHours={onSubmitDaysAndHours} days={selectedDays} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
+            <SelectDaysAndHours error={isFormSubmitted && (selectedDaysAndHours.isEditMode || selectedDaysAndHours.error) ? selectedDaysAndHours.error : ""} selectedDaysAndHours={selectedDaysAndHours.value} onEditMode={onEditDaysAndHours} onSubmitDaysAndHours={onSubmitDaysAndHours} days={selectedDays} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
           </StyledDaysAndLabelWrapper>
         </StyledStage1Content>
       </ScrollView>

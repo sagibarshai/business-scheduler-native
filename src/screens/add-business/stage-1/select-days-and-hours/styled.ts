@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled, { css } from "styled-components/native";
 import RTLText from "../../../../components/RTL/text";
 
 export const StyledWrapper = styled.View`
@@ -18,7 +18,7 @@ export const StyledTimeWrapper = styled.View`
     width: 30%;
 `
 export const StyledTimeSaveButton = styled.TouchableOpacity`
-    background-color: ${props => props.theme.palette.colors.lights.backgrounds.aqua};
+    background-color: ${props => props.disabled ? props.theme.palette.colors.lights.disabled.aqua : props.theme.palette.colors.lights.backgrounds.aqua};
     width: 100%;
     height: ${props => props.theme.inputs.sizes.m.height};
     text-align: center;

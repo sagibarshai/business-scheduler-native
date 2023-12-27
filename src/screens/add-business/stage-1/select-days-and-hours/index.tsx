@@ -52,12 +52,13 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
     const isFormValid = checkIfFormIsValid();
     if (!isFormValid) {
       const updatedErrors: Errors = [...errors]; // copy the previous errors
-      updatedErrors.push({ filed: "days", message: "No days was selected" });
+      updatedErrors.push({ filed: "days", message: "לא נבחרו ימים ושעות" });
       setErrors(updatedErrors);
       return;
     }
 
     let updatedSelectedDaysAndHours = [...selectedDaysAndHours.map((row) => ({ ...row, editMode: false }))]; // reset all edit mode if have
+
     // on add mode
     if (editIndex < 0) {
       updatedSelectedDaysAndHours.push({
@@ -69,6 +70,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
         endHour,
       });
     }
+
     // on save after edit
     else {
       updatedSelectedDaysAndHours[editIndex].from = parseStartHour;

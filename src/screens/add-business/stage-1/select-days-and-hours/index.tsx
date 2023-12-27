@@ -17,7 +17,7 @@ const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
 let dateWithTime18: Date = new Date(now.setHours(18, 0, 0));
 
-const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, onSubmitDaysAndHours, error }: Props) => {
+const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, onSubmitDaysAndHours, error, onEditMode }: Props) => {
   const [startHour, setStartHour] = useState<Date>(dateWithTime10);
   const [endHour, setEndHour] = useState<Date>(dateWithTime18);
   const [parseStartHour, setParseStartHour] = useState<string>("10:00");
@@ -65,6 +65,8 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
         from: parseStartHour,
         to: parseEndHour,
         editMode: false,
+        startHour,
+        endHour,
       });
     }
     // on save after edit
@@ -92,9 +94,12 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
   }, [days]);
 
   const onEditRow = (rowIndex: number) => {
+    onEditMode();
+    setStartHour(selectedDaysAndHours[rowIndex].startHour);
+    setEndHour(selectedDaysAndHours[rowIndex].endHour);
     const existingRow = selectedDaysAndHours[rowIndex];
     existingRow.editMode = true;
-    let updatedDaysAndHours = [...selectedDaysAndHours];
+
     const updatedSelectedDays = [...selectedDays];
     for (let i = 0; i < updatedSelectedDays.length; i++) {
       for (let j = 0; j < existingRow.days.length; j++) {
@@ -104,10 +109,10 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
         }
       }
     }
+
     setSelectedDays(updatedSelectedDays);
     setParseEndHour(existingRow.to);
     setParseStartHour(existingRow.from);
-    onSubmitDaysAndHours(updatedDaysAndHours);
     setEditIndex(rowIndex);
   };
 
@@ -127,40 +132,38 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
-      {!error ? (
-        <StyledDaysAndHoursDisplayWrapper>
-          {selectedDaysAndHours.map((row, rowIndex) => (
-            <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
-              <Icon
-                onPress={() => {
-                  if (editIndex < 0) onEditRow(rowIndex);
-                }}
-                color={theme.icons.colors.aqua}
-                size={theme.icons.sizes.m}
-                name="pencil-outline"
-              />
-              <StyledRow>
-                <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
-                {row.days.map((day, dayIndex) => (
-                  <StyledText key={day.name}>
-                    {" "}
-                    {day.name}
-                    {dayIndex === row.days.length - 1 ? ": " : ", "}
-                  </StyledText>
-                ))}
-                <StyledText>
+
+      <StyledDaysAndHoursDisplayWrapper>
+        {selectedDaysAndHours.map((row, rowIndex) => (
+          <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
+            <Icon
+              onPress={() => {
+                if (editIndex < 0) onEditRow(rowIndex);
+              }}
+              color={theme.icons.colors.aqua}
+              size={theme.icons.sizes.m}
+              name="pencil-outline"
+            />
+            <StyledRow>
+              <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
+              {row.days.map((day, dayIndex) => (
+                <StyledText key={day.name}>
                   {" "}
-                  {" - "}
-                  {row.from}{" "}
+                  {day.name}
+                  {dayIndex === row.days.length - 1 ? " : " : ", "}
                 </StyledText>
-                <StyledText>{row.to}</StyledText>
-              </StyledRow>
-            </StyledRowAndIconWrapper>
-          ))}
-        </StyledDaysAndHoursDisplayWrapper>
-      ) : (
-        <StyledErrorMessage>{error}</StyledErrorMessage>
-      )}
+              ))}
+              <StyledText>
+                {" - "}
+                {row.from}{" "}
+              </StyledText>
+              <StyledText>{row.to}</StyledText>
+            </StyledRow>
+          </StyledRowAndIconWrapper>
+        ))}
+      </StyledDaysAndHoursDisplayWrapper>
+
+      <StyledErrorMessage>{error}</StyledErrorMessage>
     </StyledWrapper>
   );
 };

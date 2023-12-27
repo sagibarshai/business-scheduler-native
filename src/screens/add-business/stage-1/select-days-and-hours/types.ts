@@ -10,6 +10,8 @@ export type Errors = {
     from: string;
     to: string;
     editMode: boolean;
+    startHour:Date
+    endHour:Date
   }[];
   
   export interface Props {
@@ -19,4 +21,5 @@ export type Errors = {
     selectedDaysAndHours:SelectedHoursAndDays
     onSubmitDaysAndHours: (data: SelectedHoursAndDays) => void
     error:string | null
+    onEditMode:() => void
   }

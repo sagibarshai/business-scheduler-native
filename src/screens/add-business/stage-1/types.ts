@@ -3,4 +3,6 @@ export type InputState<T> = {
     isActive: boolean;
     value: T;
     error: string ;
+    isEditMode?:boolean
+    
 }  

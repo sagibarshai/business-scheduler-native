@@ -1,6 +1,10 @@
 import styled from 'styled-components/native'
+
 import RTLText from '../../RTL/text';
-import { StyledProps } from './types';
+
+import {type  StyledProps } from './types';
+
+
 export const StyledCol = styled.View`
   display: flex;
   height: fit-content;

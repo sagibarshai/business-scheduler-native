@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { ScrollView } from "react-native";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -19,12 +21,13 @@ import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "./types";
 import { type Days } from "../../../components/select-days/types";
-
-import { ScrollView } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
 const Stage1 = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const [selectedDays, setSelectedDays] = useState<Days>(days);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
@@ -97,6 +100,7 @@ const Stage1 = () => {
       errorsNavigation(errs);
       return;
     }
+    navigation.navigate("stage-2", { param1: "p1", param2: "p2" });
     console.log("move to next stage !");
   };
 
@@ -117,8 +121,8 @@ const Stage1 = () => {
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
           <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
           <Dropdown error={isFormSubmitted && !category.isEditMode ? category.error : ""} option={category.value || "כאן בוחרים קטגוריה"} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} options={["מספרה", "כושר ותזונה", "לק גל"]} />
-          <TextInput onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted && !businessName.isEditMode ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
-          <TextInput onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted && !businessAddress.isEditMode ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
+          <TextInput onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
+          <TextInput onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
           <StyledDaysAndLabelWrapper>
             <StyledLabelIconWrapper>
               <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />

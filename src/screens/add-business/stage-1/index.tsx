@@ -22,11 +22,14 @@ import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "./types";
 import { type Days } from "../../../components/select-days/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAppDispatch } from "../../../../redux/store";
+import { setBusinessMetaData } from "../../../../redux/featuers/business/businessSlice";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
 const Stage1 = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const dispatch = useAppDispatch();
 
   const [selectedDays, setSelectedDays] = useState<Days>(days);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -100,8 +103,27 @@ const Stage1 = () => {
       errorsNavigation(errs);
       return;
     }
-    navigation.navigate("stage-2", { param1: "p1", param2: "p2" });
-    console.log("move to next stage !");
+
+    handleNavigation();
+  };
+
+  const handleNavigation = async () => {
+    const dispatchPromise = new Promise<void>((resolve) => {
+      dispatch(
+        setBusinessMetaData({
+          address: businessAddress.value,
+          name: businessName.value,
+          workingDaysAndHours: selectedDaysAndHours.value,
+          category: category.value,
+        })
+      );
+      resolve();
+    });
+
+    // Wait for the dispatchPromise to resolve before navigating to "stage-2"
+    await dispatchPromise;
+
+    navigation.navigate("stage-2");
   };
 
   const errorsNavigation = (errs: string[]) => {

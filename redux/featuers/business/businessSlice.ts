@@ -31,6 +31,6 @@ const businessSlice = createSlice({
   },
 });
 
-export const setBusiness = businessSlice.actions.setBusinessMetaData;
+export const setBusinessMetaData = businessSlice.actions.setBusinessMetaData;
 
 export default businessSlice.reducer;

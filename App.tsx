@@ -1,4 +1,5 @@
 import { Provider } from "react-redux";
+import styled, { css } from "styled-components/native";
 import store from "./redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,7 +10,23 @@ import AddNewBusiness from "./src/screens/add-business";
 import { I18nManager } from "react-native";
 import { useEffect } from "react";
 import { Platform } from "react-native";
-import { StyledAppWrapper } from "./styled";
+
+import { type StyledProps } from "./types";
+
+const StyledAppWrapper = styled.View<StyledProps>`
+  ${(props) =>
+    props.platform.OS === "ios"
+      ? css`
+          width: 100%;
+          height: 100%;
+        `
+      : css`
+          width: 100%;
+          height: 100%;
+        `}
+  display: flex;
+  margin: auto;
+`;
 
 const App = () => {
   const SackNavigation = createNativeStackNavigator();
@@ -22,7 +39,7 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{ ...theme }}>
       <Provider store={store}>
         <NavigationContainer>
           <StyledAppWrapper platform={Platform}>

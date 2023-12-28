@@ -14,7 +14,7 @@ import { theme } from "../../../../theme";
 import { days } from "../../../components/select-days";
 import { addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, editModeErrorMessage, nameErrorMessage } from "./errors/messages";
 
-import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1ScrollableView, StyledStage1Wrapper, StyledStage1Content } from "./styled";
+import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1Wrapper, StyledStage1Content } from "./styled";
 
 import { type TextInputChangeEventData } from "react-native";
 import { type SelectedHoursAndDays } from "./select-days-and-hours/types";

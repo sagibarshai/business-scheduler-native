@@ -33,28 +33,14 @@ export const StyledTimeSaveButtonText = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.l};
     font-weight: ${props => props.theme.fonts.weights.l};
 `
-export const StyledDaysAndHoursDisplayWrapper = styled.View`
-    display: flex;
-    gap: ${props => props.theme.spaces.m};
-`
-export const StyledRow = styled.View`
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-`
-export const StyledRowAndIconWrapper = styled(StyledRow)<{editMode:boolean}>`
-    gap: ${props=> props.theme.spaces.s};
-    width: 100%;
-    opacity: ${props => props.editMode ? 0.5 : 1};
-`
-export const StyledText = styled(RTLText)`
-    color: ${props => props.theme.palette.colors.lights.texts.black};
-    font-size: ${props => props.theme.fonts.sizes.l};
-    font-weight: ${props => props.theme.fonts.weights.l};
-`
+
+
+
 export const StyledErrorMessage = styled(RTLText)`
     color: ${(props) => props.theme.palette.colors.lights.errors.red};
     font-size: ${(props) => props.theme.fonts.sizes.m};
     font-weight: ${(props) => props.theme.fonts.weights.m};
     text-align: left;
-    padding-left: ${(props) => props.theme.spaces.xs};`
+    padding-left: ${(props) => props.theme.spaces.xs};
+    `
+    

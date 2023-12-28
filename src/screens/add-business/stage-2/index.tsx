@@ -1,9 +1,11 @@
+import BusinessProfile from "../../../components/business-profile";
 import { StyledStage2Wrapper, StyledText } from "./styled";
+import { Props } from "./types";
 
 const Stage2 = () => {
   return (
     <StyledStage2Wrapper>
-      <StyledText>עמוד 2</StyledText>
+      <BusinessProfile address={"address"} category={"category"} name={"name"} selectedDaysAndHours={[]} />
     </StyledStage2Wrapper>
   );
 };

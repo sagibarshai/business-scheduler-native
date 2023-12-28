@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 
 import IconArrowDown from "react-native-vector-icons/MaterialCommunityIcons";

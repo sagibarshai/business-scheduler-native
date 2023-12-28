@@ -11,7 +11,8 @@ import { type DateTimePickerEvent } from "@react-native-community/datetimepicker
 import { type Errors, Props, SelectedHoursAndDays } from "./types";
 import { type Role } from "../../../../components/select-time";
 
-import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledDaysAndHoursDisplayWrapper, StyledRow, StyledText, StyledRowAndIconWrapper, StyledErrorMessage } from "./styled";
+import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledErrorMessage } from "./styled";
+import SelectedDaysAndHoursDisplay from "../../../../components/business-profile/selected-days-and-hour-display";
 
 const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
@@ -134,36 +135,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
-
-      <StyledDaysAndHoursDisplayWrapper>
-        {selectedDaysAndHours.map((row, rowIndex) => (
-          <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
-            <Icon
-              onPress={() => {
-                if (editIndex < 0) onEditRow(rowIndex);
-              }}
-              color={theme.icons.colors.aqua}
-              size={theme.icons.sizes.m}
-              name="pencil-outline"
-            />
-            <StyledRow>
-              <StyledText>{row.days.length === 1 ? "יום" : "ימים"} </StyledText>
-              {row.days.map((day, dayIndex) => (
-                <StyledText key={day.name}>
-                  {" "}
-                  {day.name}
-                  {dayIndex === row.days.length - 1 ? " : " : ", "}
-                </StyledText>
-              ))}
-              <StyledText>
-                {" - "}
-                {row.from}{" "}
-              </StyledText>
-              <StyledText>{row.to}</StyledText>
-            </StyledRow>
-          </StyledRowAndIconWrapper>
-        ))}
-      </StyledDaysAndHoursDisplayWrapper>
+      <SelectedDaysAndHoursDisplay canEdit editIndex={editIndex} onEditRow={onEditRow} selectedDaysAndHours={selectedDaysAndHours} />
 
       <StyledErrorMessage>{error}</StyledErrorMessage>
     </StyledWrapper>

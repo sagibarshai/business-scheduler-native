@@ -1,9 +1,8 @@
 import TimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { StyledLabel, StyledSelectTimeWrapper, StyledTimeButton } from "./styled";
+import { StyledLabel, StyledSelectTimeWrapper, StyledTimeButton, StyledText } from "./styled";
 import { theme } from "../../../theme";
 import { useState } from "react";
 import { Platform } from "react-native";
-import { StyledText } from "../../screens/add-business/stage-1/select-days-and-hours/styled";
 
 export type Role = "from" | "to";
 

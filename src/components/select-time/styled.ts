@@ -20,3 +20,9 @@ export const StyledTimeButton = styled.TouchableOpacity`
   align-items: center;
 
 `
+
+export const StyledText = styled(RTLText)`
+    color: ${props => props.theme.palette.colors.lights.texts.black};
+    font-size: ${props => props.theme.fonts.sizes.l};
+    font-weight: ${props => props.theme.fonts.weights.l};
+`

@@ -18,7 +18,7 @@ export type Errors = {
     selectedDays: Days;
     setSelectedDays: React.Dispatch<React.SetStateAction<Days>>;
     days: Days;
-    selectedDaysAndHours:SelectedHoursAndDays
+    selectedDaysAndHours: SelectedHoursAndDays
     onSubmitDaysAndHours: (data: SelectedHoursAndDays) => void
     error:string | null
     onEditMode:() => void

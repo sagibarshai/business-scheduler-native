@@ -28,13 +28,14 @@ export const StyledInputLabel = styled(RTLText)`
 `;
 export const DropdownList = styled.View<Omit<StyledProps,"error">>`
   position: absolute;
-  top: 76px;
+  /* top: 76px; */
   border: ${(props) => props.theme.border.width.m} ${(props) => props.theme.border.style.regular} ${(props) => props.theme.border.colors.black};
   z-index: 10;
   width: 100%;
   background-color: white;
   max-height: 250px;
   border-radius: ${(props) => props.theme.border.radiuses.m};
+  bottom: 0;
   
 `;
 

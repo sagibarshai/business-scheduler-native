@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
 import SelectDays from "../../../../components/select-days";
 import SelectTime from "../../../../components/select-time";
 

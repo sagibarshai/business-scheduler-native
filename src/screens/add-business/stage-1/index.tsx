@@ -53,8 +53,12 @@ const Stage1 = () => {
   // days and hours
   const onEditDaysAndHours = () => setSelectedDaysAndHours({ ...selectedDaysAndHours, isEditMode: true, error: "" });
 
-  const onSubmitDaysAndHours = (data: SelectedHoursAndDays) => setSelectedDaysAndHours({ ...selectedDaysAndHours, value: data, error: "", isEditMode: false });
-
+  const onSubmitDaysAndHours = (data: SelectedHoursAndDays) => {
+    setSelectedDaysAndHours({ ...selectedDaysAndHours, value: data, error: "", isEditMode: false });
+    if (scrollableRef.current) {
+      scrollableRef.current.scrollToEnd();
+    }
+  };
   // inputs
   const onInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>, filed: "address" | "name") => {
     const value = event.nativeEvent.text;

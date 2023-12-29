@@ -10,16 +10,17 @@ export type DaysAndHours = { days: Days;
   to: string;
   editMode: boolean;
   startHour:Date
-  endHour:Date}
+  endHour:Date
+}
 
   export type SelectedHoursAndDays = DaysAndHours[];
   
-  export interface ReduxSelectedHoursAndDays extends Omit<DaysAndHours,'startHour' | 'endHour'> {
+   type ReduxDaysAndHours = {
     startHour: string;
     endHour: string;
-  }
+  } & Omit<DaysAndHours, 'startHour' | 'endHour'>;
   
-
+export type ReduxSelectedHoursAndDays = ReduxDaysAndHours[]
 
   export interface Props {
     selectedDays: Days;

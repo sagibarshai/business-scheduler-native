@@ -9,7 +9,7 @@ type Business = {
     address:string;
     name:string;
     category:string
-    workingDaysAndHours:ReduxSelectedHoursAndDays[]
+    workingDaysAndHours:ReduxSelectedHoursAndDays
 } | null;
 
 const initialState: Business = {

@@ -6,3 +6,7 @@ export interface Props {
     onEditRow?:(index:number) => void
     canEdit?:boolean
 }
+
+export interface StyledProps {
+    canEdit?:boolean
+}

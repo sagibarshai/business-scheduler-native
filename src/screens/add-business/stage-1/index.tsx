@@ -17,7 +17,7 @@ import { addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, ed
 import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1Wrapper, StyledStage1Content } from "./styled";
 
 import { type TextInputChangeEventData } from "react-native";
-import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
+import { ReduxSelectedHoursAndDays, type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "./types";
 import { type Days } from "../../../components/select-days/types";
@@ -113,7 +113,15 @@ const Stage1 = () => {
         setBusinessMetaData({
           address: businessAddress.value,
           name: businessName.value,
-          workingDaysAndHours: selectedDaysAndHours.value,
+          workingDaysAndHours: selectedDaysAndHours.value.map((item) => ({
+            days: item.days,
+            from: item.from,
+            to: item.to,
+            editMode: item.editMode,
+            startHour: item.startHour.toString(),
+            endHour: item.endHour.toString(),
+          })),
+
           category: category.value,
         })
       );

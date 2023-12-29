@@ -9,7 +9,7 @@ import { Props } from "./types";
 
 import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption, StyledErrorMessage, StyledInputLabel, StyledRow } from "./styled";
 
-const Dropdown = ({ options, width, height, isOpen, onToggle, onSelect, option, error }: Props) => {
+const Dropdown = ({ options, width, height, isOpen, onToggle, onSelect, option, error, flavor = "bottom" }: Props) => {
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
 
   return (
@@ -31,7 +31,7 @@ const Dropdown = ({ options, width, height, isOpen, onToggle, onSelect, option, 
       </DropdownButton>
       <StyledErrorMessage>{error}</StyledErrorMessage>
       {isOpen && (
-        <DropdownList height={height} width={width}>
+        <DropdownList height={height} width={width} flavor={flavor}>
           <ScrollView>
             {options.map((selectedOption) => (
               <StyledDropdownItem key={selectedOption}>

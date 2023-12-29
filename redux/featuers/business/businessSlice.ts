@@ -1,11 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { SelectedHoursAndDays } from "../../../src/screens/add-business/stage-1/select-days-and-hours/types";
+
+
+import { type ReduxSelectedHoursAndDays } from "../../../src/screens/add-business/stage-1/select-days-and-hours/types";
+
+
 
 type Business = {
     address:string;
     name:string;
     category:string
-    workingDaysAndHours:SelectedHoursAndDays
+    workingDaysAndHours:ReduxSelectedHoursAndDays[]
 } | null;
 
 const initialState: Business = {

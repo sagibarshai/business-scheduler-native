@@ -10,6 +10,7 @@ export const StyledStage1Wrapper = styled.View`
     display: flex;
     height: 100%; 
     gap: ${props => props.theme.spaces.m};
+    position: relative;
   
 `
 

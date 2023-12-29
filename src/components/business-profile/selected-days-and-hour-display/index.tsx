@@ -3,11 +3,11 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { theme } from "../../../../theme";
 
 import { StyledDaysAndHoursDisplayWrapper, StyledRow, StyledRowAndIconWrapper, StyledText } from "./styled";
-import { Props } from "./types";
+import { type Props } from "./types";
 
 const SelectedDaysAndHoursDisplay = ({ selectedDaysAndHours, editIndex, onEditRow, canEdit = false }: Props) => {
   return (
-    <StyledDaysAndHoursDisplayWrapper>
+    <StyledDaysAndHoursDisplayWrapper canEdit={canEdit}>
       {selectedDaysAndHours.map((row, rowIndex) => (
         <StyledRowAndIconWrapper editMode={row.editMode} key={rowIndex}>
           {canEdit && (

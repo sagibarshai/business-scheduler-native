@@ -1,10 +1,11 @@
 import styled from "styled-components/native"
 
 import RTLText from "../../RTL/text"
+import { StyledProps } from "./types"
 
-export const StyledDaysAndHoursDisplayWrapper = styled.View`
+export const StyledDaysAndHoursDisplayWrapper = styled.View<StyledProps>`
     display: flex;
-    gap: ${props => props.theme.spaces.m};
+    gap: ${props => props.canEdit ? props.theme.spaces.m : props.theme.spaces.s};
 `
 export const StyledRow = styled.View`
     display: flex;

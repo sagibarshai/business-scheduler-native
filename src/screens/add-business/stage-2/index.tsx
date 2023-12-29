@@ -8,7 +8,7 @@ const Stage2 = () => {
   console.log("businessMetaData ", businessMetaData);
   return (
     <StyledStage2Wrapper>
-      <BusinessProfile address={"address"} category={"category"} name={"name"} selectedDaysAndHours={[]} />
+      <BusinessProfile />
     </StyledStage2Wrapper>
   );
 };

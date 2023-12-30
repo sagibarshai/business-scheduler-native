@@ -1,6 +1,6 @@
 import styled from "styled-components/native"
 
-import RTLText from "../../RTL/text"
+import RTLText from "../RTL/text"
 import { StyledProps } from "./types"
 
 export const StyledDaysAndHoursDisplayWrapper = styled.View<StyledProps>`

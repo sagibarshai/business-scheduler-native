@@ -69,7 +69,7 @@ export const theme: DefaultTheme = {
     }
   },
   icons:{
-    sizes:{m:22},
-    colors:{aqua:"rgba(7, 137, 179, 1)", aquaDisabled:"rgba(7, 137, 179, 0.5)", white:'rgba(255,255,255,1)', purple:"rgba(51, 47, 68, 1)"}
+    sizes:{m:22, xl:40},
+    colors:{aqua:"rgba(7, 137, 179, 1)", aquaDisabled:"rgba(7, 137, 179, 0.5)", white:'rgba(255,255,255,1)', purple:"rgba(51, 47, 68, 1)",black:"rgba(0,0,0,1)"}
   } 
 };

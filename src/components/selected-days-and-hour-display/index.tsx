@@ -1,6 +1,6 @@
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { theme } from "../../../../theme";
+import { theme } from "../../../theme";
 
 import { StyledDaysAndHoursDisplayWrapper, StyledRow, StyledRowAndIconWrapper, StyledText } from "./styled";
 import { type Props } from "./types";

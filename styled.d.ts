@@ -76,8 +76,8 @@ declare module "styled-components/native" {
       }
     };
     icons:{
-      sizes:{m:number}
-      colors:{aqua:string, aquaDisabled:string,white:string, purple:string}
+      sizes:{m:number, xl:number}
+      colors:{aqua:string, aquaDisabled:string,white:string, purple:string, black: string}
     }
   }
 }

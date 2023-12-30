@@ -10,7 +10,7 @@ import { type Errors, Props, SelectedHoursAndDays } from "./types";
 import { type Role } from "../../../../components/select-time";
 
 import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledErrorMessage } from "./styled";
-import SelectedDaysAndHoursDisplay from "../../../../components/business-profile/selected-days-and-hour-display";
+import SelectedDaysAndHoursDisplay from "../../../../components/selected-days-and-hour-display";
 
 const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));

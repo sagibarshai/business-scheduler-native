@@ -25,14 +25,3 @@ export const StyledCol = styled.View`
     gap: ${props => props.theme.spaces.m};
 
 `
-
-export const StyledImageWrapper = styled.View`
-    
-
-`
-export const StyledImage = styled.Image`
-    object-fit: contain;
-    width:100px;
-    height:100px;
-    border-radius: 100px;
-    `

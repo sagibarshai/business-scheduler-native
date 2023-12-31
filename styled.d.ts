@@ -74,6 +74,12 @@ declare module "styled-components/native" {
       placeholders:{
         colors:{blackAlpha7:string, purpleAlpha7:string}
       }
+      textarea:{
+        sizes:{
+          m: { height: string; width: string };
+        },
+
+      }
     };
     icons:{
       sizes:{m:number, xl:number}

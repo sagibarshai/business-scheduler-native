@@ -1,4 +1,4 @@
-import styled from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
 
 import RTLText from '../../RTL/text';
 
@@ -20,6 +20,10 @@ export const StyledPrimaryInput = styled.TextInput<StyledProps>`
   padding: 0 ${(props) => props.theme.spaces.m};
   font-size: ${(props) => props.theme.fonts.sizes.m};
   font-weight: ${(props) => props.theme.fonts.weights.m};
+  ${props => props.isTextArea ? css`
+    height: ${props => props.theme.inputs.textarea.sizes.m.height};
+    
+  ` : ""}
 `;
 export const StyledRow = styled.View`
   display: flex;

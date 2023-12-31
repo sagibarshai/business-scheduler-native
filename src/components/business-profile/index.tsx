@@ -7,18 +7,17 @@ import { useAppSelector } from "../../../redux/store";
 
 import KeyValueColumn from "../key-value-column";
 import { theme } from "../../../theme";
-import { StyledBusinessProfileTitle, StyledBusinessProfileWrapper, StyledCol, StyledImage, StyledImageWrapper, StyledRow } from "./styled";
+import { StyledBusinessProfileTitle, StyledBusinessProfileWrapper, StyledCol, StyledRow } from "./styled";
 import UploadImg from "../upload-img";
 import { type Asset } from "react-native-image-picker";
 import { useState } from "react";
-import { Image } from "react-native";
+import Textarea from "../inputs/textarea";
 
 const BusinessProfile = () => {
   const [profileImg, setProfileImg] = useState<null | Asset[]>([]);
   const business = useAppSelector((state) => state.business);
 
   const stage1IsValid = business.metaData.address && business.metaData.category && business.metaData.workingDaysAndHours.length && business.metaData.name;
-  const businessPhotos = business.photos;
 
   const onUploadImg = (asset: Asset[]) => {
     setProfileImg(asset);
@@ -32,15 +31,17 @@ const BusinessProfile = () => {
           <StyledRow>
             <StyledCol>
               <KeyValueColumn keyText="כתובת - " value={business.metaData.address} iconKey={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
-              <KeyValueColumn keyText="קטגוריה  " value={business.metaData.category} iconKey={<IconCategory size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="category" />} />
+              <KeyValueColumn keyText="קטגוריה - " value={business.metaData.category} iconKey={<IconCategory size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="category" />} />
             </StyledCol>
             <StyledCol>
-              <UploadImg onUpload={onUploadImg} source={profileImg ? profileImg[0] : undefined} />
+              <UploadImg variant="profile" onUpload={onUploadImg} source={profileImg ? profileImg[0] : undefined} />
             </StyledCol>
           </StyledRow>
-          <KeyValueColumn keyText="ימים ושעות  " value={<SelectedDaysAndHoursDisplay selectedDaysAndHours={business.metaData.workingDaysAndHours} />} iconKey={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />} />
+          <KeyValueColumn keyText="ימים ושעות - " value={<SelectedDaysAndHoursDisplay selectedDaysAndHours={business.metaData.workingDaysAndHours} />} iconKey={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />} />
         </>
       )}
+      <Textarea label="תיאור של העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />} onChange={() => {}} placeholder="זה המקום לפרט על העסק ושררותיו כדי שהלקוחות ידעו כמה שיותר" />
+      <UploadImg variant="cover" onUpload={onUploadImg} source={profileImg ? profileImg[0] : undefined} />
     </StyledBusinessProfileWrapper>
   );
 };

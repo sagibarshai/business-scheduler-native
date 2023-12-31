@@ -15,11 +15,14 @@ interface BusinessMetaData {
   name:string;
   category:string
   workingDaysAndHours:ReduxSelectedHoursAndDays
+  description:string
 }
 
 type Business = {
     metaData:BusinessMetaData
     photos:BusinessPhotos
+    
+    
 } | null;
 
 const initialState: Business = {
@@ -28,6 +31,7 @@ const initialState: Business = {
     category:"",
     name:"",
     workingDaysAndHours:[],
+    description:""
   },
   photos:{
     cover:"",
@@ -41,15 +45,21 @@ const businessSlice = createSlice({
   reducers: {
     setBusinessMetaData: (state: Business, action: PayloadAction<BusinessMetaData>) => {
       if (action.payload !== null && state !== null) {
-        const business = action.payload;
-        state.metaData.address = business.address;
-        state.metaData.name = business.name;
-        state.metaData.category = business.category;
-        state.metaData.workingDaysAndHours = business.workingDaysAndHours
+        const businessMetaData = action.payload;
+        state.metaData.address = businessMetaData.address;
+        state.metaData.name = businessMetaData.name;
+        state.metaData.category = businessMetaData.category;
+        state.metaData.workingDaysAndHours = businessMetaData.workingDaysAndHours
+        state.metaData.description = businessMetaData.description
       }
     },
     setBusinessPhotos:(state:Business, action:PayloadAction<BusinessPhotos>) => {
-      
+      if (action.payload !== null && state !== null) {
+        const businessPhotos = action.payload;
+        state.photos.profile = businessPhotos.profile
+        state.photos.cover = businessPhotos.cover
+
+      }
     }
   },
 });

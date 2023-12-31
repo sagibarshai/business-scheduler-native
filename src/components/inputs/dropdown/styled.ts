@@ -5,7 +5,7 @@ import RTLText from "../../RTL/text";
 
 
 export const DropdownContainer = styled.View<Omit<StyledProps, "error">>`
-  position: relative;
+  /* position: relative; */
   width: ${(props) => (props.width ? props.width : "100%")};
   z-index: 10;
   gap: ${props => props.theme.spaces.s};
@@ -28,15 +28,13 @@ export const StyledInputLabel = styled(RTLText)`
 `;
 export const DropdownList = styled.View<Omit<StyledProps,"error">>`
   position: absolute;
-  /* top: 76px; */
+  top: 76px;
   border: ${(props) => props.theme.border.width.m} ${(props) => props.theme.border.style.regular} ${(props) => props.theme.border.colors.black};
   z-index: 10;
   width: 100%;
   background-color: white;
   max-height: 250px;
   border-radius: ${(props) => props.theme.border.radiuses.m};
-  bottom: 0;
-  
 `;
 
 export const StyledDropdownItem = styled.TouchableOpacity`

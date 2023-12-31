@@ -1,6 +1,12 @@
 import {type Asset} from 'react-native-image-picker'
 
 export interface Props {
-    onUpload:(assets:Asset[]) => void
+    variant:"profile" | "cover" 
     source?:Asset 
+    onUpload:(assets:Asset[]) => void
+    onCancel:() => void
+    onError?:() => void
+    text:string
+
+
 }

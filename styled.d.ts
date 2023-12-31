@@ -9,7 +9,7 @@ declare module "styled-components/native" {
           texts: {};
         };
         lights: {
-          backgrounds: { appBackground: string; aqua: string; black:string, purple:string };
+          backgrounds: { appBackground: string; aqua: string; black:string, purple:string,gray:string };
           texts: { white: string; black: string ,aqua:string, purple:string};
           disabled:{
             gray:string
@@ -52,7 +52,7 @@ declare module "styled-components/native" {
       xl:string
     }
     border: {
-      colors: { black: string, aqua: string, aquaAlpha5:string, purple:string} 
+      colors: { black: string, aqua: string, aquaAlpha5:string, purple:string, gray:string} 
       width: { m: string };
       radiuses: { m: string, l:string,xl:string };
       style: {
@@ -83,7 +83,7 @@ declare module "styled-components/native" {
     };
     icons:{
       sizes:{m:number, xl:number}
-      colors:{aqua:string, aquaDisabled:string,white:string, purple:string, black: string}
+      colors:{aqua:string, aquaDisabled:string,white:string, purple:string, black: string, gray:string}
     }
   }
 }

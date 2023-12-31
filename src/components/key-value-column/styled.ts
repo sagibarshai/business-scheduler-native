@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 
 export const StyledKeyValueColumn = styled.View`
     display: flex;
-    gap: ${props => props.theme.spaces.s};
+    gap: ${props => props.theme.spaces.xs};
 `
 
 export const StyledRow = styled.View`

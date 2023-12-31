@@ -4,7 +4,7 @@ import { Props } from "./types";
 import { theme } from "../../../theme";
 import { StyleCoverImgWrapper, StyledCoverImg, StyledCoverText, StyledCoverUploadImgWrapper, StyledProfileImg, StyledProfileImgWrapper, StyledProfileText, StyledProfileUploadImgWrapper } from "./styled";
 
-const UploadImg = ({ variant, onUpload, source }: Props) => {
+const UploadImg = ({ variant, text, source, onUpload, onCancel, onError = () => {} }: Props) => {
   const onUploadImg = () => {
     const options: ImageLibraryOptions = {
       mediaType: "photo",
@@ -14,8 +14,10 @@ const UploadImg = ({ variant, onUpload, source }: Props) => {
     launchImageLibrary(options, (response: ImagePickerResponse) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
+        onCancel();
       } else if (response.errorCode) {
         console.log("Image picker error: ", response.errorCode);
+        onError();
       } else {
         let imageUri = response.assets || response.assets?.[0];
         if (imageUri) {
@@ -31,9 +33,9 @@ const UploadImg = ({ variant, onUpload, source }: Props) => {
         {!source ? (
           <>
             <StyledProfileImgWrapper>
-              <Icon name="image-outline" color={theme.icons.colors.black} size={theme.icons.sizes.xl} />
+              <Icon name="image-outline" color={theme.icons.colors.gray} size={theme.icons.sizes.xl} />
             </StyledProfileImgWrapper>
-            <StyledProfileText>הוספת תמונת פרופיל</StyledProfileText>
+            <StyledProfileText>{text}</StyledProfileText>
           </>
         ) : (
           <StyledProfileImgWrapper>
@@ -47,10 +49,10 @@ const UploadImg = ({ variant, onUpload, source }: Props) => {
       <StyledCoverUploadImgWrapper onPress={onUploadImg}>
         {!source ? (
           <>
-            <StyledCoverUploadImgWrapper>
-              <Icon name="image-outline" color={theme.icons.colors.black} size={theme.icons.sizes.xl} />
-            </StyledCoverUploadImgWrapper>
-            <StyledCoverText>הוספת תמונת פרופיל</StyledCoverText>
+            <StyleCoverImgWrapper>
+              <Icon name="image-outline" color={theme.icons.colors.gray} size={theme.icons.sizes.xl} />
+            </StyleCoverImgWrapper>
+            <StyledCoverText>{text}</StyledCoverText>
           </>
         ) : (
           <StyleCoverImgWrapper>

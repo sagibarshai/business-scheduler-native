@@ -22,7 +22,8 @@ export const StyledPrimaryInput = styled.TextInput<StyledProps>`
   font-weight: ${(props) => props.theme.fonts.weights.m};
   ${props => props.isTextArea ? css`
     height: ${props => props.theme.inputs.textarea.sizes.m.height};
-    
+    text-align: right;
+    padding: ${props => props.theme.spaces.s};
   ` : ""}
 `;
 export const StyledRow = styled.View`

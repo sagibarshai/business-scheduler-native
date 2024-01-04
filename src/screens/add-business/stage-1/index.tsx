@@ -35,18 +35,30 @@ const Stage1 = () => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
-  const [category, setCategory] = useState<InputState<string>>({ value: "", error: categoryErrorMessage, isEditMode: false });
+
+  const [categories, setCategories] = useState<InputState<string[]>>({ value: [], error: categoryErrorMessage, isEditMode: false });
+
   const [businessName, setBusinessName] = useState<InputState<string>>({ value: "", error: nameErrorMessage, isEditMode: false });
   const [businessAddress, setBusinessAddress] = useState<InputState<string>>({ value: "", error: addressErrorMessage, isEditMode: false });
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: [] });
 
   const scrollableRef = useRef<ScrollView>(null);
   // category
-  const onSelectCategory = (selectedCategory: string) => setCategory({ ...category, value: selectedCategory, error: "", isEditMode: false });
+  const onSelectCategory = (selectedCategory: string) => {
+    const isExist = categories.value.find((category) => category === selectedCategory);
+    let updatedCategories: string[] = [];
+    if (isExist) {
+      updatedCategories = categories.value.filter((category) => category !== selectedCategory);
+    } else {
+      updatedCategories = [...categories.value, selectedCategory];
+    }
+    setCategories({ ...categories, value: updatedCategories, error: "", isEditMode: false });
+  };
+  console.log(categories);
 
   const onToggleCategoryDropdown = () => {
     setIsCategoryOpen(!isCategoryOpen);
-    if (!isCategoryOpen) setCategory({ ...category, isEditMode: true });
+    if (!isCategoryOpen) setCategories({ ...categories, isEditMode: true });
   };
 
   // days and hours
@@ -87,7 +99,7 @@ const Stage1 = () => {
     let errs = [];
     if (businessAddress.error) errs.push(businessAddress.error);
     if (businessName.error) errs.push(businessName.error);
-    if (!category.value) errs.push(category.error);
+    if (!categories.value.length) errs.push(categories.error);
     if (!selectedDaysAndHours.value.length) errs.push(selectedDaysAndHours.error);
     else if (selectedDaysAndHours.isEditMode) {
       errs.push(editModeErrorMessage);
@@ -124,7 +136,7 @@ const Stage1 = () => {
             startHour: item.startHour.toString(),
             endHour: item.endHour.toString(),
           })),
-          category: category.value,
+          categories: categories.value,
           description: "",
         })
       );
@@ -153,7 +165,7 @@ const Stage1 = () => {
           <Progressbar currentStage={1} stages={5} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
           <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
-          <Dropdown error={isFormSubmitted && !category.isEditMode ? category.error : ""} option={category.value || "כאן בוחרים קטגוריה"} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} options={["מספרה", "כושר ותזונה", "לק גל"]} />
+          <Dropdown error={isFormSubmitted && !categories.isEditMode ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "כושר ותזונה", "לק גל", "2", "5", "7", "9", "12121", "StyledRowStyledRowStdssddsyledRow", "StyledRowStyldsdsdsdsedRowStyledRowStyledRowStyledRowStyledRow", "sasdsdsdssda", "fdfddfdf", "dfqwewdsf", "sdaSXS", "SADS SDC", "SASASAASASAS"]} />
 
           <TextInput onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
           <TextInput onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />

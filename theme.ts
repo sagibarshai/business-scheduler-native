@@ -64,6 +64,7 @@ inputs: {
       }},
     sizes: {
       m: { height: "42px", width: "80%" },
+      s:{height:'32px', width:'80%'}
     },
     text:{
       labels:{sizes:{m:"16px"}, weights:{m:700}},

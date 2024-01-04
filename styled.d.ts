@@ -62,6 +62,7 @@ declare module "styled-components/native" {
     inputs: {
       sizes: {
         m: { height: string; width: string };
+        s:{height:string,width:string}
       };
       text:{
         labels:{

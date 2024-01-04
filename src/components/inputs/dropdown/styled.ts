@@ -27,11 +27,9 @@ export const StyledInputLabel = styled(RTLText)`
   font-size: ${(props) => props.theme.fonts.sizes.m};
 `;
 export const DropdownList = styled.View<Omit<StyledProps,"error">>`
-  z-index: 1000;
-  width: 100%;
-  background-color: white;
-  max-height: 250px;
   border-radius: ${(props) => props.theme.border.radiuses.m};
+  margin-bottom: 40px;
+  height: 70%;
 `;
 
 export const StyledDropdownItem = styled.TouchableOpacity`
@@ -66,4 +64,33 @@ export const StyledRow = styled.View`
   align-items: center;
   gap: ${props => props.theme.spaces.s};
   height: 22px;
+  flex-wrap: wrap;
+  height: fit-content;
+`
+
+export const StyledCategoryDisplayWrapper = styled.TouchableOpacity`
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min-content;
+  padding: 0 ${props=> props.theme.spaces.m};
+  background-color:${props => props.theme.palette.colors.lights.backgrounds.aqua};
+  border-radius: ${props => props.theme.border.radiuses.m};
+`
+export const StyledCategoryDisplayText = styled.Text`
+  color: ${props => props.theme.palette.colors.lights.texts.white};
+  font-weight: ${props => props.theme.fonts.weights.l};
+  font-size: ${props => props.theme.fonts.sizes.l};
+`
+
+export const StyledDropdownTitle = styled.Text`
+  text-align: center;
+  font-size: ${props => props.theme.fonts.sizes.subtitle};
+  font-weight: ${props => props.theme.fonts.weights.xl};
+`
+
+export const StyledBottomSheetContent = styled.View`
+  display: flex;
+  gap: ${props => props.theme.spaces.l};
 `

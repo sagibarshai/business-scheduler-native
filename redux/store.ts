@@ -7,7 +7,7 @@ import businessSlice from "./featuers/business/businessSlice";
 const store = configureStore({
   reducer: {
     user:userSlice,
-    business:businessSlice
+    business:businessSlice,
   },
 });
 

@@ -1,9 +1,5 @@
-type Flavor = "bottom" | "regular"
 export interface StyledProps {
-    width?: string;
-    height?: string;
     error:string
-    flavor?: Flavor
 
   }
   
@@ -14,7 +10,6 @@ export interface StyledProps {
     option:string;
     onSelect:(option:string) => void
     error:string 
-    flavor?: Flavor
     
   }
   

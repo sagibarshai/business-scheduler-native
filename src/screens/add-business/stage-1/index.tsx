@@ -17,7 +17,7 @@ import { addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, ed
 import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1Wrapper, StyledStage1Content } from "./styled";
 
 import { type TextInputChangeEventData } from "react-native";
-import { ReduxSelectedHoursAndDays, type SelectedHoursAndDays } from "./select-days-and-hours/types";
+import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "./types";
 import { type Days } from "../../../components/select-days/types";
@@ -41,7 +41,6 @@ const Stage1 = () => {
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: [] });
 
   const scrollableRef = useRef<ScrollView>(null);
-
   // category
   const onSelectCategory = (selectedCategory: string) => setCategory({ ...category, value: selectedCategory, error: "", isEditMode: false });
 
@@ -148,13 +147,14 @@ const Stage1 = () => {
   };
 
   return (
-    <StyledStage1Wrapper onTouchEnd={() => isCategoryOpen && onToggleCategoryDropdown()}>
+    <StyledStage1Wrapper>
       <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1 }}>
         <StyledStage1Content>
           <Progressbar currentStage={1} stages={5} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
           <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
           <Dropdown error={isFormSubmitted && !category.isEditMode ? category.error : ""} option={category.value || "כאן בוחרים קטגוריה"} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} options={["מספרה", "כושר ותזונה", "לק גל"]} />
+
           <TextInput onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
           <TextInput onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
           <StyledDaysAndLabelWrapper>

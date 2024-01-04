@@ -1,6 +1,4 @@
-import { Provider } from "react-redux";
 import styled, { css } from "styled-components/native";
-import store from "./redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -39,16 +37,14 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={{ ...theme }}>
-      <Provider store={store}>
-        <NavigationContainer>
-          <StyledAppWrapper platform={Platform}>
-            <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
-              <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
-            </SackNavigation.Navigator>
-          </StyledAppWrapper>
-        </NavigationContainer>
-      </Provider>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <StyledAppWrapper platform={Platform}>
+          <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+            <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
+          </SackNavigation.Navigator>
+        </StyledAppWrapper>
+      </NavigationContainer>
     </ThemeProvider>
   );
 };

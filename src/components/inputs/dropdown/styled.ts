@@ -5,8 +5,8 @@ import RTLText from "../../RTL/text";
 
 
 export const DropdownContainer = styled.View<Omit<StyledProps, "error">>`
-  /* position: relative; */
-  width: ${(props) => (props.width ? props.width : "100%")};
+  position: relative;
+  width: 100%;
   z-index: 10;
   gap: ${props => props.theme.spaces.s};
 `;
@@ -27,10 +27,7 @@ export const StyledInputLabel = styled(RTLText)`
   font-size: ${(props) => props.theme.fonts.sizes.m};
 `;
 export const DropdownList = styled.View<Omit<StyledProps,"error">>`
-  position: absolute;
-  top: 76px;
-  border: ${(props) => props.theme.border.width.m} ${(props) => props.theme.border.style.regular} ${(props) => props.theme.border.colors.black};
-  z-index: 10;
+  z-index: 1000;
   width: 100%;
   background-color: white;
   max-height: 250px;
@@ -38,11 +35,12 @@ export const DropdownList = styled.View<Omit<StyledProps,"error">>`
 `;
 
 export const StyledDropdownItem = styled.TouchableOpacity`
+  display: flex;
+  flex-direction: row;
+  gap: ${props => props.theme.spaces.m};
   padding: 8px;
   border-bottom-width: 1px;
   border-color: ${(props) => props.theme.border.colors.aquaAlpha5};
-  
-  
 
 `;
 export const StyledDropdownOption = styled(RTLText)`

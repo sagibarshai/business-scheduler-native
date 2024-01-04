@@ -17,6 +17,8 @@ export const StyledStage1Wrapper = styled.View`
 export const StyledStage1Content = styled.View`
     display: flex;
     gap: ${props => props.theme.spaces.m};
+    height: 100%;
+    
 
 `
 export const StyledStage1Title = styled.Text`

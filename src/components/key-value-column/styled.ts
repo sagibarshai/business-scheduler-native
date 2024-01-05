@@ -10,6 +10,7 @@ export const StyledRow = styled.View`
     flex-direction: row;
     gap: ${props => props.theme.spaces.s};
     align-items: center;
+    flex-wrap: wrap;
 `
 
 export const StyledKey = styled.Text`

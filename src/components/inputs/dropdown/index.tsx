@@ -6,11 +6,12 @@ import { theme } from "../../../../theme";
 
 import { Props } from "./types";
 
-import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption, StyledErrorMessage, StyledInputLabel, StyledRow, StyledCategoryDisplayText, StyledCategoryDisplayWrapper, StyledDropdownTitle, StyledBottomSheetContent } from "./styled";
+import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption, StyledErrorMessage, StyledInputLabel, StyledRow, StyledDropdownTitle, StyledBottomSheetContent } from "./styled";
 import CustomBottomSheet from "../../bottom-sheet";
 import CheckBox from "react-native-check-box";
 import SearchInput from "../../search-input";
 import { useEffect, useState } from "react";
+import Tag from "../../tags";
 
 const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
@@ -38,9 +39,7 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
       ) : (
         <StyledRow>
           {selectedCategories.map((category) => (
-            <StyledCategoryDisplayWrapper key={category} onPress={onToggle}>
-              <StyledCategoryDisplayText>{category}</StyledCategoryDisplayText>
-            </StyledCategoryDisplayWrapper>
+            <Tag text={category} key={category} onPress={onToggle} />
           ))}
         </StyledRow>
       )}

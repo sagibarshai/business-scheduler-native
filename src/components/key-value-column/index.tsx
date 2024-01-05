@@ -8,9 +8,13 @@ const KeyValueColumn = ({ keyText, iconKey, value }: Props) => {
         <StyledIconWrapper>{iconKey}</StyledIconWrapper>
         <StyledKey>{keyText}</StyledKey>
       </StyledRow>
-      <StyledRow>
-        <StyledValue>{value}</StyledValue>
-      </StyledRow>
+      {typeof value === "object" ? (
+        <StyledRow>{value}</StyledRow>
+      ) : (
+        <StyledRow>
+          <StyledValue>{value}</StyledValue>
+        </StyledRow>
+      )}
     </StyledKeyValueColumn>
   );
 };

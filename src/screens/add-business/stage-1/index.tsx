@@ -165,7 +165,7 @@ const Stage1 = () => {
           <Progressbar currentStage={1} stages={5} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
           <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
-          <Dropdown error={isFormSubmitted && !categories.isEditMode ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "כושר ותזונה", "לק גל", "2", "5", "7", "9", "12121", "StyledRowStyledRowStdssddsyledRow", "StyledRowStyldsdsdsdsedRowStyledRowStyledRowStyledRowStyledRow", "sasdsdsdssda", "fdfddfdf", "dfqwewdsf", "sdaSXS", "SADS SDC", "SASASAASASAS"]} />
+          <Dropdown error={isFormSubmitted && !categories.isEditMode ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]} />
 
           <TextInput onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
           <TextInput onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />

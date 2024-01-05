@@ -11,7 +11,7 @@ import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, St
 import CustomBottomSheet from "../../bottom-sheet";
 import CheckBox from "react-native-check-box";
 import SearchInput from "../../search-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
@@ -19,6 +19,10 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
 
   const onSearchInputChange = (list: string[]) => setFilteredList(list);
+
+  useEffect(() => {
+    setFilteredList(options);
+  }, [isOpen]);
 
   return (
     <DropdownContainer>
@@ -55,7 +59,7 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
                   const isSelected = selectedCategories.find((category) => category === selectedOption);
                   return (
                     <StyledDropdownItem key={selectedOption} onPress={() => handleSelectOption(selectedOption)}>
-                      <CheckBox checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua} uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple} isChecked={Boolean(isSelected)} onClick={() => {}} />
+                      <CheckBox checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua} uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple} isChecked={Boolean(isSelected)} onClick={() => handleSelectOption(selectedOption)} />
                       <StyledDropdownOption>{selectedOption}</StyledDropdownOption>
                     </StyledDropdownItem>
                   );

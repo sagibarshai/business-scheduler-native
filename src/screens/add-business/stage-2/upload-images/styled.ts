@@ -1,14 +1,14 @@
 import styled from "styled-components/native";
 
-export const StyledBusinessProfileWrapper = styled.View`
+export const StyledStage2ImgsWrapper = styled.View`
     display: flex;
     gap: ${props => props.theme.spaces.m};
     padding-bottom: 100;
 `
 
-// StyledBusinessProfile
+// StyledStage2Imgs
 
-export const StyledBusinessProfileTitle = styled.Text`
+export const StyledStage2ImgsTitle = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.l};
     font-weight: ${props => props.theme.fonts.weights.l};
     text-align: center;
@@ -17,6 +17,7 @@ export const StyledRow = styled.View`
     display: flex;
     flex-direction:row;
     gap: ${props => props.theme.spaces.m};
+    margin-top: ${props => props.theme.spaces.xl};
 `
 export const StyledCol = styled.View`
     display: flex;
@@ -44,3 +45,4 @@ export const StyledProfileImgWrapper = styled.View`
 export const StyledTextareaWrapper = styled.View`
     margin-top: ${props => props.theme.spaces.m};
 `
+

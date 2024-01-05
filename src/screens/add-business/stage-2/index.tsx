@@ -1,4 +1,4 @@
-import BusinessProfile from "../../../components/business-profile";
+import UploadImags from "./upload-images";
 import NextStageButton from "../../../components/inputs/buttons/next-stage-button";
 
 import { StyledStage2Wrapper } from "./styled";
@@ -8,7 +8,7 @@ const Stage2 = () => {
 
   return (
     <StyledStage2Wrapper>
-      <BusinessProfile />
+      <UploadImags />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
         לשלב הבא
       </NextStageButton>

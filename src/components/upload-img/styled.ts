@@ -76,3 +76,41 @@ export const StyledCoverImg = styled.Image`
 
 
 `
+
+export const StyledRegularUploadImgWrapper = styled.TouchableOpacity`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: ${props => props.theme.spaces.s};
+    border-radius: ${props => props.theme.border.radiuses.l};
+`
+
+export const StyleRegularImgWrapper = styled.View`
+     background-color: ${props => props.theme.palette.colors.lights.backgrounds.gray};
+    height: 150px;
+    width: 130px;
+    border-radius: ${props => props.theme.border.radiuses.m};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+
+export const StyledPlusButtonWrapper = styled.TouchableOpacity`
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border-width: 2px;
+  border-radius: 100px;
+  border-color: ${props => props.theme.palette.colors.lights.backgrounds.aqua};
+`
+
+export const StyledPlusButtonText = styled.Text`
+  font-size: ${props => props.theme.fonts.sizes.l};
+  color: ${props => props.theme.palette.colors.lights.texts.aqua};
+  font-weight: ${props => props.theme.fonts.weights.xxl};
+
+`

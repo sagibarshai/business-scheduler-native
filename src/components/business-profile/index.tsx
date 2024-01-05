@@ -19,8 +19,6 @@ const BusinessProfile = () => {
   const [coverImage, setCoverImage] = useState<null | Asset>();
   const business = useAppSelector((state) => state.business);
 
-  const stage1IsValid = business.metaData.address && business.metaData.category && business.metaData.workingDaysAndHours.length && business.metaData.name;
-
   const onProfileImgUpload = (asset: Asset[]) => {
     setProfileImg(asset[0]);
   };
@@ -42,7 +40,7 @@ const BusinessProfile = () => {
         <Textarea label="תיאור של העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />} onChange={() => {}} placeholder="זה המקום לפרט על העסק ושרותיו כדי שהלקוחות ידעו כמה שיותר" />
       </StyledTextareaWrapper>
 
-      <KeyValueColumn keyText="קטגוריה - " value={business.metaData.category} iconKey={<IconCategory size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="category" />} />
+      <KeyValueColumn keyText="קטגוריה - " value={business.metaData.categories[0]} iconKey={<IconCategory size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="category" />} />
       <KeyValueColumn keyText="כתובת - " value={business.metaData.address} iconKey={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
       <KeyValueColumn keyText="ימים ושעות - " value={<SelectedDaysAndHoursDisplay selectedDaysAndHours={business.metaData.workingDaysAndHours} />} iconKey={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />} />
     </StyledBusinessProfileWrapper>

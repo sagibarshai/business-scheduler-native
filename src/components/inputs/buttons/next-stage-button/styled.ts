@@ -8,19 +8,15 @@ export const StyledNextStageButton = styled.TouchableOpacity<StyledProps>`
     width: 100%;
     height: ${props => props.theme.inputs.sizes.m.height};
     border-radius: ${props => props.theme.border.radiuses.l};
-    position: fixed;
+    position: absolute;
     bottom:0;
     z-index: 3;
-    
-    
 
     ${props => props.disabled ? css`
         opacity: 0.8;
     ` : css`
         opacity: 1;
     `}
-  
-    
     `
 export const StyledRow = styled.View`
     height: 100%;

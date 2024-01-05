@@ -55,7 +55,6 @@ const Stage1 = () => {
     }
     setCategories({ ...categories, value: updatedCategories, error: "", isEditMode: false });
   };
-  console.log(categories);
 
   const onToggleCategoryDropdown = () => {
     setIsCategoryOpen(!isCategoryOpen);
@@ -161,7 +160,7 @@ const Stage1 = () => {
 
   return (
     <StyledStage1Wrapper>
-      <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}>
         <StyledStage1Content>
           <Progressbar currentStage={1} stages={5} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>

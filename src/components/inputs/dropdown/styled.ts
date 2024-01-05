@@ -49,6 +49,8 @@ export const StyledDropdownOption = styled(RTLText)`
 export const StyledDropdownText = styled.Text`
   font-weight: ${(props) => props.theme.fonts.weights.l};
   font-size: ${(props) => props.theme.fonts.sizes.m};
+    color:${props => props.theme.inputs.placeholders.colors.purpleAlpha7}
+
 `;
 
 export const StyledErrorMessage = styled.Text`

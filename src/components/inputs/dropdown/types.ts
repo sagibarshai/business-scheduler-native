@@ -10,6 +10,9 @@ export interface StyledProps {
     onSelect:(option:string) => void
     error:string 
     selectedCategories:string[]
+    label:string
+    icon:JSX.Element
+    placeholder?:string
     
   }
   

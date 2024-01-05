@@ -133,9 +133,7 @@ const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysA
           </StyledTimeSaveButton>
         </StyledTimeWrapper>
       </StyledSelectTimeWrapper>
-      <SelectedDaysAndHoursDisplay canEdit editIndex={editIndex} onEditRow={onEditRow} selectedDaysAndHours={selectedDaysAndHours} />
-
-      <StyledErrorMessage>{error}</StyledErrorMessage>
+      {error ? <StyledErrorMessage>{error}</StyledErrorMessage> : <SelectedDaysAndHoursDisplay canEdit editIndex={editIndex} onEditRow={onEditRow} selectedDaysAndHours={selectedDaysAndHours} />}
     </StyledWrapper>
   );
 };

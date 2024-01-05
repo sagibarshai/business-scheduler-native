@@ -1,7 +1,6 @@
 import { ScrollView } from "react-native";
 
 import IconArrowDown from "react-native-vector-icons/MaterialCommunityIcons";
-import IconCategory from "react-native-vector-icons/MaterialIcons";
 
 import { theme } from "../../../../theme";
 
@@ -13,7 +12,7 @@ import CheckBox from "react-native-check-box";
 import SearchInput from "../../search-input";
 import { useEffect, useState } from "react";
 
-const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error }: Props) => {
+const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
@@ -27,13 +26,13 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
   return (
     <DropdownContainer>
       <StyledRow>
-        <IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />
-        <StyledInputLabel>קטגוריות</StyledInputLabel>
+        {icon}
+        <StyledInputLabel>{label}</StyledInputLabel>
       </StyledRow>
 
       {!selectedCategories.length ? (
         <DropdownButton error={error} onPress={onToggle}>
-          <StyledDropdownText>בחר קטגוריה</StyledDropdownText>
+          <StyledDropdownText>{placeholder} </StyledDropdownText>
           <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
         </DropdownButton>
       ) : (
@@ -50,7 +49,7 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
       {isOpen && (
         <CustomBottomSheet height="70%" onClose={onToggle}>
           <StyledBottomSheetContent>
-            <StyledDropdownTitle> קטגוריות </StyledDropdownTitle>
+            <StyledDropdownTitle> {label} </StyledDropdownTitle>
             <SearchInput list={options} onChange={(list) => onSearchInputChange(list)} />
 
             <DropdownList>

@@ -7,6 +7,7 @@ import { type ReduxSelectedHoursAndDays } from "../../../src/screens/add-busines
 interface BusinessPhotos {
   profile: any
   cover: any
+  regular:any[]
 
 }
 
@@ -35,7 +36,8 @@ const initialState: Business = {
   },
   photos:{
     cover:"",
-    profile:""
+    profile:"",
+    regular:[]
   },
 };
 
@@ -58,6 +60,7 @@ const businessSlice = createSlice({
         const businessPhotos = action.payload;
         state.photos.profile = businessPhotos.profile
         state.photos.cover = businessPhotos.cover
+        state.photos.regular = businessPhotos.regular
 
       }
     }

@@ -10,4 +10,5 @@ export interface Screens {
 export interface ParamListBase {
     "stage-1":undefined
     "stage-2":undefined
+    "stage-3":undefined
 }

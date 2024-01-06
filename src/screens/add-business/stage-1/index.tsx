@@ -20,7 +20,7 @@ import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, Sty
 import { type TextInputChangeEventData } from "react-native";
 import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
-import { type InputState } from "./types";
+import { type InputState } from "../../../components/inputs/types";
 import { type Days } from "../../../components/select-days/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch } from "../../../../redux/store";
@@ -44,6 +44,7 @@ const Stage1 = () => {
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: [] });
 
   const scrollableRef = useRef<ScrollView>(null);
+
   // category
   const onSelectCategory = (selectedCategory: string) => {
     const isExist = categories.value.find((category) => category === selectedCategory);
@@ -160,7 +161,7 @@ const Stage1 = () => {
 
   return (
     <StyledStage1Wrapper>
-      <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}>
+      <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}>
         <StyledStage1Content>
           <Progressbar currentStage={1} stages={5} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>

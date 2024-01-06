@@ -2,9 +2,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from "react-native-image-picker";
 import { Props } from "./types";
 import { theme } from "../../../theme";
-import { StyleCoverImgWrapper, StyleRegularImgWrapper, StyledCoverImg, StyledCoverText, StyledCoverUploadImgWrapper, StyledPlusButtonText, StyledPlusButtonWrapper, StyledProfileImg, StyledProfileImgWrapper, StyledProfileText, StyledProfileUploadImgWrapper, StyledRegularUploadImgWrapper } from "./styled";
+import { StyleCoverImgWrapper, StyleRegularImgWrapper, StyledCoverImg, StyledCoverText, StyledCoverUploadImgWrapper, StyledErrorMessageText, StyledPlusButtonText, StyledPlusButtonWrapper, StyledProfileImg, StyledProfileImgWrapper, StyledProfileText, StyledProfileUploadImgWrapper, StyledRegularUploadImgWrapper, StyledXButtonText, StyledXButtonWrapper } from "./styled";
+import React from "react";
 
-const UploadImg = ({ variant, text, source, onUpload, onCancel, onError = () => {} }: Props) => {
+const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError = () => {} }: Props) => {
   const onUploadImg = () => {
     const options: ImageLibraryOptions = {
       mediaType: "photo",
@@ -14,7 +15,6 @@ const UploadImg = ({ variant, text, source, onUpload, onCancel, onError = () => 
     launchImageLibrary(options, (response: ImagePickerResponse) => {
       if (response.didCancel) {
         console.log("User cancelled image picker");
-        onCancel();
       } else if (response.errorCode) {
         console.log("Image picker error: ", response.errorCode);
         onError();
@@ -35,7 +35,7 @@ const UploadImg = ({ variant, text, source, onUpload, onCancel, onError = () => 
             <StyledProfileImgWrapper>
               <Icon name="image-outline" color={theme.icons.colors.gray} size={theme.icons.sizes.xl} />
             </StyledProfileImgWrapper>
-            <StyledProfileText>{text}</StyledProfileText>
+            {error ? <StyledErrorMessageText>{error}</StyledErrorMessageText> : <StyledProfileText>{text}</StyledProfileText>}
           </>
         ) : (
           <StyledProfileImgWrapper>
@@ -62,6 +62,9 @@ const UploadImg = ({ variant, text, source, onUpload, onCancel, onError = () => 
           </>
         ) : (
           <StyleRegularImgWrapper>
+            <StyledXButtonWrapper onPress={onDelete}>
+              <Icon name="trash-can-outline" color={theme.icons.colors.black} size={theme.icons.sizes.m} />
+            </StyledXButtonWrapper>
             <StyledCoverImg source={source} />
           </StyleRegularImgWrapper>
         )}
@@ -79,6 +82,9 @@ const UploadImg = ({ variant, text, source, onUpload, onCancel, onError = () => 
           </>
         ) : (
           <StyleCoverImgWrapper>
+            <StyledXButtonWrapper onPress={onDelete}>
+              <Icon name="trash-can-outline" color={theme.icons.colors.black} size={theme.icons.sizes.m} />
+            </StyledXButtonWrapper>
             <StyledCoverImg source={source} />
           </StyleCoverImgWrapper>
         )}

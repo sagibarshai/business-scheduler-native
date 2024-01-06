@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 export const StyledStage2ImgsWrapper = styled.View`
     display: flex;
     gap: ${props => props.theme.spaces.m};
-    padding-bottom: 100;
 `
 
 // StyledStage2Imgs
@@ -17,7 +16,9 @@ export const StyledRow = styled.View`
     display: flex;
     flex-direction:row;
     gap: ${props => props.theme.spaces.m};
-    margin-top: ${props => props.theme.spaces.xl};
+    margin-top: ${props => props.theme.spaces.m};
+    align-items: start;
+
 `
 export const StyledCol = styled.View`
     display: flex;
@@ -42,7 +43,5 @@ export const StyledProfileImgWrapper = styled.View`
     right :0 ;
 
 `
-export const StyledTextareaWrapper = styled.View`
-    margin-top: ${props => props.theme.spaces.m};
-`
+
 

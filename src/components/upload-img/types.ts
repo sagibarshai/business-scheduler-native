@@ -4,10 +4,8 @@ export interface Props {
     variant:"profile" | "cover"| "regular" | "plus-button" 
     source?:Asset 
     onUpload:(assets:Asset[]) => void
-    onCancel:() => void
+    onDelete?:() => void
     onError?:() => void
     text:string
-    
-
-
+    error?:string
 }

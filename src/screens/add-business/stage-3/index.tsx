@@ -1,14 +1,10 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import Progressbar from "../../../components/progress-bar";
 import { StyledStage3Wrapper } from "./styled";
 import { useRef } from "react";
-import { useAppSelector } from "../../../../redux/store";
 
 const Satge3 = () => {
   const scrollableRef = useRef<ScrollView>(null);
-  const business = useAppSelector((state) => state.business);
-
-  console.log("business", business);
 
   return (
     <StyledStage3Wrapper>

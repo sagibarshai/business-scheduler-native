@@ -10,7 +10,7 @@ interface BusinessPhotos {
   regular:any[]
 
 }
-
+2
 interface BusinessMetaData {
   address:string;
   name:string;

@@ -6,7 +6,7 @@ import Textarea from "../../../components/inputs/textarea";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { theme } from "../../../../theme";
 import { ScrollView } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Asset } from "react-native-image-picker";
 import { InputState } from "../../../components/inputs/types";
 import { coverImgErrorMessage, descriptionErrorMessage, profileImgErrorMessage, regularImgsErrorMessage } from "./errors/messages";
@@ -64,7 +64,6 @@ const Stage2 = () => {
 
   const onNextStage = () => {
     const errs = checkFormValidity();
-    console.log(errs);
     if (errs) {
       errorsNavigation(errs);
       return;
@@ -88,7 +87,6 @@ const Stage2 = () => {
 
   const errorsNavigation = (errs: string[]) => {
     if (scrollableRef.current) {
-      console.log("scroll");
       if (errs?.length) {
         if (profileImg.error) scrollableRef.current.scrollTo(0);
         else scrollableRef.current.scrollToEnd({ animated: true });

@@ -6,7 +6,7 @@ import Textarea from "../../../components/inputs/textarea";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { theme } from "../../../../theme";
 import { ScrollView } from "react-native";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Asset } from "react-native-image-picker";
 import { InputState } from "../../../components/inputs/types";
 import { coverImgErrorMessage, descriptionErrorMessage, profileImgErrorMessage, regularImgsErrorMessage } from "./errors/messages";
@@ -27,18 +27,21 @@ const Stage2 = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
-  const onProfileImgUpload = (asset: Asset) => setProfileImg({ ...profileImg, value: asset });
+  const onProfileImgUpload = useCallback((asset: Asset) => setProfileImg({ ...profileImg, value: asset }), [profileImg]);
 
-  const onCoverImgUpload = (asset: Asset) => setCoverImg({ ...coverImg, value: asset });
+  const onCoverImgUpload = useCallback((asset: Asset) => setCoverImg({ ...coverImg, value: asset }), [coverImg]);
 
-  const onUploadBusinessPhoto = (asset: Asset) => setBusinessImgs({ ...businessImgs, value: [...businessImgs.value, asset] });
+  const onUploadBusinessPhoto = useCallback((asset: Asset) => setBusinessImgs((prevBusinessImgs) => ({ ...prevBusinessImgs, value: [...businessImgs.value, asset] })), [businessImgs]);
 
-  const onDeleteCoverImg = () => setCoverImg({ ...coverImg, value: undefined });
+  const onDeleteCoverImg = useCallback(() => setCoverImg({ ...coverImg, value: undefined }), [coverImg]);
 
-  const onDeleteRegularImg = (index: number) => {
-    const updatedBusinessImgs = [...businessImgs.value].filter((_, inx) => inx !== index);
-    setBusinessImgs({ ...businessImgs, value: updatedBusinessImgs });
-  };
+  const onDeleteRegularImg = useCallback(
+    (index: number) => {
+      const updatedBusinessImgs = [...businessImgs.value].filter((_, inx) => inx !== index);
+      setBusinessImgs({ ...businessImgs, value: updatedBusinessImgs });
+    },
+    [businessImgs]
+  );
 
   const onTextAreaInputChange = (text: string) => setDescription({ ...description, value: text, error: text.length >= 12 ? "" : descriptionErrorMessage });
 
@@ -98,7 +101,7 @@ const Stage2 = () => {
     <StyledStage2Wrapper>
       <ScrollView ref={scrollableRef}>
         <StyledStage2Wrapper>
-          <UploadImags profileImgErrorMessage={profileImg.error} onDeleteCoverImg={onDeleteCoverImg} onDeleteRegularImg={(index) => onDeleteRegularImg(index)} coverImg={coverImg?.value} profileImg={profileImg?.value} regularImgs={businessImgs.value} onUploadCoverImg={(asset) => onCoverImgUpload(asset)} onUploadProfileImg={onProfileImgUpload} onUploadRegularImg={(asset) => onUploadBusinessPhoto(asset)} />
+          <UploadImags profileImgErrorMessage={profileImg.error} onDeleteCoverImg={onDeleteCoverImg} onDeleteRegularImg={onDeleteRegularImg} coverImg={coverImg?.value} profileImg={profileImg?.value} regularImgs={businessImgs.value} onUploadCoverImg={onCoverImgUpload} onUploadProfileImg={onProfileImgUpload} onUploadRegularImg={onUploadBusinessPhoto} />
           <StyledTextareaWrapper>
             <Textarea error={description.error} label="תיאור של העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />} onChange={(event) => onTextAreaInputChange(event.nativeEvent.text)} placeholder="זה המקום לפרט על העסק ושרותיו כדי שהלקוחות ידעו כמה שיותר" />
           </StyledTextareaWrapper>

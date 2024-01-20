@@ -53,7 +53,7 @@ declare module "styled-components/native" {
     }
     border: {
       colors: { black: string, aqua: string, aquaAlpha5:string, purple:string, gray:string} 
-      width: { m: string };
+      width: { m: string, l:string };
       radiuses: { m: string, l:string,xl:string };
       style: {
         regular: string;

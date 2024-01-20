@@ -6,6 +6,7 @@ import { StyledStage2ImgsTitle, StyledStage2ImgsWrapper, StyledProfileImgWrapper
 import UploadImg from "../../../../components/upload-img";
 import { ScrollView } from "react-native-virtualized-view";
 import { type Props } from "./types";
+import { memo, useEffect } from "react";
 
 const Stage2Imgs = ({ profileImg, coverImg, regularImgs, onUploadCoverImg, onUploadProfileImg, onUploadRegularImg, onDeleteCoverImg, onDeleteRegularImg, profileImgErrorMessage }: Props) => {
   const business = useAppSelector((state) => state.business);
@@ -24,8 +25,8 @@ const Stage2Imgs = ({ profileImg, coverImg, regularImgs, onUploadCoverImg, onUpl
         <ScrollView horizontal>
           <StyledCol>
             <StyledRow>
-              {regularImgs.map((business, index) => (
-                <UploadImg key={business.fileName} onUpload={(asset) => onUploadRegularImg(asset[0])} onDelete={() => onDeleteRegularImg(index)} text="+ הוסף תמונה" variant="regular" source={business} />
+              {regularImgs.map((img, index) => (
+                <UploadImg key={index} onUpload={(asset) => onUploadRegularImg(asset[0])} onDelete={() => onDeleteRegularImg(index)} text="+ הוסף תמונה" variant="regular" source={img} />
               ))}
               {regularImgs.length < 3 &&
                 Array(3 - regularImgs.length)

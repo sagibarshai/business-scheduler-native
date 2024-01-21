@@ -6,7 +6,6 @@ import { StyledStage2ImgsTitle, StyledStage2ImgsWrapper, StyledProfileImgWrapper
 import UploadImg from "../../../../components/upload-img";
 import { ScrollView } from "react-native-virtualized-view";
 import { type Props } from "./types";
-import { memo, useEffect } from "react";
 
 const Stage2Imgs = ({ profileImg, coverImg, regularImgs, onUploadCoverImg, onUploadProfileImg, onUploadRegularImg, onDeleteCoverImg, onDeleteRegularImg, profileImgErrorMessage }: Props) => {
   const business = useAppSelector((state) => state.business);

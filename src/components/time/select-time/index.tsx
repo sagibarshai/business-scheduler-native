@@ -1,18 +1,10 @@
 import TimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { StyledLabel, StyledSelectTimeWrapper, StyledTimeButton, StyledText } from "./styled";
-import { theme } from "../../../theme";
+import { theme } from "../../../../theme";
 import { useState } from "react";
 import { Platform } from "react-native";
+import { type Props } from "./types";
 
-export type Role = "from" | "to";
-
-interface Props {
-  labelText: string;
-  defaultValue: Date;
-  onChange: (event: DateTimePickerEvent, role: Role) => void;
-  role: Role;
-  defaultParsedValue: string;
-}
 const SelectTime = ({ labelText, defaultValue, role, onChange, defaultParsedValue }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

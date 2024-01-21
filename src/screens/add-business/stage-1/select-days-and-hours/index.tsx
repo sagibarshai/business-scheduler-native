@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
 import SelectDays from "../../../../components/select-days";
-import SelectTime from "../../../../components/select-time";
+import SelectTime from "../../../../components/time/select-time";
 
 import { theme } from "../../../../../theme";
 
 import { type DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { type Errors, Props, SelectedHoursAndDays } from "./types";
-import { type Role } from "../../../../components/select-time";
+import { type Role } from "../../../../components/time/select-time/types";
 
 import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledErrorMessage } from "./styled";
 import SelectedDaysAndHoursDisplay from "../../../../components/selected-days-and-hour-display";

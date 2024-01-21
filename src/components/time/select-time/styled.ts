@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import RTLText from "../RTL/text";
+import RTLText from "../../RTL/text";
 
 export const StyledSelectTimeWrapper = styled.View`
     display: flex;

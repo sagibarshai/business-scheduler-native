@@ -1,16 +1,18 @@
-import { Text, TouchableOpacity } from "react-native";
-import SelectTime from "../../../../../components/select-time";
+import { setHours, setMinutes } from "date-fns";
+
+import Countdown from "../../../../../components/time/count-down";
+
+import { type Props } from "./types";
+
 import { StyledSubCategoryFormWrapper } from "./styled";
-import { Props } from "./types";
 
 const SubCategoriesForm = ({ onSave }: Props) => {
+  let defaultDate = new Date();
+  defaultDate = setHours(defaultDate, 0);
+  defaultDate = setMinutes(defaultDate, 45);
   return (
     <StyledSubCategoryFormWrapper>
-      <SelectTime defaultParsedValue="30" defaultValue={new Date()} labelText="בחר זמן" onChange={() => {}} role="from" />
-      <SelectTime defaultParsedValue="30" defaultValue={new Date()} labelText="בחר זמן" onChange={() => {}} role="from" />
-      <TouchableOpacity onPress={onSave}>
-        <Text>שמור</Text>
-      </TouchableOpacity>
+      <Countdown defaultValue={defaultDate} labelText="משך התור" onChange={() => {}} />
     </StyledSubCategoryFormWrapper>
   );
 };

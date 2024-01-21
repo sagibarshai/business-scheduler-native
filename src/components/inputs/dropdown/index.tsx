@@ -24,6 +24,8 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
     setFilteredList(options);
   }, [isOpen]);
 
+  
+
   return (
     <DropdownContainer>
       <StyledRow>

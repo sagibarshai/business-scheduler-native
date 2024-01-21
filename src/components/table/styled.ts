@@ -16,7 +16,7 @@ export const StyledRow = styled.View`
 
 export const StyledCol = styled.View<StyledProps>`
   display: flex;
-  flex: 1;
+  flex: ${props => props.flex || 1 };
   border: ${props => props.theme.border.width.m} ${props => props.theme.border.style.regular} ${props => props.theme.border.colors.aqua};
   padding: ${props => props.theme.spaces.s};
 `;

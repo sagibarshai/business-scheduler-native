@@ -1,9 +1,8 @@
-export interface Catogory {
-    time:string;
+export interface SubCatogory {
+    time:string | null;
+    price:number | null;
     name:string;
-    price:number;
 }
 export interface Props {
-    categories:Catogory[]
-
+    subCategories:SubCatogory[]
 }

@@ -1,28 +1,30 @@
 import { StyledTableWrapper, StyledCol, StyledRow, StyledText } from "./styled";
 import { Props } from "./types";
 
-const Table = ({ tableData }: Props) => {
-  if (!tableData.length) return <StyledTableWrapper />;
-  const headers = Object.keys(tableData[0]);
+const Table = ({ data, customHeaders, columnSizes }: Props) => {
+  if (!data.length && !customHeaders) return <StyledTableWrapper></StyledTableWrapper>;
+  const headers = customHeaders ? customHeaders : Object.keys(data[0]);
   return (
     <StyledTableWrapper>
       <StyledRow>
-        {headers.map((header) => (
-          <StyledCol isHeader key={header}>
+        {headers.map((header, index) => (
+          <StyledCol flex={columnSizes ? columnSizes[index] : undefined} isHeader key={header}>
             <StyledText isHeader>{header}</StyledText>
           </StyledCol>
         ))}
       </StyledRow>
-      <StyledRow>
-        {tableData.map((item) => {
-          const values = Object.values(item);
-          return values.map((value) => (
-            <StyledCol>
-              <StyledText>{value}</StyledText>
-            </StyledCol>
-          ));
-        })}
-      </StyledRow>
+      {data.map((item) => {
+        const values = Object.values(item);
+        return (
+          <StyledRow>
+            {values.map((value, index) => (
+              <StyledCol flex={columnSizes ? columnSizes[index] : undefined}>
+                <StyledText>{value}</StyledText>
+              </StyledCol>
+            ))}
+          </StyledRow>
+        );
+      })}
     </StyledTableWrapper>
   );
 };

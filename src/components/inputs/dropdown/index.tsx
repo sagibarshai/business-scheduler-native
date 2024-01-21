@@ -13,7 +13,7 @@ import SearchInput from "../../search-input";
 import { useEffect, useState } from "react";
 import Tag from "../../tags";
 
-const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder }: Props) => {
+const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder, showTags, overrideContent }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
@@ -33,37 +33,39 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
 
       {!selectedCategories.length ? (
         <DropdownButton error={error} onPress={onToggle}>
-          <StyledDropdownText>{placeholder} </StyledDropdownText>
+          <StyledDropdownText>{placeholder}</StyledDropdownText>
           <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
         </DropdownButton>
       ) : (
-        <StyledRow>
-          {selectedCategories.map((category) => (
-            <Tag text={category} key={category} onPress={onToggle} />
-          ))}
-        </StyledRow>
+        <StyledRow>{showTags && selectedCategories.map((category) => <Tag text={category} key={category} onPress={onToggle} />)}</StyledRow>
       )}
       <StyledErrorMessage>{error}</StyledErrorMessage>
 
       {isOpen && (
         <CustomBottomSheet height="70%" onClose={onToggle}>
           <StyledBottomSheetContent>
-            <StyledDropdownTitle> {label} </StyledDropdownTitle>
-            <SearchInput list={options} onChange={(list) => onSearchInputChange(list)} />
+            {overrideContent ? (
+              overrideContent
+            ) : (
+              <>
+                <StyledDropdownTitle> {label} </StyledDropdownTitle>
+                <SearchInput list={options} onChange={(list) => onSearchInputChange(list)} />
 
-            <DropdownList>
-              <ScrollView>
-                {filteredList.map((selectedOption) => {
-                  const isSelected = selectedCategories.find((category) => category === selectedOption);
-                  return (
-                    <StyledDropdownItem key={selectedOption} onPress={() => handleSelectOption(selectedOption)}>
-                      <CheckBox checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua} uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple} isChecked={Boolean(isSelected)} onClick={() => handleSelectOption(selectedOption)} />
-                      <StyledDropdownOption>{selectedOption}</StyledDropdownOption>
-                    </StyledDropdownItem>
-                  );
-                })}
-              </ScrollView>
-            </DropdownList>
+                <DropdownList>
+                  <ScrollView>
+                    {filteredList.map((selectedOption) => {
+                      const isSelected = selectedCategories.find((category) => category === selectedOption);
+                      return (
+                        <StyledDropdownItem key={selectedOption} onPress={() => handleSelectOption(selectedOption)}>
+                          <CheckBox checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua} uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple} isChecked={Boolean(isSelected)} onClick={() => handleSelectOption(selectedOption)} />
+                          <StyledDropdownOption>{selectedOption}</StyledDropdownOption>
+                        </StyledDropdownItem>
+                      );
+                    })}
+                  </ScrollView>
+                </DropdownList>
+              </>
+            )}
             {/* ok button */}
           </StyledBottomSheetContent>
         </CustomBottomSheet>

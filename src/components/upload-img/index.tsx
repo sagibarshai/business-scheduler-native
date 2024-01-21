@@ -2,8 +2,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from "react-native-image-picker";
 import { Props } from "./types";
 import { theme } from "../../../theme";
-import { StyleCoverImgWrapper, StyleRegularImgWrapper, StyledCoverImg, StyledCoverText, StyledCoverUploadImgWrapper, StyledErrorMessageText, StyledPlusButtonText, StyledPlusButtonWrapper, StyledProfileImg, StyledProfileImgWrapper, StyledProfileText, StyledProfileUploadImgWrapper, StyledRegularUploadImgWrapper, StyledXButtonText, StyledXButtonWrapper } from "./styled";
+import { StyleCoverImgWrapper, StyleRegularImgWrapper, StyledCoverImg, StyledCoverText, StyledCoverUploadImgWrapper, StyledErrorMessageText, StyledProfileImg, StyledProfileImgWrapper, StyledProfileText, StyledProfileUploadImgWrapper, StyledRegularUploadImgWrapper, StyledXButtonText, StyledXButtonWrapper } from "./styled";
 import React from "react";
+import PlusButton from "../inputs/buttons/plus-button";
 
 const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError = () => {} }: Props) => {
   const onUploadImg = () => {
@@ -44,12 +45,7 @@ const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError =
         )}
       </StyledProfileUploadImgWrapper>
     );
-  else if (variant === "plus-button")
-    return (
-      <StyledPlusButtonWrapper onPress={onUploadImg}>
-        <StyledPlusButtonText>+</StyledPlusButtonText>
-      </StyledPlusButtonWrapper>
-    );
+  else if (variant === "plus-button") return <PlusButton onPress={onUploadImg} />;
   else if (variant === "regular")
     return (
       <StyledRegularUploadImgWrapper onPress={onUploadImg}>

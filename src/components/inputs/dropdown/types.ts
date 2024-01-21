@@ -13,6 +13,8 @@ export interface StyledProps {
     label:string
     icon:JSX.Element
     placeholder?:string
+    showTags?:boolean
+    overrideContent?:React.ReactNode
     
   }
   

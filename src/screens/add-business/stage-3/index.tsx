@@ -4,18 +4,23 @@ import { StyledStage3Wrapper } from "./styled";
 import { useRef, useState } from "react";
 import SubCategories from "./sub-categories";
 import NextStageButton from "../../../components/inputs/buttons/next-stage-button";
-import { Catogory } from "./sub-categories/types";
+import { SubCatogory } from "./sub-categories/types";
 
 const Satge3 = () => {
   const scrollableRef = useRef<ScrollView>(null);
-  const [categories, setCategories] = useState<Catogory[]>([]);
+  const [subcategories, setSubCategories] = useState<SubCatogory[]>([
+    { name: "תספורת אישה", price: null, time: null },
+    { name: "תספורת גבר", price: null, time: null },
+    { name: "תספורת ילד", price: null, time: null },
+    { name: "מחליק", price: null, time: null },
+  ]);
 
   const onNextStage = () => {};
 
   return (
     <StyledStage3Wrapper>
       <Progressbar currentStage={3} stages={5} />
-      <SubCategories categories={categories} />
+      <SubCategories subCategories={subcategories} />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
         לשלב הבא
       </NextStageButton>

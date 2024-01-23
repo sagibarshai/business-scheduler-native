@@ -1,3 +1,4 @@
+import axios from "axios";
 import styled, { css } from "styled-components/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,6 +11,7 @@ import { useEffect } from "react";
 import { Platform } from "react-native";
 
 import { type StyledProps } from "./types";
+// AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -34,6 +36,19 @@ const App = () => {
       I18nManager.forceRTL(true);
       I18nManager.allowRTL(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const response = await axios.get("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Tel&key=AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU");
+        // const parsedResponse = response.data;
+        // console.log("parsedResponse ", parsedResponse);
+      } catch (err) {
+        console.log("err ", err);
+      }
+    };
+    fetchData();
   }, []);
 
   return (

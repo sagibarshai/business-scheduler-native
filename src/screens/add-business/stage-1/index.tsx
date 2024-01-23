@@ -25,6 +25,7 @@ import { type Days } from "../../../components/select-days/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch } from "../../../../redux/store";
 import { setBusinessMetaData } from "../../../../redux/featuers/business/businessSlice";
+import SearchLocation from "../../../components/search-location";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
@@ -169,7 +170,8 @@ const Stage1 = () => {
           <Dropdown showTags label="קטגוריות" placeholder="הקטגוריות של העסק" icon={<IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />} error={isFormSubmitted ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]} />
 
           <TextInput placeholder="מה השם ?" onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
-          <TextInput placeholder="הכתובת" onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} />
+          {/* <TextInput placeholder="הכתובת" onFocus={() => onInputToggleEditMode("address")} onBlur={() => onInputToggleEditMode("address")} error={isFormSubmitted ? businessAddress.error : ""} onChange={(event) => onInputChange(event, "address")} label="כתובת העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} /> */}
+          <SearchLocation error="" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} input="Tel-aviv" isOpen={isCategoryOpen} label="כתובת העסק" onInputChange={() => {}} onToggle={() => {}} placeholder="חפש כאן" />
           <StyledDaysAndLabelWrapper>
             <StyledLabelIconWrapper>
               <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />

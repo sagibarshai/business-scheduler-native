@@ -1,6 +1,5 @@
 export interface StyledProps {
     error:string
-
   }
   
   export interface Props extends StyledProps {

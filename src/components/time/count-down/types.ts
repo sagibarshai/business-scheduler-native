@@ -5,4 +5,5 @@ export interface Props {
   labelText: string;
   defaultValue: Date;
   onChange: (event: DateTimePickerEvent) => void;
+  defaultParsedValue:string
 }

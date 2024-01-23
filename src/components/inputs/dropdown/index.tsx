@@ -9,7 +9,7 @@ import { Props } from "./types";
 import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption, StyledErrorMessage, StyledInputLabel, StyledRow, StyledDropdownTitle, StyledBottomSheetContent } from "./styled";
 import CustomBottomSheet from "../../bottom-sheet";
 import CheckBox from "react-native-check-box";
-import SearchInput from "../../search-input";
+import SearchInput from "../../filter-search-input";
 import { useEffect, useState } from "react";
 import Tag from "../../tags";
 
@@ -23,8 +23,6 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
   useEffect(() => {
     setFilteredList(options);
   }, [isOpen]);
-
-  
 
   return (
     <DropdownContainer>

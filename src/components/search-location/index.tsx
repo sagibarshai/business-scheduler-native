@@ -6,8 +6,7 @@ import IconArrowDown from "react-native-vector-icons/MaterialCommunityIcons";
 import { ScrollView } from "react-native-virtualized-view";
 import SearchBox from "../search-box";
 import { useEffect, useRef, useState } from "react";
-import { NativeSyntheticEvent, TextInput, TextInputChangeEventData } from "react-native";
-import axios from "axios";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 
 const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onSelect, value }: Props) => {
   const [textInput, setTextInput] = useState<string>("");
@@ -22,10 +21,10 @@ const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onS
         return;
       }
       try {
-        const response = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${textInput}&key=AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU`);
-        const parsedResponse: any = response.data;
-        const updatedLocationsList = parsedResponse.predictions.map((location: Record<string, string>) => location.description);
-        setLocationsList(updatedLocationsList);
+        // const response = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${textInput}&key=AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU`);
+        // const parsedResponse: any = response.data;
+        // const updatedLocationsList = parsedResponse.predictions.map((location: Record<string, string>) => location.description);
+        // setLocationsList(updatedLocationsList);
       } catch (err) {
         console.log("err ", err);
       }

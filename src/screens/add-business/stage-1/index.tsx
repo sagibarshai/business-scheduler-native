@@ -180,7 +180,7 @@ const Stage1 = () => {
           <Dropdown showTags label="קטגוריות" placeholder="הקטגוריות של העסק" icon={<IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />} error={isFormSubmitted ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]} />
 
           <TextInput placeholder="מה השם ?" onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
-          <SearchLocation onSelect={onSelectLocation} value={businessAddress.value} error="" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} isOpen={isSearchLocationOpen} label="כתובת העסק" onToggle={onToggleSearchLocation} placeholder="חפש כאן" />
+          <SearchLocation onSelect={onSelectLocation} value={businessAddress.value} error="" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} isOpen={isSearchLocationOpen} label="כתובת העסק" onToggle={onToggleSearchLocation} placeholder="חפש כתובת כאן" />
           <StyledDaysAndLabelWrapper>
             <StyledLabelIconWrapper>
               <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />

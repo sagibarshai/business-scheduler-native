@@ -38,19 +38,6 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const response = await axios.get("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Tel&key=AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU");
-        // const parsedResponse = response.data;
-        // console.log("parsedResponse ", parsedResponse);
-      } catch (err) {
-        console.log("err ", err);
-      }
-    };
-    fetchData();
-  }, []);
-
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>

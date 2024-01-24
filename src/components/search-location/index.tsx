@@ -5,8 +5,34 @@ import { theme } from "../../../theme";
 import IconArrowDown from "react-native-vector-icons/MaterialCommunityIcons";
 import { ScrollView } from "react-native-virtualized-view";
 import SearchBox from "../search-box";
+import { useEffect, useRef, useState } from "react";
+import { NativeSyntheticEvent, TextInput, TextInputChangeEventData } from "react-native";
+import axios from "axios";
 
-const SearchLocation = ({ input, isOpen, onToggle, icon, label, placeholder, error }: Props) => {
+const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onSelect, value }: Props) => {
+  const [textInput, setTextInput] = useState<string>("");
+  const [locationsList, setLocationsList] = useState<string[]>([]);
+
+  const onChangeInput = (e: NativeSyntheticEvent<TextInputChangeEventData>) => setTextInput(e.nativeEvent.text);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!textInput.length) {
+        setLocationsList([]);
+        return;
+      }
+      try {
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${textInput}&key=AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU`);
+        const parsedResponse: any = response.data;
+        const updatedLocationsList = parsedResponse.predictions.map((location: Record<string, string>) => location.description);
+        setLocationsList(updatedLocationsList);
+      } catch (err) {
+        console.log("err ", err);
+      }
+    };
+    fetchData();
+  }, [textInput]);
+
   return (
     <DropdownContainer>
       <StyledRow>
@@ -15,8 +41,8 @@ const SearchLocation = ({ input, isOpen, onToggle, icon, label, placeholder, err
       </StyledRow>
 
       <DropdownButton error={error} onPress={onToggle}>
-        <StyledDropdownText>{placeholder}</StyledDropdownText>
-        <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
+        <StyledDropdownText>{value ? value : placeholder}</StyledDropdownText>
+        {!value && <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />}
       </DropdownButton>
 
       <StyledErrorMessage>{error}</StyledErrorMessage>
@@ -25,21 +51,19 @@ const SearchLocation = ({ input, isOpen, onToggle, icon, label, placeholder, err
         <CustomBottomSheet height="70%" onClose={onToggle}>
           <StyledBottomSheetContent>
             <StyledDropdownTitle> {label} </StyledDropdownTitle>
-            <SearchBox onChange={() => {}} error={""} />
+            <SearchBox onChange={onChangeInput} error={""} />
 
-            {/* <DropdownList>
+            <DropdownList>
               <ScrollView>
-                {filteredList.map((selectedOption) => {
-                  const isSelected = selectedCategories.find((category) => category === selectedOption);
+                {locationsList.map((location) => {
                   return (
-                    <StyledDropdownItem key={selectedOption} onPress={() => handleSelectOption(selectedOption)}>
-                      <CheckBox checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua} uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple} isChecked={Boolean(isSelected)} onClick={() => handleSelectOption(selectedOption)} />
-                      <StyledDropdownOption>{selectedOption}</StyledDropdownOption>
+                    <StyledDropdownItem key={location} onPress={() => onSelect(location)}>
+                      <StyledDropdownOption>{location}</StyledDropdownOption>
                     </StyledDropdownItem>
                   );
                 })}
               </ScrollView>
-            </DropdownList> */}
+            </DropdownList>
 
             {/* ok button */}
           </StyledBottomSheetContent>

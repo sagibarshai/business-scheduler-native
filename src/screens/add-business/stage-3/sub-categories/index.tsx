@@ -27,7 +27,6 @@ const SubCategories = ({ subCategories }: Props) => {
     [selectedSubCategories]
   );
 
-  console.log("overrideContent ", overrideContent);
   const onSelectSubCategory = useCallback(
     (subCategory: string) => {
       let updatedSelectedSubCategories = [...selectedSubCategories];

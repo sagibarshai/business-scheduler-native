@@ -21,8 +21,6 @@ const Countdown = ({ labelText, defaultValue, onChange, defaultParsedValue }: Pr
 
   const onChangeIsOpen = () => setIsOpen((prevState) => !prevState);
 
-  console.log("platform ", platform);
-
   if (platform === "ios") {
     return (
       <StyledSelectTimeWrapper>

@@ -7,6 +7,7 @@ import { ScrollView } from "react-native-virtualized-view";
 import SearchBox from "../search-box";
 import { useEffect, useRef, useState } from "react";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import { appAxios } from "../../../axios";
 
 const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onSelect, value }: Props) => {
   const [textInput, setTextInput] = useState<string>("");
@@ -21,10 +22,13 @@ const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onS
         return;
       }
       try {
-        // const response = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${textInput}&key=AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU`);
-        // const parsedResponse: any = response.data;
-        // const updatedLocationsList = parsedResponse.predictions.map((location: Record<string, string>) => location.description);
-        // setLocationsList(updatedLocationsList);
+        const response = await appAxios.get(`/search-location`, {
+          params: {
+            input: textInput,
+          },
+        });
+        const parsedResponse: any = response.data;
+        setLocationsList(parsedResponse.locations);
       } catch (err) {
         console.log("err ", err);
       }

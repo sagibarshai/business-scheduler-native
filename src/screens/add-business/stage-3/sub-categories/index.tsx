@@ -5,7 +5,6 @@ import Table from "../../../../components/table";
 import PlusButton from "../../../../components/inputs/buttons/plus-button";
 import Dropdown from "../../../../components/inputs/dropdown";
 import { useCallback, useMemo, useState } from "react";
-import CustomBottomSheet from "../../../../components/bottom-sheet";
 import SubCategoriesForm from "./sub-category-form";
 
 const SubCategories = ({ subCategories }: Props) => {
@@ -17,6 +16,7 @@ const SubCategories = ({ subCategories }: Props) => {
     setIsDropdownOpen((prevState) => !prevState);
   }, [isDropdownOpen]);
 
+  // FOR TS
   const transformedSubcategories = useMemo(
     () =>
       selectedSubCategories.map(({ name, price, time }) => ({

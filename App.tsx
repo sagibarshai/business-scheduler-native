@@ -9,6 +9,7 @@ import AddNewBusiness from "./src/screens/add-business";
 import { I18nManager } from "react-native";
 import { useEffect } from "react";
 import { Platform } from "react-native";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import { type StyledProps } from "./types";
 // AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU
@@ -39,15 +40,17 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <StyledAppWrapper platform={Platform}>
-          <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
-            <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
-          </SackNavigation.Navigator>
-        </StyledAppWrapper>
-      </NavigationContainer>
-    </ThemeProvider>
+    <KeyboardProvider>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <StyledAppWrapper platform={Platform}>
+            <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+              <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
+            </SackNavigation.Navigator>
+          </StyledAppWrapper>
+        </NavigationContainer>
+      </ThemeProvider>
+    </KeyboardProvider>
   );
 };
 

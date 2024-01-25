@@ -1,4 +1,4 @@
-import TimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import TimePicker from "@react-native-community/datetimepicker";
 import { StyledLabel, StyledSelectTimeWrapper, StyledTimeButton, StyledText, StyledSaveButton } from "./styled";
 import { theme } from "../../../../theme";
 import { useState } from "react";
@@ -11,8 +11,8 @@ const Countdown = ({ labelText, defaultValue, onChange, defaultParsedValue }: Pr
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [value, setValue] = useState<ValueMap>({
     hours: 1,
-    minutes: 0,
-    seconds: 0,
+    minutes: 12,
+    seconds: 12,
   });
   const handleChange = (newValue: ValueMap) => {
     setValue(newValue);
@@ -25,17 +25,18 @@ const Countdown = ({ labelText, defaultValue, onChange, defaultParsedValue }: Pr
     return (
       <StyledSelectTimeWrapper>
         <StyledLabel>{labelText}</StyledLabel>
-        <TimePicker
-          display="spinner"
+        <AndroidTimePicker
+          value={value}
+          // display="spinner"
           id={labelText}
           textColor={theme.palette.colors.lights.texts.aqua}
-          accentColor={theme.palette.colors.lights.texts.aqua}
-          onChange={(event) => {
-            if (event.type === "set") onChange(event);
-          }}
-          minuteInterval={15}
-          mode="countdown"
-          value={defaultValue}
+          // accentColor={theme.palette.colors.lights.texts.aqua}
+          // onChange={(event) => {
+          //   if (event.type === "set") onChange(event);
+          // }}
+          // minuteInterval={15}
+          // mode="countdown"
+          // value={defaultValue}
         />
       </StyledSelectTimeWrapper>
     );

@@ -8,6 +8,7 @@ import { SubCatogory } from "./sub-categories/types";
 
 const Satge3 = () => {
   const scrollableRef = useRef<ScrollView>(null);
+
   const [subcategories, setSubCategories] = useState<SubCatogory[]>([
     { name: "תספורת אישה", price: null, time: null },
     { name: "תספורת גבר", price: null, time: null },

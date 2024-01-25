@@ -12,7 +12,7 @@ const SubCategoriesForm = ({ onSave }: Props) => {
   defaultDate = setMinutes(defaultDate, 45);
   return (
     <StyledSubCategoryFormWrapper>
-      <Countdown defaultValue={defaultDate} labelText="משך התור" onChange={() => {}} />
+      <Countdown defaultParsedValue="" defaultValue={defaultDate} labelText="משך התור" onChange={() => {}} />
     </StyledSubCategoryFormWrapper>
   );
 };

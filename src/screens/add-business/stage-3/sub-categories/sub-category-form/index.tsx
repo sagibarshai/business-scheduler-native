@@ -23,11 +23,15 @@ const SubCategoriesForm = ({ onSave, onCancel }: Props) => {
     setSelectedSubCategoryData({ ...selectedSubCategoryData, price: Number(text) });
   };
 
+  const onSaveSubCategoryForm = () => {
+    onSave(selectedSubCategoryData);
+  };
+
   return (
     <StyledSubCategoryFormWrapper>
       <Countdown defaultHours={0} defaultMinutes={30} labelText="כמה זמן ?" modalTitle="בחר זמן עבור השירות" onSubmit={onSubmitServiceTime} />
       <TextInput label="מחיר" onChange={onPriceChange} error={""} />
-      <SaveButton text="שמור" onPress={onSave} />
+      <SaveButton text="שמור" onPress={onSaveSubCategoryForm} />
       <CancelButton onPress={onCancel} text="ביטול" />
     </StyledSubCategoryFormWrapper>
   );

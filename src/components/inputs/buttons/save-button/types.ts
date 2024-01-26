@@ -1,4 +1,4 @@
 export interface Props {
-    onPress:(T?:any) => void
+    onPress:() => void
     text:string
 }

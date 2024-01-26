@@ -8,7 +8,7 @@ const AddNewBusiness = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="stage-1" screenOptions={{ headerShown: true, headerTitleAlign: "center", title: "הוספת עסק", headerBackTitleVisible: false, headerBackButtonMenuEnabled: true, contentStyle: { backgroundColor: "transparent", padding: 20 } }}>
+    <Stack.Navigator initialRouteName="stage-3" screenOptions={{ headerShown: true, headerTitleAlign: "center", title: "הוספת עסק", headerBackTitleVisible: false, headerBackButtonMenuEnabled: true, contentStyle: { backgroundColor: "transparent", padding: 20 } }}>
       <Stack.Screen name="stage-1" component={Stage1} />
       <Stack.Screen name="stage-2" component={Stage2} />
       <Stack.Screen name="stage-3" component={Stage3} />

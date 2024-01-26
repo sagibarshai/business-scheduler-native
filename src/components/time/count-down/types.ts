@@ -1,9 +1,11 @@
-import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
+
+export interface CountdownProps {hours: number, minutes: number, seconds: number}
 
 export interface Props {
-  labelText: string;
-  defaultValue: Date;
-  onChange: (event: DateTimePickerEvent) => void;
-  defaultParsedValue:string
+  defaultHours:number
+  defaultMinutes:number
+  onSubmit:(time:CountdownProps) => void
+  labelText:string
+  modalTitle:string
 }

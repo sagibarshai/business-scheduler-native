@@ -1,32 +1,42 @@
-import TimePicker from "@react-native-community/datetimepicker";
 import { StyledLabel, StyledSelectTimeWrapper, StyledTimeButton, StyledText, StyledSaveButton } from "./styled";
-import { theme } from "../../../../theme";
 import { useState } from "react";
-import { Platform } from "react-native";
-import { type Props } from "./types";
+import { CountdownProps, type Props } from "./types";
+import { TimerPickerModal } from "react-native-timer-picker";
+import CountdownTimeDisplay from "../countdown-time-display";
 
-const Countdown = ({ labelText, defaultValue, onChange, defaultParsedValue }: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const platform = Platform.OS;
+const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTitle }: Props) => {
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const onChangeIsOpen = () => setIsOpen((prevState) => !prevState);
+  const onConfirm = (data: CountdownProps) => {
+    onSubmit(data);
+    onChangeIsOpen();
+  };
 
   return (
     <StyledSelectTimeWrapper>
       <StyledLabel>{labelText}</StyledLabel>
-      <TimePicker
-        display="spinner"
-        id={labelText}
-        textColor={theme.palette.colors.lights.texts.aqua}
-        accentColor={theme.palette.colors.lights.texts.aqua}
-        onChange={(event) => {
-          if (event.type === "set") onChange(event);
-        }}
-        minuteInterval={15}
-        mode="countdown"
-        value={defaultValue}
-      />
+      <CountdownTimeDisplay onPress={onChangeIsOpen} hours={defaultHours} minutes={defaultMinutes} />
+
+      {isOpen && (
+        <TimerPickerModal
+          visible={isOpen}
+          setIsVisible={onChangeIsOpen}
+          onConfirm={onConfirm}
+          modalTitle={modalTitle}
+          onCancel={onChangeIsOpen}
+          closeOnOverlayPress
+          styles={{
+            theme: "light",
+          }}
+          modalProps={{
+            overlayOpacity: 0.8,
+          }}
+          hideSeconds
+          initialHours={defaultHours}
+          initialMinutes={defaultMinutes}
+        />
+      )}
     </StyledSelectTimeWrapper>
   );
 };

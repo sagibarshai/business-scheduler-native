@@ -11,18 +11,16 @@ const SubCategories = ({ subCategories }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
   const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
-
   const onToggleDropdown = useCallback(() => {
     setIsDropdownOpen((prevState) => !prevState);
   }, [isDropdownOpen]);
 
-  // FOR TS
   const transformedSubcategories = useMemo(
     () =>
       selectedSubCategories.map(({ name, price, time }) => ({
         service: name,
         price: price,
-        time: time,
+        time: `שעות : ${time?.hours} דקות: ${time?.minutes}`,
       })),
     [selectedSubCategories]
   );
@@ -33,14 +31,20 @@ const SubCategories = ({ subCategories }: Props) => {
       const isExist = updatedSelectedSubCategories.find((selectedSubCategory) => selectedSubCategory.name === subCategory);
       if (!isExist) {
         updatedSelectedSubCategories.push({ name: subCategory, price: null, time: null });
-        setOverrideContent(<SubCategoriesForm onSave={onSaveCategoryForm}></SubCategoriesForm>);
+        setOverrideContent(<SubCategoriesForm onCancel={onCancelSelectCategory} onSave={onSaveCategoryForm}></SubCategoriesForm>);
       } else updatedSelectedSubCategories = updatedSelectedSubCategories.filter((selectedSubCategory) => selectedSubCategory.name !== subCategory);
       setSelectedSubCategories(updatedSelectedSubCategories);
     },
     [selectedSubCategories]
   );
-
-  const onSaveCategoryForm = () => setOverrideContent(null);
+  const onCancelSelectCategory = (categoryData: SubCatogory) => {
+    setSelectedSubCategories((prevSelectedSubCategories) => [...prevSelectedSubCategories].filter((selectedSubCategory) => selectedSubCategory.name !== categoryData.name));
+    setOverrideContent(null);
+  };
+  const onSaveCategoryForm = (categoryData: SubCatogory) => {
+    setSelectedSubCategories((prevSelectedSubCategories) => [...prevSelectedSubCategories, categoryData]);
+    setOverrideContent(null);
+  };
   return (
     <StyledSubCategoriesWrapper>
       <StyledPlusButtonWrapper>

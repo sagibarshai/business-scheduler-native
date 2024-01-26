@@ -1,3 +1,6 @@
+import { SubCatogory } from "../types";
+
 export interface Props {
-    onSave:() => void
+    onSave:(selectedSubCategoryData:SubCatogory) => void
+    onCancel:(selectedSubCategoryData:SubCatogory) => void
 }

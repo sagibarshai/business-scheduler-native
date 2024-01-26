@@ -1,5 +1,7 @@
+import { CountdownProps } from "../../../../components/time/count-down/types";
+
 export interface SubCatogory {
-    time:string | null;
+    time:CountdownProps | null;
     price:number | null;
     name:string;
 }

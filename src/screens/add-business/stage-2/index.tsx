@@ -5,7 +5,7 @@ import { StyledStage2Wrapper, StyledTextareaWrapper } from "./styled";
 import Textarea from "../../../components/inputs/textarea";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { theme } from "../../../../theme";
-import { ScrollView } from "react-native";
+import { ScrollView, TextInput } from "react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Asset } from "react-native-image-picker";
 import { InputState } from "../../../components/inputs/types";
@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from "../../../../redux/store";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { setBusinessMetaData, setBusinessPhotos } from "../../../../redux/featuers/business/businessSlice";
+import Progressbar from "../../../components/progress-bar";
+import { StyledStage2ImgsTitle } from "./upload-images/styled";
 
 const Stage2 = () => {
   const businessMetaData = useAppSelector((state) => state.business.metaData);
@@ -99,12 +101,25 @@ const Stage2 = () => {
 
   return (
     <StyledStage2Wrapper>
+      <Progressbar currentStage={2} stages={5} />
       <ScrollView ref={scrollableRef}>
         <StyledStage2Wrapper>
-          <UploadImags profileImgErrorMessage={profileImg.error} onDeleteCoverImg={onDeleteCoverImg} onDeleteRegularImg={onDeleteRegularImg} coverImg={coverImg?.value} profileImg={profileImg?.value} regularImgs={businessImgs.value} onUploadCoverImg={onCoverImgUpload} onUploadProfileImg={onProfileImgUpload} onUploadRegularImg={onUploadBusinessPhoto} />
+          <StyledStage2ImgsTitle> {businessMetaData.name}</StyledStage2ImgsTitle>
           <StyledTextareaWrapper>
-            <Textarea error={description.error} label="תיאור של העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />} onChange={(event) => onTextAreaInputChange(event.nativeEvent.text)} placeholder="זה המקום לפרט על העסק ושרותיו כדי שהלקוחות ידעו כמה שיותר" />
+            <Textarea
+              onFocus={() => {
+                scrollableRef.current?.scrollTo({ y: 0 });
+              }}
+              error={description.error}
+              label="תיאור של העסק"
+              icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />}
+              onChange={(event) => {
+                onTextAreaInputChange(event.nativeEvent.text);
+              }}
+              placeholder="זה המקום לפרט על העסק ושרותיו כדי שהלקוחות ידעו כמה שיותר"
+            />
           </StyledTextareaWrapper>
+          <UploadImags profileImgErrorMessage={profileImg.error} onDeleteCoverImg={onDeleteCoverImg} onDeleteRegularImg={onDeleteRegularImg} coverImg={coverImg?.value} profileImg={profileImg?.value} regularImgs={businessImgs.value} onUploadCoverImg={onCoverImgUpload} onUploadProfileImg={onProfileImgUpload} onUploadRegularImg={onUploadBusinessPhoto} />
         </StyledStage2Wrapper>
       </ScrollView>
       <NextStageButton onNextStage={onNextStage} disabled={false}>

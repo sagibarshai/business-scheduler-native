@@ -8,6 +8,7 @@ import SearchBox from "../search-box";
 import { useEffect, useRef, useState } from "react";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import { appAxios } from "../../../axios";
+import { AxiosError } from "axios";
 
 const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onSelect, value }: Props) => {
   const [textInput, setTextInput] = useState<string>("");
@@ -30,7 +31,8 @@ const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onS
         const parsedResponse: any = response.data;
         setLocationsList(parsedResponse.locations);
       } catch (err) {
-        console.log("err ", err);
+        const error = err as AxiosError;
+        console.log("error ", error);
       }
     };
     fetchData();

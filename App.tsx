@@ -1,5 +1,6 @@
-import axios from "axios";
+import { Provider } from "react-redux";
 import styled, { css } from "styled-components/native";
+import store from "./redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -9,10 +10,9 @@ import AddNewBusiness from "./src/screens/add-business";
 import { I18nManager } from "react-native";
 import { useEffect } from "react";
 import { Platform } from "react-native";
-import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import { type StyledProps } from "./types";
-// AIzaSyA0puLIR9nfTrgLHUuwmoewVYzDLB_kSFU
+import { appAxios } from "./axios";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -40,8 +40,8 @@ const App = () => {
   }, []);
 
   return (
-    <KeyboardProvider>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{ ...theme }}>
+      <Provider store={store}>
         <NavigationContainer>
           <StyledAppWrapper platform={Platform}>
             <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
@@ -49,8 +49,8 @@ const App = () => {
             </SackNavigation.Navigator>
           </StyledAppWrapper>
         </NavigationContainer>
-      </ThemeProvider>
-    </KeyboardProvider>
+      </Provider>
+    </ThemeProvider>
   );
 };
 

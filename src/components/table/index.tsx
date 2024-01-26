@@ -13,12 +13,12 @@ const Table = ({ data, customHeaders, columnSizes }: Props) => {
           </StyledCol>
         ))}
       </StyledRow>
-      {data.map((item) => {
+      {data.map((item, inx) => {
         const values = Object.values(item);
         return (
-          <StyledRow>
+          <StyledRow key={inx}>
             {values.map((value, index) => (
-              <StyledCol flex={columnSizes ? columnSizes[index] : undefined}>
+              <StyledCol key={index} flex={columnSizes ? columnSizes[index] : undefined}>
                 <StyledText>{value}</StyledText>
               </StyledCol>
             ))}

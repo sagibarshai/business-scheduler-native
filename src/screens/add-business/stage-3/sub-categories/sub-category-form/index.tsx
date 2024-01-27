@@ -12,15 +12,17 @@ import TextInput from "../../../../../components/inputs/text";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import SaveButton from "../../../../../components/inputs/buttons/save-button";
 import CancelButton from "../../../../../components/inputs/buttons/cancel-button";
+import NumericInput from "../../../../../components/inputs/numeric";
 
-const SubCategoriesForm = ({ onSave, onCancel }: Props) => {
-  const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCatogory>({ name: "", price: null, time: null });
+const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
+  const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCatogory>(subCategoryData);
 
   const onSubmitServiceTime = (countdownTime: CountdownProps) => {
     setSelectedSubCategoryData({ ...selectedSubCategoryData, time: countdownTime });
   };
-  const onPriceChange = (text: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    setSelectedSubCategoryData({ ...selectedSubCategoryData, price: Number(text) });
+  const onPriceChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    console.log(event.nativeEvent.text);
+    setSelectedSubCategoryData({ ...selectedSubCategoryData, price: Number(event.nativeEvent.text) });
   };
 
   const onSaveSubCategoryForm = () => {
@@ -29,8 +31,8 @@ const SubCategoriesForm = ({ onSave, onCancel }: Props) => {
 
   return (
     <StyledSubCategoryFormWrapper>
-      <Countdown defaultHours={0} defaultMinutes={30} labelText="כמה זמן ?" modalTitle="בחר זמן עבור השירות" onSubmit={onSubmitServiceTime} />
-      <TextInput label="מחיר" onChange={onPriceChange} error={""} />
+      <Countdown defaultHours={0} defaultMinutes={30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
+      <NumericInput width="30%" label="מחיר" onChange={onPriceChange} error={""} />
       <SaveButton text="שמור" onPress={onSaveSubCategoryForm} />
       <CancelButton onPress={onCancel} text="ביטול" />
     </StyledSubCategoryFormWrapper>

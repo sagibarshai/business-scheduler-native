@@ -9,10 +9,9 @@ import { theme } from "./theme";
 import AddNewBusiness from "./src/screens/add-business";
 import { I18nManager } from "react-native";
 import { useEffect } from "react";
-import { Platform } from "react-native";
+import { Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 
 import { type StyledProps } from "./types";
-import { appAxios } from "./axios";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -44,9 +43,16 @@ const App = () => {
       <Provider store={store}>
         <NavigationContainer>
           <StyledAppWrapper platform={Platform}>
-            <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
-              <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
-            </SackNavigation.Navigator>
+            <TouchableWithoutFeedback
+              style={{ backgroundColor: "black", height: "100%", width: "100%" }}
+              onPress={() => {
+                Keyboard.dismiss();
+              }}
+            >
+              <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+                <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
+              </SackNavigation.Navigator>
+            </TouchableWithoutFeedback>
           </StyledAppWrapper>
         </NavigationContainer>
       </Provider>

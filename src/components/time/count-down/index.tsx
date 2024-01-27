@@ -35,6 +35,10 @@ const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTit
           hideSeconds
           initialHours={defaultHours}
           initialMinutes={defaultMinutes}
+          confirmButtonText="אישור"
+          cancelButtonText="ביטול"
+          hourLabel="ש׳"
+          minuteLabel="דק׳"
         />
       )}
     </StyledSelectTimeWrapper>

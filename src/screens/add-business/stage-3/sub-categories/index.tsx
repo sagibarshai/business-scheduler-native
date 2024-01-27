@@ -4,13 +4,22 @@ import { Props, SubCatogory } from "./types";
 import Table from "../../../../components/table";
 import PlusButton from "../../../../components/inputs/buttons/plus-button";
 import Dropdown from "../../../../components/inputs/dropdown";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import SubCategoriesForm from "./sub-category-form";
 
 const SubCategories = ({ subCategories }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
   const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
+  const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isSubCategoryAdded) {
+      setOverrideContent(<SubCategoriesForm subCategoryData={selectedSubCategories[selectedSubCategories.length - 1]} onCancel={onCancelSelectCategory} onSave={onSaveCategoryForm} />);
+    }
+    setIsSubCategoryAdded(false);
+  }, [selectedSubCategories, isSubCategoryAdded]);
+
   const onToggleDropdown = useCallback(() => {
     setIsDropdownOpen((prevState) => !prevState);
   }, [isDropdownOpen]);
@@ -30,8 +39,8 @@ const SubCategories = ({ subCategories }: Props) => {
       let updatedSelectedSubCategories = [...selectedSubCategories];
       const isExist = updatedSelectedSubCategories.find((selectedSubCategory) => selectedSubCategory.name === subCategory);
       if (!isExist) {
+        setIsSubCategoryAdded(true);
         updatedSelectedSubCategories.push({ name: subCategory, price: null, time: null });
-        setOverrideContent(<SubCategoriesForm onCancel={onCancelSelectCategory} onSave={onSaveCategoryForm}></SubCategoriesForm>);
       } else updatedSelectedSubCategories = updatedSelectedSubCategories.filter((selectedSubCategory) => selectedSubCategory.name !== subCategory);
       setSelectedSubCategories(updatedSelectedSubCategories);
     },
@@ -42,7 +51,14 @@ const SubCategories = ({ subCategories }: Props) => {
     setOverrideContent(null);
   };
   const onSaveCategoryForm = (categoryData: SubCatogory) => {
-    setSelectedSubCategories((prevSelectedSubCategories) => [...prevSelectedSubCategories, categoryData]);
+    const updatedSelectedSubCategories = [...selectedSubCategories];
+    console.log("updatedSelectedSubCategories ", updatedSelectedSubCategories);
+    // modify the last element
+    updatedSelectedSubCategories[updatedSelectedSubCategories.length - 1] = categoryData;
+
+    console.log("updatedSelectedSubCategories ", updatedSelectedSubCategories);
+    setSelectedSubCategories(updatedSelectedSubCategories);
+
     setOverrideContent(null);
   };
   return (

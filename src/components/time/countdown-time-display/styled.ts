@@ -1,16 +1,25 @@
 import styled from "styled-components/native";
 import RTLText from "../../RTL/text";
+import { StyledProps } from "./types";
 
-export const StyledWrapper = styled.TouchableOpacity`
-    display: flex;
-    /* border: ${props => props.theme.border.width.m} ${props => props.theme.border.style.regular} ${props => props.theme.border.colors.aqua}; */
-   height: fit-content;
-   width: min-content;
-   padding: ${props => props.theme.spaces.s};
+export const StyledWrapper = styled.TouchableOpacity<StyledProps>`
+  display: flex;
+  height: fit-content;
+  width: min-content;
+  width: ${props => props.width || '100%'};
+  border-bottom-width: ${props => props.theme.border.width.m};
+  border-bottom-color: ${props => props.theme.border.colors.black};
+  padding: 0 ${(props) => props.theme.spaces.m};
+  font-size: ${(props) => props.theme.fonts.sizes.m};
+  font-weight: ${(props) => props.theme.fonts.weights.m};
+  text-align: right;
+  gap: ${(props) => props.theme.spaces.s};
+
 `
 
 export const StyledText= styled(RTLText)`
-    opacity: 0.4;
     color: ${props => props.theme.palette.colors.lights.texts.black};
-    font-size: ${props => props.theme.fonts.sizes.m};
+    font-size: ${props => props.theme.fonts.sizes.l};
+    font-weight: ${props => props.theme.fonts.weights.l};
+
 `

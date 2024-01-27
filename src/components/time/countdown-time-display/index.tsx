@@ -1,9 +1,9 @@
 import { StyledText, StyledWrapper } from "./styled";
 import { Props } from "./types";
 
-const CountdownTimeDisplay = ({ hours, minutes, onPress }: Props) => {
+const CountdownTimeDisplay = ({ hours, minutes, onPress, ...props }: Props) => {
   return (
-    <StyledWrapper onPress={onPress}>
+    <StyledWrapper {...props} onPress={onPress}>
       <StyledText>{`${hours} : ${minutes}`}</StyledText>
     </StyledWrapper>
   );

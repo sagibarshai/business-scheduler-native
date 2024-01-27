@@ -47,7 +47,7 @@ const SubCategories = ({ subCategories }: Props) => {
     [selectedSubCategories]
   );
   const onCancelSelectCategory = (categoryData: SubCatogory) => {
-    setSelectedSubCategories((prevSelectedSubCategories) => [...prevSelectedSubCategories].filter((selectedSubCategory) => selectedSubCategory.name !== categoryData.name));
+    setSelectedSubCategories((prevSelectedSubCategories) => [...prevSelectedSubCategories].filter((selectedSubCategory, index) => index !== prevSelectedSubCategories.length - 1));
     setOverrideContent(null);
   };
   const onSaveCategoryForm = (categoryData: SubCatogory) => {

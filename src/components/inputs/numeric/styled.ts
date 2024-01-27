@@ -1,31 +1,28 @@
-import styled, { css } from 'styled-components/native'
+import styled from 'styled-components/native'
 
 import RTLText from '../../RTL/text';
 
 import {type  StyledProps } from './types';
 
 
-export const StyledCol = styled.View`
+export const StyledCol = styled.View<StyledProps>`
   display: flex;
   height: fit-content;
-  width: 100%;
+  width: ${props => props.width || '100%'};
   gap: ${(props) => props.theme.spaces.s};
 `;
 
 export const StyledPrimaryInput = styled.TextInput<StyledProps>`
-  width: 100%;
+  width: ${props => props.width || '100%'};
   height: ${(props) => (props.height ? props.height : props.theme.inputs.sizes.m.height)};
-  border: ${(props) => props.theme.border.width.m} ${(props) => props.theme.border.style.regular} ${(props) => (props.error ? props.theme.palette.colors.lights.errors.red : props.theme.border.colors.black)};
+  border-bottom-color: ${(props) => (props.error ? props.theme.palette.colors.lights.errors.red : props.theme.border.colors.black)};
+  border-bottom-width : ${(props) => (props.theme.border.width.m)};;
   border-radius: ${(props) => props.theme.border.radiuses.m};
   padding: 0 ${(props) => props.theme.spaces.m};
-  font-size: ${(props) => props.theme.fonts.sizes.m};
-  font-weight: ${(props) => props.theme.fonts.weights.m};
+  font-size: ${(props) => props.theme.fonts.sizes.l};
+  font-weight: ${(props) => props.theme.fonts.weights.l};
   text-align: right;
-  ${props => props.isTextArea ? css`
-    height: ${props => props.theme.inputs.textarea.sizes.m.height};
-    text-align: right;
-    padding: ${props => props.theme.spaces.s};
-  ` : ""}
+  
 `;
 export const StyledRow = styled.View`
   display: flex;

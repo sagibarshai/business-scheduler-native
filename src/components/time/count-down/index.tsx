@@ -1,10 +1,12 @@
-import { StyledLabel, StyledSelectTimeWrapper, StyledTimeButton, StyledText, StyledSaveButton } from "./styled";
+import { StyledLabel, StyledRow, StyledSelectTimeWrapper } from "./styled";
 import { useState } from "react";
 import { CountdownProps, type Props } from "./types";
 import { TimerPickerModal } from "react-native-timer-picker";
 import CountdownTimeDisplay from "../countdown-time-display";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { theme } from "../../../../theme";
 
-const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTitle }: Props) => {
+const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTitle, icon }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const onChangeIsOpen = () => setIsOpen((prevState) => !prevState);
@@ -15,8 +17,11 @@ const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTit
 
   return (
     <StyledSelectTimeWrapper>
-      <StyledLabel>{labelText}</StyledLabel>
-      <CountdownTimeDisplay onPress={onChangeIsOpen} hours={defaultHours} minutes={defaultMinutes} />
+      <StyledRow>
+        {icon ? icon : <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />}
+        <StyledLabel>{labelText}</StyledLabel>
+      </StyledRow>
+      <CountdownTimeDisplay width="30%" onPress={onChangeIsOpen} hours={defaultHours} minutes={defaultMinutes} />
 
       {isOpen && (
         <TimerPickerModal
@@ -39,6 +44,7 @@ const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTit
           cancelButtonText="ביטול"
           hourLabel="ש׳"
           minuteLabel="דק׳"
+          hideCancelButton
         />
       )}
     </StyledSelectTimeWrapper>

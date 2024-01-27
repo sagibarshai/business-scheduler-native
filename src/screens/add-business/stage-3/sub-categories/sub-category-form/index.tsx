@@ -1,18 +1,17 @@
-import { setHours, setMinutes } from "date-fns";
-
 import Countdown from "../../../../../components/time/count-down";
 
 import { type Props } from "./types";
 
-import { StyledSubCategoryFormWrapper } from "./styled";
+import { StyledButtonsWrapper, StyledRow, StyledSubCategoryFormWrapper, StyledTitle } from "./styled";
 import { useState } from "react";
 import { SubCatogory } from "../types";
 import { CountdownProps } from "../../../../../components/time/count-down/types";
-import TextInput from "../../../../../components/inputs/text";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import SaveButton from "../../../../../components/inputs/buttons/save-button";
 import CancelButton from "../../../../../components/inputs/buttons/cancel-button";
 import NumericInput from "../../../../../components/inputs/numeric";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { theme } from "../../../../../../theme";
 
 const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
   const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCatogory>(subCategoryData);
@@ -21,7 +20,6 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
     setSelectedSubCategoryData({ ...selectedSubCategoryData, time: countdownTime });
   };
   const onPriceChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    console.log(event.nativeEvent.text);
     setSelectedSubCategoryData({ ...selectedSubCategoryData, price: Number(event.nativeEvent.text) });
   };
 
@@ -31,10 +29,13 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
 
   return (
     <StyledSubCategoryFormWrapper>
-      <Countdown defaultHours={0} defaultMinutes={30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
-      <NumericInput width="30%" label="מחיר" onChange={onPriceChange} error={""} />
-      <SaveButton text="שמור" onPress={onSaveSubCategoryForm} />
-      <CancelButton onPress={onCancel} text="ביטול" />
+      <StyledTitle>{subCategoryData.name}</StyledTitle>
+      <Countdown defaultHours={selectedSubCategoryData.time?.hours || 0} defaultMinutes={selectedSubCategoryData.time?.minutes || 30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
+      <NumericInput width="30%" label="מחיר" onChange={onPriceChange} error={""} icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />} />
+      <StyledButtonsWrapper>
+        <SaveButton text="שמור" onPress={onSaveSubCategoryForm} />
+        <CancelButton onPress={onCancel} text="ביטול" />
+      </StyledButtonsWrapper>
     </StyledSubCategoryFormWrapper>
   );
 };

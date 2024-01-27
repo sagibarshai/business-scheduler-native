@@ -8,4 +8,5 @@ export interface Props {
   onSubmit:(time:CountdownProps) => void
   labelText:string
   modalTitle:string
+  icon?:JSX.Element
 }

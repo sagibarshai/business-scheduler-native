@@ -6,5 +6,8 @@
     "typescript.inlayHints.enumMemberValues.enabled": true,
     "typescript.tsdk": "",
     "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
-    "typescript.format.placeOpenBraceOnNewLineForFunctions": false
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
+    "cSpell.words": [
+        "Categries"
+    ]
 }

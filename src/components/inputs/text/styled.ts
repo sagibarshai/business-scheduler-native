@@ -19,7 +19,7 @@ export const StyledPrimaryInput = styled.TextInput<StyledProps>`
   border-radius: ${(props) => props.theme.border.radiuses.m};
   padding: 0 ${(props) => props.theme.spaces.m};
   font-size: ${(props) => props.theme.fonts.sizes.m};
-  font-weight: ${(props) => props.theme.fonts.weights.m};
+  font-weight: ${(props) => props.theme.fonts.weights.l};
   text-align: right;
   ${props => props.isTextArea ? css`
     height: ${props => props.theme.inputs.textarea.sizes.m.height};

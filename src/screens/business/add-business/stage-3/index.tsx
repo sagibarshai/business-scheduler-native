@@ -6,9 +6,12 @@ import SubCategories from "./sub-categories";
 import NextStageButton from "../../../../components/inputs/buttons/next-stage-button";
 import { SubCatogory } from "./sub-categories/types";
 import { subCategoriesIsEmptyErrorMessage } from "./errors/messages";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Satge3 = () => {
-  const scrollableRef = useRef<ScrollView>(null);
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
   const [isSubCategoryValid, setIsSubCategoryValid] = useState<boolean>(true);
 
@@ -29,7 +32,10 @@ const Satge3 = () => {
     if (selectedSubCategories.length === 0) {
       isValid = false;
       setIsSubCategoryValid(false);
-    } else setIsSubCategoryValid(true);
+    } else {
+      setIsSubCategoryValid(true);
+      navigation.navigate("business-profile");
+    }
 
     return isValid;
   };

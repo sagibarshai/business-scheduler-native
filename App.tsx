@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from "react-native";
 
 import { type StyledProps } from "./types";
+import BusinessProfileScreen from "./src/screens/business/business-profile";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -51,6 +52,7 @@ const App = () => {
               >
                 <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
                   <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
+                  <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="business-profile" component={BusinessProfileScreen} />
                 </SackNavigation.Navigator>
               </TouchableWithoutFeedback>
             </KeyboardAvoidingView>

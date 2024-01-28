@@ -25,12 +25,12 @@ const Countdown = ({ onSubmit, defaultHours, defaultMinutes, labelText, modalTit
 
       {isOpen && (
         <TimerPickerModal
+          padWithNItems={2}
           visible={isOpen}
           setIsVisible={onChangeIsOpen}
           onConfirm={onConfirm}
           modalTitle={modalTitle}
-          onCancel={onChangeIsOpen}
-          closeOnOverlayPress
+          closeOnOverlayPress={false}
           styles={{
             theme: "light",
           }}

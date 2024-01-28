@@ -12,6 +12,17 @@ const SubCategories = ({ subCategories }: Props) => {
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
   const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
   const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
+  const [tableData, setTableData] = useState<Record<string, React.ReactNode>[]>([]);
+
+  useEffect(() => {
+    // build table data
+    const transformedSubcategories = selectedSubCategories.map(({ name, price, time }) => ({
+      service: name,
+      price: price,
+      time: time ? `שעות : ${time?.hours} דקות: ${time?.minutes} ` : "",
+    }));
+    setTableData(transformedSubcategories);
+  }, [selectedSubCategories]);
 
   useEffect(() => {
     if (isSubCategoryAdded) {
@@ -23,16 +34,6 @@ const SubCategories = ({ subCategories }: Props) => {
   const onToggleDropdown = useCallback(() => {
     setIsDropdownOpen((prevState) => !prevState);
   }, [isDropdownOpen]);
-
-  const transformedSubcategories = useMemo(
-    () =>
-      selectedSubCategories.map(({ name, price, time }) => ({
-        service: name,
-        price: price,
-        time: `שעות : ${time?.hours} דקות: ${time?.minutes}`,
-      })),
-    [selectedSubCategories]
-  );
 
   const onSelectSubCategory = useCallback(
     (subCategory: string) => {
@@ -59,12 +60,29 @@ const SubCategories = ({ subCategories }: Props) => {
 
     setOverrideContent(null);
   };
+
+  useEffect(() => {
+    if (!isDropdownOpen) {
+      // reset from form view back to dropdown
+      setOverrideContent(null);
+      // check if user left form without filling the reinvent fields
+      const lastElement = selectedSubCategories[selectedSubCategories.length - 1];
+      if (lastElement) {
+        if (!lastElement.name || !lastElement.price || !lastElement.time) {
+          const updatedSelectedSubCategories = [...selectedSubCategories];
+          updatedSelectedSubCategories.pop();
+          setSelectedSubCategories(updatedSelectedSubCategories);
+        }
+      }
+    }
+  }, [isDropdownOpen]);
+
   return (
     <StyledSubCategoriesWrapper>
       <StyledPlusButtonWrapper>
         <PlusButton onPress={onToggleDropdown} />
       </StyledPlusButtonWrapper>
-      <Table data={transformedSubcategories} customHeaders={["שירות", "מחיר", "כמה זמן ?"]} columnSizes={[2, 1, 1]} />
+      <Table data={tableData} customHeaders={["שירות", "מחיר", "כמה זמן ?"]} columnSizes={[2, 1, 1]} />
       {isDropdownOpen && <Dropdown height="60%" overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
     </StyledSubCategoriesWrapper>
   );

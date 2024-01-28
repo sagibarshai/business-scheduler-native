@@ -7,7 +7,7 @@ import { theme } from "../../../../theme";
 
 const NumericInput = ({ icon, label, placeholder, onChange, error, onBlur, onFocus, ...props }: Props) => {
   return (
-    <StyledCol>
+    <StyledCol {...props}>
       <StyledRow>
         {icon}
         <StyledInputLabel>{label}</StyledInputLabel>

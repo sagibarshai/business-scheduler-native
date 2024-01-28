@@ -1,9 +1,11 @@
 import styled from "styled-components/native";
 import RTLText from "../../RTL/text";
+import { StyledProps } from "./types";
 
-export const StyledSelectTimeWrapper = styled.View`
+export const StyledSelectTimeWrapper = styled.View<StyledProps>`
     display: flex;
     gap: ${props => props.theme.spaces.m};
+    width: ${props => props.width ||'100%'};
 `
 export const StyledLabel = styled(RTLText)`
   color: ${props => props.theme.palette.colors.lights.texts.black};

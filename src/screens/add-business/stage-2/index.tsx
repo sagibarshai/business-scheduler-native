@@ -105,10 +105,11 @@ const Stage2 = () => {
       <ScrollView ref={scrollableRef}>
         <StyledStage2Wrapper>
           <StyledStage2ImgsTitle> {businessMetaData.name}</StyledStage2ImgsTitle>
+          <UploadImags profileImgErrorMessage={profileImg.error} onDeleteCoverImg={onDeleteCoverImg} onDeleteRegularImg={onDeleteRegularImg} coverImg={coverImg?.value} profileImg={profileImg?.value} regularImgs={businessImgs.value} onUploadCoverImg={onCoverImgUpload} onUploadProfileImg={onProfileImgUpload} onUploadRegularImg={onUploadBusinessPhoto} />
           <StyledTextareaWrapper>
             <Textarea
               onFocus={() => {
-                scrollableRef.current?.scrollTo({ y: 0 });
+                scrollableRef.current?.scrollToEnd();
               }}
               error={description.error}
               label="תיאור של העסק"
@@ -119,7 +120,6 @@ const Stage2 = () => {
               placeholder="זה המקום לפרט על העסק ושרותיו כדי שהלקוחות ידעו כמה שיותר"
             />
           </StyledTextareaWrapper>
-          <UploadImags profileImgErrorMessage={profileImg.error} onDeleteCoverImg={onDeleteCoverImg} onDeleteRegularImg={onDeleteRegularImg} coverImg={coverImg?.value} profileImg={profileImg?.value} regularImgs={businessImgs.value} onUploadCoverImg={onCoverImgUpload} onUploadProfileImg={onProfileImgUpload} onUploadRegularImg={onUploadBusinessPhoto} />
         </StyledStage2Wrapper>
       </ScrollView>
       <NextStageButton onNextStage={onNextStage} disabled={false}>

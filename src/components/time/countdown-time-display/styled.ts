@@ -5,8 +5,7 @@ import { StyledProps } from "./types";
 export const StyledWrapper = styled.TouchableOpacity<StyledProps>`
   display: flex;
   height: fit-content;
-  width: min-content;
-  width: ${props => props.width || '100%'};
+  /* width: ${props => props.width || '100%'}; */
   border-bottom-width: ${props => props.theme.border.width.m};
   border-bottom-color: ${props => props.theme.border.colors.black};
   padding: 0 ${(props) => props.theme.spaces.m};

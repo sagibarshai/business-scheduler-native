@@ -8,6 +8,11 @@ export const StyledSubCategoryFormWrapper = styled.View`
 export const StyledRow = styled.View`
     display: flex;
     flex-direction: row;
+    align-items: baseline;
+    width: 80%;
+    justify-content: space-between;
+    
+    
 `
 export const StyledTitle = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.subtitle};

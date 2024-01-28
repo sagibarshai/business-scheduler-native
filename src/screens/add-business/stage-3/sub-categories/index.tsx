@@ -83,7 +83,7 @@ const SubCategories = ({ subCategories }: Props) => {
         <PlusButton onPress={onToggleDropdown} />
       </StyledPlusButtonWrapper>
       <Table data={tableData} customHeaders={["שירות", "מחיר", "כמה זמן ?"]} columnSizes={[2, 1, 1]} />
-      {isDropdownOpen && <Dropdown height="60%" overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
+      {isDropdownOpen && <Dropdown height="70%" overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
     </StyledSubCategoriesWrapper>
   );
 };

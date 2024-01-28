@@ -7,13 +7,12 @@ import {type  StyledProps } from './types';
 
 export const StyledCol = styled.View<StyledProps>`
   display: flex;
-  height: fit-content;
   width: ${props => props.width || '100%'};
-  gap: ${(props) => props.theme.spaces.s};
+  gap: ${(props) => props.theme.spaces.xs};
 `;
 
 export const StyledPrimaryInput = styled.TextInput<StyledProps>`
-  width: ${props => props.width || '100%'};
+  width: 100%;
   height: ${(props) => (props.height ? props.height : props.theme.inputs.sizes.m.height)};
   border-bottom-color: ${(props) => (props.error ? props.theme.palette.colors.lights.errors.red : props.theme.border.colors.black)};
   border-bottom-width : ${(props) => (props.theme.border.width.m)};;

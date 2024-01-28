@@ -30,13 +30,15 @@ const SubCategories = ({ subCategories }: Props) => {
     // build table data
     const transformedSubcategories = selectedSubCategories.map(({ name, price, time }) => ({
       service: name,
-      time: (
+      time: time ? (
         <>
           {time?.hours ? `${time.hours} ש׳, ` : ""}
           {time?.minutes} דק
         </>
+      ) : (
+        ""
       ),
-      price: `₪ ${price} `,
+      price: price ? `₪ ${price} ` : "",
     }));
     setTableData(transformedSubcategories);
   }, [selectedSubCategories]);

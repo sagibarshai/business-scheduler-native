@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./theme";
-import AddNewBusiness from "./src/screens/add-business";
+import AddNewBusiness from "./src/screens/business/add-business";
 import { I18nManager } from "react-native";
 import { useEffect } from "react";
 import { Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } from "react-native";

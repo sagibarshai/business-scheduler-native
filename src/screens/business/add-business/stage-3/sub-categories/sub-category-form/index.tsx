@@ -1,17 +1,17 @@
-import Countdown from "../../../../../components/time/count-down";
+import Countdown from "../../../../../../components/time/count-down";
 
 import { type Props } from "./types";
 
 import { StyledButtonsWrapper, StyledRow, StyledSubCategoryFormWrapper, StyledTitle } from "./styled";
 import { useState } from "react";
 import { SubCatogory } from "../types";
-import { CountdownProps } from "../../../../../components/time/count-down/types";
+import { CountdownProps } from "../../../../../../components/time/count-down/types";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
-import SaveButton from "../../../../../components/inputs/buttons/save-button";
-import CancelButton from "../../../../../components/inputs/buttons/cancel-button";
-import NumericInput from "../../../../../components/inputs/numeric";
+import SaveButton from "../../../../../../components/inputs/buttons/save-button";
+import CancelButton from "../../../../../../components/inputs/buttons/cancel-button";
+import NumericInput from "../../../../../../components/inputs/numeric";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { theme } from "../../../../../../theme";
+import { theme } from "../../../../../../../theme";
 import { subCategoryPriceErrorMessage } from "../../errors/messages";
 
 const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount }: Props) => {

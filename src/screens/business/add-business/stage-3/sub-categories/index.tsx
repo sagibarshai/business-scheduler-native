@@ -1,21 +1,20 @@
 import { TouchableOpacity } from "react-native";
-import { StyledPlusButtonWrapper, StyledSubCategoriesWrapper } from "./styled";
+import { StyledErrorMessage, StyledPlusButtonWrapper, StyledSubCategoriesWrapper } from "./styled";
 import { Props, SubCatogory } from "./types";
-import Table from "../../../../components/table";
-import PlusButton from "../../../../components/inputs/buttons/plus-button";
-import Dropdown from "../../../../components/inputs/dropdown";
+import Table from "../../../../../components/table";
+import PlusButton from "../../../../../components/inputs/buttons/plus-button";
+import Dropdown from "../../../../../components/inputs/dropdown";
 import { useCallback, useEffect, useState } from "react";
 import SubCategoriesForm from "./sub-category-form";
-import { CustomHeader } from "../../../../components/table/types";
+import { CustomHeader } from "../../../../../components/table/types";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconPrice from "react-native-vector-icons/MaterialIcons";
 
-import { theme } from "../../../../../theme";
+import { theme } from "../../../../../../theme";
 
-const SubCategories = ({ subCategories }: Props) => {
+const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCategories, error }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
-  const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
   const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Record<string, React.ReactNode>[]>([]);
   const [selectedTableRowIndex, setSelectedTableRowIndex] = useState<number>(-1);
@@ -110,6 +109,7 @@ const SubCategories = ({ subCategories }: Props) => {
       {isDropdownOpen && <Dropdown showDropdownButton={false} height="65%" overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
       <StyledPlusButtonWrapper>
         <PlusButton onPress={onToggleDropdown} />
+        {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
       </StyledPlusButtonWrapper>
     </StyledSubCategoriesWrapper>
   );

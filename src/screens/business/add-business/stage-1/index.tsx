@@ -5,14 +5,14 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconCategory from "react-native-vector-icons/MaterialIcons";
 
-import TextInput from "../../../components/inputs/text";
-import Dropdown from "../../../components/inputs/dropdown";
-import Progressbar from "../../../components/progress-bar";
+import TextInput from "../../../../components/inputs/text";
+import Dropdown from "../../../../components/inputs/dropdown";
+import Progressbar from "../../../../components/progress-bar";
 import SelectDaysAndHours from "./select-days-and-hours";
-import NextStageButton from "../../../components/inputs/buttons/next-stage-button";
+import NextStageButton from "../../../../components/inputs/buttons/next-stage-button";
 
-import { theme } from "../../../../theme";
-import { days } from "../../../components/select-days";
+import { theme } from "../../../../../theme";
+import { days } from "../../../../components/select-days";
 import { addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, editModeErrorMessage, nameErrorMessage } from "./errors/messages";
 
 import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1Wrapper, StyledStage1Content } from "./styled";
@@ -20,12 +20,12 @@ import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, Sty
 import { type TextInputChangeEventData } from "react-native";
 import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
-import { type InputState } from "../../../components/inputs/types";
-import { type Days } from "../../../components/select-days/types";
+import { type InputState } from "../../../../components/inputs/types";
+import { type Days } from "../../../../components/select-days/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch } from "../../../../redux/store";
-import { setBusinessMetaData } from "../../../../redux/featuers/business/businessSlice";
-import SearchLocation from "../../../components/search-location";
+import { useAppDispatch } from "../../../../../redux/store";
+import { setBusinessMetaData } from "../../../../../redux/featuers/business/businessSlice";
+import SearchLocation from "../../../../components/search-location";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
@@ -169,7 +169,7 @@ const Stage1 = () => {
     <StyledStage1Wrapper>
       <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}>
         <StyledStage1Content>
-          <Progressbar currentStage={1} stages={5} />
+          <Progressbar currentStage={1} stages={4} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
           <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
           <Dropdown showTags label="קטגוריות" placeholder="הקטגוריות של העסק" icon={<IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />} error={isFormSubmitted ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]} />

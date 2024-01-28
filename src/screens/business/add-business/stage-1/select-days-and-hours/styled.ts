@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components/native";
-import RTLText from "../../../../components/RTL/text";
+import RTLText from "../../../../../components/RTL/text";
 
 export const StyledWrapper = styled.View`
     display: flex;

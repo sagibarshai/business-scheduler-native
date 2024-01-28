@@ -1,20 +1,20 @@
 import UploadImags from "./upload-images";
-import NextStageButton from "../../../components/inputs/buttons/next-stage-button";
+import NextStageButton from "../../../../components/inputs/buttons/next-stage-button";
 
 import { StyledStage2Wrapper, StyledTextareaWrapper } from "./styled";
-import Textarea from "../../../components/inputs/textarea";
+import Textarea from "../../../../components/inputs/textarea";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { theme } from "../../../../theme";
+import { theme } from "../../../../../theme";
 import { ScrollView, TextInput } from "react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Asset } from "react-native-image-picker";
-import { InputState } from "../../../components/inputs/types";
+import { InputState } from "../../../../components/inputs/types";
 import { coverImgErrorMessage, descriptionErrorMessage, profileImgErrorMessage, regularImgsErrorMessage } from "./errors/messages";
-import { useAppDispatch, useAppSelector } from "../../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { setBusinessMetaData, setBusinessPhotos } from "../../../../redux/featuers/business/businessSlice";
-import Progressbar from "../../../components/progress-bar";
+import { setBusinessMetaData, setBusinessPhotos } from "../../../../../redux/featuers/business/businessSlice";
+import Progressbar from "../../../../components/progress-bar";
 import { StyledStage2ImgsTitle } from "./upload-images/styled";
 
 const Stage2 = () => {
@@ -101,7 +101,7 @@ const Stage2 = () => {
 
   return (
     <StyledStage2Wrapper>
-      <Progressbar currentStage={2} stages={5} />
+      <Progressbar currentStage={2} stages={4} />
       <ScrollView ref={scrollableRef}>
         <StyledStage2Wrapper>
           <StyledStage2ImgsTitle> {businessMetaData.name}</StyledStage2ImgsTitle>

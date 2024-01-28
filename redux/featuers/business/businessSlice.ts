@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 
-import { type ReduxSelectedHoursAndDays } from "../../../src/screens/add-business/stage-1/select-days-and-hours/types";
+import { type ReduxSelectedHoursAndDays } from "../../../src/screens/business/add-business/stage-1/select-days-and-hours/types";
 
 
 interface BusinessPhotos {

@@ -1,5 +1,5 @@
 import { StyledStage2ImgsWrapper, StyledProfileImgWrapper, StyledRow, StyledRowCoverAndProfileImgsWrapper, StyledCol } from "./styled";
-import UploadImg from "../../../../components/upload-img";
+import UploadImg from "../../../../../components/upload-img";
 import { ScrollView } from "react-native-virtualized-view";
 import { type Props } from "./types";
 

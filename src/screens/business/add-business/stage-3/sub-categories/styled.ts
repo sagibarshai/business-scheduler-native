@@ -5,8 +5,6 @@ export const StyledSubCategoriesWrapper = styled.View`
     height: 80%;
     width: 100%;
     gap: ${props => props.theme.spaces.l};
-    /* border: ${props => props.theme.border.width.l} ${props => props.theme.border.style.regular} ${props => props.theme.border.colors.aqua};
-    border-radius: ${props => props.theme.border.radiuses.l}; */
 `
 export const StyledTableWrapper = styled.View`
     display: flex;
@@ -16,4 +14,13 @@ export const StyledTableWrapper = styled.View`
 export const StyledPlusButtonWrapper = styled.View`
     display: flex;
     flex-direction: row-reverse;
+    position: relative;
+`
+export const StyledErrorMessage = styled.Text`
+    font-size: ${props => props.theme.fonts.sizes.m};
+    font-weight: ${props => props.theme.fonts.weights.l};
+    color: ${props => props.theme.palette.colors.lights.errors.red};
+    position: absolute;
+    bottom:-50px;
+
 `

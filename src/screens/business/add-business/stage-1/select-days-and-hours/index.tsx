@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 
-import SelectDays from "../../../../components/select-days";
-import SelectTime from "../../../../components/time/select-time";
+import SelectDays from "../../../../../components/select-days";
+import SelectTime from "../../../../../components/time/select-time";
 
-import { theme } from "../../../../../theme";
+import { theme } from "../../../../../../theme";
 
 import { type DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { type Errors, Props, SelectedHoursAndDays } from "./types";
-import { type Role } from "../../../../components/time/select-time/types";
+import { type Role } from "../../../../../components/time/select-time/types";
 
 import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSaveButton, StyledTimeSaveButtonText, StyledErrorMessage } from "./styled";
-import SelectedDaysAndHoursDisplay from "../../../../components/selected-days-and-hour-display";
+import SelectedDaysAndHoursDisplay from "../../../../../components/selected-days-and-hour-display";
 
 const now = new Date();
 let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));

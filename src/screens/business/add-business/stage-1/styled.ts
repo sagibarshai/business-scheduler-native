@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import RTLText from "../../../components/RTL/text";
+import RTLText from "../../../../components/RTL/text";
 
 export const StyledStage1ScrollableView = styled.ScrollView`
     height: 100%;

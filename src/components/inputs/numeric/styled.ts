@@ -45,6 +45,8 @@ export const StyledErrorMessage = styled.Text`
 export const StyledText = styled.Text`
   font-size: ${props => props.theme.fonts.sizes.l};
   font-weight: ${props => props.theme.fonts.weights.l};
+  position: absolute;
+  right: 0;
 `
 export const StyledInputCurrencyWrapper = styled(StyledRow)`
   align-items: center;

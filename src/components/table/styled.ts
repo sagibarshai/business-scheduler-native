@@ -4,7 +4,7 @@ import { css } from "styled-components";
 
 export const StyledTableWrapper = styled.View`
   display: flex;
-  height: 100%;
+  height: auto;
   width: 100%;
   
 `;
@@ -14,11 +14,17 @@ export const StyledRow = styled.View`
   flex-direction: row;  
 `;
 
+export const StyledHeaderRow = styled(StyledRow)`
+  gap: ${props => props.theme.spaces.xs};
+`
+
 export const StyledCol = styled.View<StyledProps>`
   display: flex;
   flex: ${props => props.flex || 1 };
-  border: ${props => props.theme.border.width.m} ${props => props.theme.border.style.regular} ${props => props.theme.border.colors.aqua};
+  border-bottom-color:${props => props.theme.border.colors.aquaAlpha5};
+  border-bottom-width:${props => props.theme.border.width.m};
   padding: ${props => props.theme.spaces.s};
+  justify-content: center;
 `;
 
 export const StyledText = styled.Text<StyledProps>`

@@ -45,7 +45,6 @@ const App = () => {
           <StyledAppWrapper platform={Platform}>
             <KeyboardAvoidingView behavior="padding" enabled={true} style={{ flex: 1 }}>
               <TouchableWithoutFeedback
-                style={{ backgroundColor: "black", height: "100%", width: "100%" }}
                 onPress={() => {
                   Keyboard.dismiss();
                 }}

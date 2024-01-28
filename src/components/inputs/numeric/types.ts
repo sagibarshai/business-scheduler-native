@@ -5,8 +5,6 @@ export interface StyledProps {
     height?: string;
     error?: string | null;
     ref?:React.RefObject<TextInput>
-
-    
   }
   
   export interface Props extends StyledProps {
@@ -19,4 +17,5 @@ export interface StyledProps {
     placeholder?:string
     ref?:React.RefObject<TextInput>
     withCurrency?:boolean
+    value?: string;
   }

@@ -9,6 +9,7 @@ export interface Props  extends StyledProps{
   labelText:string
   modalTitle:string
   icon?:JSX.Element
+  openTimeOnMount?:boolean
 }
 
 export interface StyledProps {

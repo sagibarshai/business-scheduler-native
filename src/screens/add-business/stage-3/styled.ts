@@ -5,4 +5,6 @@ export const StyledStage3Wrapper = styled.View`
     padding-bottom: 50px;
     height: 100%;
     gap: ${props => props.theme.spaces.m};
+    display: flex;
+    
 `   

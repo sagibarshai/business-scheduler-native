@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { theme } from "../../../../../../theme";
 import { subCategoryPriceErrorMessage } from "../../errors/messages";
 
-const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
+const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount }: Props) => {
   const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCatogory>(subCategoryData);
   const [priceError, setPriceError] = useState<boolean>(false);
 
@@ -46,9 +46,9 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
     <StyledSubCategoryFormWrapper>
       <StyledTitle>{subCategoryData.name}</StyledTitle>
       <StyledRow>
-        <Countdown width="40%" defaultHours={selectedSubCategoryData.time?.hours || 0} defaultMinutes={selectedSubCategoryData.time?.minutes || 30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
+        <Countdown openTimeOnMount={openTimeOnMount} width="40%" defaultHours={selectedSubCategoryData.time?.hours || 0} defaultMinutes={selectedSubCategoryData.time?.minutes || 30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
 
-        <NumericInput withCurrency width="40%" label="מחיר" onChange={onPriceChange} error={priceError ? subCategoryPriceErrorMessage : ""} icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />} />
+        <NumericInput value={selectedSubCategoryData.price?.toString()} withCurrency width="40%" label="מחיר" onChange={onPriceChange} error={priceError ? subCategoryPriceErrorMessage : ""} icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />} />
       </StyledRow>
       <StyledButtonsWrapper>
         <CancelButton onPress={onCancel} text="ביטול" />

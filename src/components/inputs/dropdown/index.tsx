@@ -13,7 +13,7 @@ import SearchInput from "../../filter-search-input";
 import { useEffect, useState } from "react";
 import Tag from "../../tags";
 
-const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder, showTags, overrideContent, height = "70%" }: Props) => {
+const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder, showTags, overrideContent, height = "70%", showDropdownButton = true }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
@@ -26,21 +26,24 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
 
   return (
     <DropdownContainer>
-      <StyledRow>
-        {icon}
-        <StyledInputLabel>{label}</StyledInputLabel>
-      </StyledRow>
+      {showDropdownButton && (
+        <>
+          <StyledRow>
+            {icon}
+            <StyledInputLabel>{label}</StyledInputLabel>
+          </StyledRow>
 
-      {!selectedCategories.length ? (
-        <DropdownButton error={error} onPress={onToggle}>
-          <StyledDropdownText>{placeholder}</StyledDropdownText>
-          <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
-        </DropdownButton>
-      ) : (
-        <StyledRow>{showTags && selectedCategories.map((category) => <Tag text={category} key={category} onPress={onToggle} />)}</StyledRow>
+          {!selectedCategories.length ? (
+            <DropdownButton error={error} onPress={onToggle}>
+              <StyledDropdownText>{placeholder}</StyledDropdownText>
+              <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
+            </DropdownButton>
+          ) : (
+            <StyledRow>{showTags && selectedCategories.map((category) => <Tag text={category} key={category} onPress={onToggle} />)}</StyledRow>
+          )}
+          <StyledErrorMessage>{error}</StyledErrorMessage>
+        </>
       )}
-      <StyledErrorMessage>{error}</StyledErrorMessage>
-
       {isOpen && (
         <CustomBottomSheet height={height} onClose={onToggle}>
           <StyledBottomSheetContent>

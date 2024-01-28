@@ -8,11 +8,9 @@ export const StyledSubCategoryFormWrapper = styled.View`
 export const StyledRow = styled.View`
     display: flex;
     flex-direction: row;
-    align-items: baseline;
     width: 80%;
     justify-content: space-between;
-    
-    
+    align-self: center;
 `
 export const StyledTitle = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.subtitle};
@@ -22,5 +20,4 @@ export const StyledTitle = styled.Text`
 export const StyledButtonsWrapper = styled(StyledRow)`
     width: 80%;
     justify-content: space-between;
-    align-self: center;
 `

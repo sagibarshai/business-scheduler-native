@@ -27,6 +27,7 @@ export const StyledRow = styled.View`
   display: flex;
   flex-direction: row;
   gap: ${(props) => props.theme.spaces.s};
+  
 `;
 
 export const StyledInputLabel = styled(RTLText)`
@@ -41,3 +42,10 @@ export const StyledErrorMessage = styled.Text`
   text-align: left;
   padding-left: ${(props) => props.theme.spaces.xs};
 `;
+export const StyledText = styled.Text`
+  font-size: ${props => props.theme.fonts.sizes.l};
+  font-weight: ${props => props.theme.fonts.weights.l};
+`
+export const StyledInputCurrencyWrapper = styled(StyledRow)`
+  align-items: center;
+`

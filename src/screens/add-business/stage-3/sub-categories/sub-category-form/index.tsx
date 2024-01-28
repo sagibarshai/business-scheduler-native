@@ -46,8 +46,9 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData }: Props) => {
     <StyledSubCategoryFormWrapper>
       <StyledTitle>{subCategoryData.name}</StyledTitle>
       <StyledRow>
-        <Countdown width="30%" defaultHours={selectedSubCategoryData.time?.hours || 0} defaultMinutes={selectedSubCategoryData.time?.minutes || 30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
-        <NumericInput width="30%" label="מחיר" onChange={onPriceChange} error={priceError ? subCategoryPriceErrorMessage : ""} icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />} />
+        <Countdown width="40%" defaultHours={selectedSubCategoryData.time?.hours || 0} defaultMinutes={selectedSubCategoryData.time?.minutes || 30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
+
+        <NumericInput withCurrency width="40%" label="מחיר" onChange={onPriceChange} error={priceError ? subCategoryPriceErrorMessage : ""} icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />} />
       </StyledRow>
       <StyledButtonsWrapper>
         <CancelButton onPress={onCancel} text="ביטול" />

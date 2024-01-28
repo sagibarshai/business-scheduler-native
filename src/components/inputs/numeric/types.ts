@@ -18,4 +18,5 @@ export interface StyledProps {
     onFocus?: () => void;
     placeholder?:string
     ref?:React.RefObject<TextInput>
+    withCurrency?:boolean
   }

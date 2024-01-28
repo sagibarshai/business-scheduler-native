@@ -13,7 +13,7 @@ import SearchInput from "../../filter-search-input";
 import { useEffect, useState } from "react";
 import Tag from "../../tags";
 
-const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder, showTags, overrideContent }: Props) => {
+const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder, showTags, overrideContent, height = "70%" }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
@@ -42,7 +42,7 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
       <StyledErrorMessage>{error}</StyledErrorMessage>
 
       {isOpen && (
-        <CustomBottomSheet height="70%" onClose={onToggle}>
+        <CustomBottomSheet height={height} onClose={onToggle}>
           <StyledBottomSheetContent>
             {overrideContent ? (
               overrideContent

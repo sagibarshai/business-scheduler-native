@@ -52,11 +52,9 @@ const SubCategories = ({ subCategories }: Props) => {
   };
   const onSaveCategoryForm = (categoryData: SubCatogory) => {
     const updatedSelectedSubCategories = [...selectedSubCategories];
-    console.log("updatedSelectedSubCategories ", updatedSelectedSubCategories);
     // modify the last element
     updatedSelectedSubCategories[updatedSelectedSubCategories.length - 1] = categoryData;
 
-    console.log("updatedSelectedSubCategories ", updatedSelectedSubCategories);
     setSelectedSubCategories(updatedSelectedSubCategories);
 
     setOverrideContent(null);
@@ -67,7 +65,7 @@ const SubCategories = ({ subCategories }: Props) => {
         <PlusButton onPress={onToggleDropdown} />
       </StyledPlusButtonWrapper>
       <Table data={transformedSubcategories} customHeaders={["שירות", "מחיר", "כמה זמן ?"]} columnSizes={[2, 1, 1]} />
-      {isDropdownOpen && <Dropdown overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
+      {isDropdownOpen && <Dropdown height="60%" overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
     </StyledSubCategoriesWrapper>
   );
 };

@@ -14,6 +14,6 @@ export interface StyledProps {
     placeholder?:string
     showTags?:boolean
     overrideContent?:React.ReactNode
-    
+    height?:string
   }
   

@@ -8,12 +8,16 @@ import { SubCatogory } from "./sub-categories/types";
 import { subCategoriesIsEmptyErrorMessage } from "./errors/messages";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAppSelector, useAppDispatch } from "../../../../../redux/store";
+import { setBusinessData } from "../../../../../redux/featuers/business/businessSlice";
 
 const Satge3 = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-
   const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
   const [isSubCategoryValid, setIsSubCategoryValid] = useState<boolean>(true);
+
+  const businessData = useAppSelector((state) => state.business.data);
 
   const [subcategories, setSubCategories] = useState<SubCatogory[]>([
     { name: "תספורת אישה", price: null, time: null },
@@ -22,9 +26,16 @@ const Satge3 = () => {
     { name: "מחליק", price: null, time: null },
   ]);
 
-  const onNextStage = () => {
+  const onNextStage = async () => {
     const isFormValid = checkFromValidity();
     if (!isFormValid) return;
+    const updateDataPromise = new Promise<void>((resolve) => {
+      dispatch(setBusinessData({ ...businessData, subCategories: selectedSubCategories }));
+      resolve();
+    });
+    await updateDataPromise;
+
+    navigation.navigate("business-profile");
   };
 
   const checkFromValidity = (): boolean => {
@@ -34,7 +45,6 @@ const Satge3 = () => {
       setIsSubCategoryValid(false);
     } else {
       setIsSubCategoryValid(true);
-      navigation.navigate("business-profile");
     }
 
     return isValid;

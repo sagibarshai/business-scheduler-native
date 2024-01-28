@@ -2,26 +2,32 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 
 import { type ReduxSelectedHoursAndDays } from "../../../src/screens/business/add-business/stage-1/select-days-and-hours/types";
+import { SubCatogory } from "../../../src/screens/business/add-business/stage-3/sub-categories/types";
 
 
 interface BusinessPhotos {
   profile: any
   cover: any
   regular:any[]
-
 }
-2
+
+
 interface BusinessMetaData {
   address:string;
   name:string;
   categories:string[]
   workingDaysAndHours:ReduxSelectedHoursAndDays
+}
+
+interface BusinessData {
+  subCategories:SubCatogory[]
   description:string
 }
 
 type Business = {
     metaData:BusinessMetaData
     photos:BusinessPhotos
+    data:BusinessData
     
     
 } | null;
@@ -32,13 +38,16 @@ const initialState: Business = {
     categories:[],
     name:"",
     workingDaysAndHours:[],
-    description:""
   },
   photos:{
     cover:"",
     profile:"",
     regular:[]
   },
+  data:{
+    description:"",
+    subCategories:[]
+  }
 };
 
 const businessSlice = createSlice({
@@ -52,7 +61,6 @@ const businessSlice = createSlice({
         state.metaData.name = businessMetaData.name;
         state.metaData.categories = businessMetaData.categories;
         state.metaData.workingDaysAndHours = businessMetaData.workingDaysAndHours
-        state.metaData.description = businessMetaData.description
       }
     },
     setBusinessPhotos:(state:Business, action:PayloadAction<BusinessPhotos>) => {
@@ -61,13 +69,20 @@ const businessSlice = createSlice({
         state.photos.profile = businessPhotos.profile
         state.photos.cover = businessPhotos.cover
         state.photos.regular = businessPhotos.regular
-
       }
-    }
+    },
+    setBusinessData:(state:Business, action:PayloadAction<BusinessData>) => {
+      if (action.payload !== null && state !== null) {
+        const businessData = action.payload;
+        state.data.description = businessData.description
+        state.data.subCategories = businessData.subCategories
+      }
+    },
   },
 });
 
 export const setBusinessMetaData = businessSlice.actions.setBusinessMetaData;
 export const setBusinessPhotos = businessSlice.actions.setBusinessPhotos;
+export const setBusinessData = businessSlice.actions.setBusinessData;
 
 export default businessSlice.reducer;

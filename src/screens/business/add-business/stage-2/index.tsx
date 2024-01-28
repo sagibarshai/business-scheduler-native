@@ -13,12 +13,13 @@ import { coverImgErrorMessage, descriptionErrorMessage, profileImgErrorMessage, 
 import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { setBusinessMetaData, setBusinessPhotos } from "../../../../../redux/featuers/business/businessSlice";
+import { setBusinessData, setBusinessPhotos } from "../../../../../redux/featuers/business/businessSlice";
 import Progressbar from "../../../../components/progress-bar";
 import { StyledStage2ImgsTitle } from "./upload-images/styled";
 
 const Stage2 = () => {
   const businessMetaData = useAppSelector((state) => state.business.metaData);
+  const businessData = useAppSelector((state) => state.business.data);
 
   const [profileImg, setProfileImg] = useState<InputState<Asset | undefined>>({ error: "", value: undefined, isEditMode: false });
   const [coverImg, setCoverImg] = useState<InputState<Asset | undefined>>({ error: "", value: undefined, isEditMode: false });
@@ -80,7 +81,7 @@ const Stage2 = () => {
   const handleNavigation = async () => {
     const dispatchPromise = new Promise<void>((resolve) => {
       dispatch(setBusinessPhotos({ cover: coverImg.value, profile: profileImg.value, regular: businessImgs.value }));
-      dispatch(setBusinessMetaData({ ...businessMetaData, description: description.value }));
+      dispatch(setBusinessData({ ...businessData, description: description.value }));
       resolve();
     });
 

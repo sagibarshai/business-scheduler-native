@@ -23,8 +23,8 @@ export const StyledPrimaryInput = styled.TextInput<StyledProps>`
   text-align: right;
   ${props => props.isTextArea ? css`
     height: ${props => props.theme.inputs.textarea.sizes.m.height};
-    text-align: right;
     padding: ${props => props.theme.spaces.s};
+    vertical-align: top;
   ` : ""}
 `;
 export const StyledRow = styled.View`

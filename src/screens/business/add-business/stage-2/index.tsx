@@ -80,7 +80,7 @@ const Stage2 = () => {
 
   const handleNavigation = async () => {
     const dispatchPromise = new Promise<void>((resolve) => {
-      dispatch(setBusinessPhotos({ cover: coverImg.value, profile: profileImg.value, regular: businessImgs.value }));
+      dispatch(setBusinessPhotos({ cover: coverImg.value!, profile: profileImg.value!, regular: businessImgs.value }));
       dispatch(setBusinessData({ ...businessData, description: description.value }));
       resolve();
     });

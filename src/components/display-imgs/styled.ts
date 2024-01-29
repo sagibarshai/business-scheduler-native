@@ -1,7 +1,39 @@
 import styled from "styled-components/native";
 
+export const StyledWrapper = styled.View`
+    display: flex;
+    gap: ${props => props.theme.spaces.m};
+`
 
-// profile
+export const StyledImgTitle = styled.Text`
+    font-size: ${props => props.theme.fonts.sizes.l};
+    font-weight: ${props => props.theme.fonts.weights.l};
+    text-align: center;
+`
+export const StyledRow = styled.View`
+    display: flex;
+    flex-direction:row;
+    gap: ${props => props.theme.spaces.m};
+    margin-top: ${props => props.theme.spaces.m};
+    align-items: start;
+
+`
+export const StyledCol = styled.View`
+    display: flex;
+    flex:1;
+    height: 100%;
+    width: 50%;
+    gap: ${props => props.theme.spaces.m};
+`
+
+
+export const  StyledRowCoverAndProfileImgsWrapper = styled.View`
+    display: flex;
+    width: 100%;
+    position: relative;    
+`
+
+
 export const StyledProfileImg = styled.Image`
     width: 100px;
     height: 100px;
@@ -11,7 +43,7 @@ export const StyledProfileImg = styled.Image`
 `
 
 export const StyledProfileImgWrapper = styled.View`
-    position: relative;
+    position: absolute;
     background-color: ${props => props.theme.palette.colors.lights.backgrounds.gray};
     height: 100px;
     width: 100px;
@@ -21,32 +53,9 @@ export const StyledProfileImgWrapper = styled.View`
     align-items: center;
     border-width:${props => props.theme.border.width.m} ;
     border-color:${props => props.theme.border.colors.gray} ;
+    top: 50%;
+    right: 0;
 `
-
-export const StyledProfileText = styled.Text`
-    font-size: ${props => props.theme.fonts.sizes.s};
-    color: ${props => props.theme.palette.colors.lights.texts.aqua};
-    font-weight: ${props => props.theme.fonts.weights.l};
-`
-export const StyledProfileUploadImgWrapper = styled.TouchableOpacity`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: ${props => props.theme.spaces.s};
-`
-
-// cover
-
-export const StyledCoverUploadImgWrapper = styled.TouchableOpacity`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: ${props => props.theme.spaces.s};
-    border-radius: ${props => props.theme.border.radiuses.l};
-
-    `
-
 export const StyleCoverImgWrapper = styled.View`
     position: relative;
     border-radius: ${props => props.theme.border.radiuses.m};
@@ -60,23 +69,11 @@ export const StyleCoverImgWrapper = styled.View`
     border-color:${props => props.theme.border.colors.gray} ;
     
 `
-
-export const StyledCoverText = styled.Text`
-    font-size: ${props => props.theme.fonts.sizes.s};
-    color: ${props => props.theme.palette.colors.lights.texts.aqua};
-    font-weight: ${props => props.theme.fonts.weights.l};
-`
-
-
-    
-    
-
 export const StyledCoverImg = styled.Image`
     height: 100%;
     width: 100%;
     border-radius: ${props => props.theme.border.radiuses.l};
 `
-
 export const StyledRegularUploadImgWrapper = styled.TouchableOpacity`
     display: flex;
     justify-content: center;
@@ -96,31 +93,9 @@ export const StyleRegularImgWrapper = styled.View`
     align-items: center;
 `
 
-
-
-export const StyledXButtonWrapper = styled.TouchableOpacity`
-    position: absolute;
-    z-index: 20;
-    top: 0;
-    left: 0;
+export const StyledProfileUploadImgWrapper = styled.View`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 100px;
-    background-color: ${props => props.theme.palette.colors.lights.backgrounds.appBackground};
-    opacity: 0.75;
-    padding: 4px;
-`
-
-export const StyledXButtonText = styled.Text`
-    font-size: ${props => props.theme.fonts.sizes.m};
-    font-weight: ${props => props.theme.fonts.weights.m};
-    color: ${props => props.theme.palette.colors.lights.texts.black};
-`
-
-export const StyledErrorMessageText = styled.Text`
-    font-size: ${props => props.theme.fonts.sizes.s};
-    color: ${props => props.theme.palette.colors.lights.errors.red};
-    font-weight: ${props => props.theme.fonts.weights.l};
-
+    gap: ${props => props.theme.spaces.s};
 `

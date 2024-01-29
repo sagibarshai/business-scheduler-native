@@ -3,12 +3,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { type ReduxSelectedHoursAndDays } from "../../../src/screens/business/add-business/stage-1/select-days-and-hours/types";
 import { SubCatogory } from "../../../src/screens/business/add-business/stage-3/sub-categories/types";
+import { Asset } from "react-native-image-picker";
 
 
 interface BusinessPhotos {
-  profile: any
-  cover: any
-  regular:any[]
+  profile: Asset
+  cover: Asset
+  regular:Asset[]
 }
 
 
@@ -40,8 +41,8 @@ const initialState: Business = {
     workingDaysAndHours:[],
   },
   photos:{
-    cover:"",
-    profile:"",
+    cover:{},
+    profile:{},
     regular:[]
   },
   data:{

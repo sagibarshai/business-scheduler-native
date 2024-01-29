@@ -90,7 +90,7 @@ const Stage1 = () => {
       setBusinessName({ ...businessName, value, error });
     } else if (filed === "tel") {
       let error = "";
-      if (isPhone(value)) error = TelErrorMessage;
+      if (!isPhone(value)) error = TelErrorMessage;
       else error = "";
       setBusinessTel({ ...businessTel, value, error });
     }
@@ -113,6 +113,7 @@ const Stage1 = () => {
     if (businessName.error) errs.push(businessName.error);
     if (!categories.value.length) errs.push(categories.error);
     if (!selectedDaysAndHours.value.length) errs.push(selectedDaysAndHours.error);
+    if (businessTel.error) errs.push(businessTel.error);
     else if (selectedDaysAndHours.isEditMode) {
       errs.push(editModeErrorMessage);
       // set this error only on submit !
@@ -149,6 +150,7 @@ const Stage1 = () => {
             endHour: item.endHour.toString(),
           })),
           categories: categories.value,
+          phone: businessTel.value,
         })
       );
       resolve();

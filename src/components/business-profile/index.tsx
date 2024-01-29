@@ -85,6 +85,13 @@ const BusinessProfile = ({ allowEdit }: Props) => {
         </StyledKeyValueWrapper>
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
+            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />
+            <StyledSectionTitle>טלפון</StyledSectionTitle>
+          </StyledIconAndTitleWrapper>
+          <StyledText>{business.metaData.phone}</StyledText>
+        </StyledKeyValueWrapper>
+        <StyledKeyValueWrapper>
+          <StyledIconAndTitleWrapper>
             <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
             <StyledSectionTitle>ימים ושעות</StyledSectionTitle>
           </StyledIconAndTitleWrapper>

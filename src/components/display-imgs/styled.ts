@@ -109,6 +109,6 @@ export const StyledModalContent = styled.View`
 export const StyledModalImg = styled.Image`
     height: 100%;
     width: 100%;
-    object-fit: fill;
+    object-fit: cover;
    
 `

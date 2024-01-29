@@ -12,7 +12,6 @@ import { useMemo, useState } from "react";
 import Table from "../table";
 import Hr from "../elements/hr";
 import EditPen from "../edit-pen";
-import SaveButton from "../inputs/buttons/save-button";
 
 const BusinessProfile = ({ allowEdit }: Props) => {
   const business = useAppSelector((state) => state.business);

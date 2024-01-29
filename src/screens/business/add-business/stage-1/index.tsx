@@ -28,6 +28,7 @@ import { setBusinessMetaData } from "../../../../../redux/featuers/business/busi
 import SearchLocation from "../../../../components/search-location";
 import TelInput from "../../../../components/inputs/tel";
 import { isPhone } from "../../../../utils/valitators";
+import { useRoute } from "@react-navigation/native";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
@@ -50,6 +51,12 @@ const Stage1 = () => {
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: businessMetaData.workingDaysAndHours });
 
   const scrollableRef = useRef<ScrollView>(null);
+
+  const route = useRoute();
+
+  //TODO FIX TS
+  //@ts-ignore
+  const isEditMode = route.params?.editMode;
 
   // category
   const onSelectCategory = (selectedCategory: string) => {
@@ -153,7 +160,7 @@ const Stage1 = () => {
     // Wait for the dispatchPromise to resolve before navigating to "stage-2"
     await dispatchPromise;
 
-    navigation.navigate("stage-2");
+    isEditMode ? navigation.navigate("business-profile") : navigation.navigate("stage-2");
   };
 
   const errorsNavigation = (errs: string[]) => {
@@ -192,7 +199,7 @@ const Stage1 = () => {
         </StyledStage1Content>
       </ScrollView>
       <NextStageButton disabled={false} onNextStage={onNextStage}>
-        לשלב הבא
+        {!isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage1Wrapper>
   );

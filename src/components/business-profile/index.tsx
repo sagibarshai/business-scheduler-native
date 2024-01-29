@@ -12,8 +12,12 @@ import { useMemo, useState } from "react";
 import Table from "../table";
 import Hr from "../elements/hr";
 import EditPen from "../edit-pen";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const BusinessProfile = ({ allowEdit }: Props) => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const business = useAppSelector((state) => state.business);
   const subCategoriesHeaders = useMemo(() => {
     return [
@@ -38,12 +42,16 @@ const BusinessProfile = ({ allowEdit }: Props) => {
     }));
   }, []);
 
-  const onEdit = () => {};
+  const onEdit = (screen: string) => {
+    navigation.navigate(screen, {
+      editMode: true,
+    });
+  };
 
   return (
     <ScrollView>
       <StyledWrapper>
-        {allowEdit && <EditPen onPress={onEdit} />}
+        {allowEdit && <EditPen onPress={() => onEdit("stage-2")} />}
         <StyledKeyValueWrapper>
           <DisplayImgs regularImgs={business.photos.regular} coverImg={business.photos.cover} profileImg={business.photos.profile} />
         </StyledKeyValueWrapper>
@@ -55,7 +63,7 @@ const BusinessProfile = ({ allowEdit }: Props) => {
           <StyledText>{business.data.description}</StyledText>
         </StyledKeyValueWrapper>
         <Hr />
-        {allowEdit && <EditPen onPress={onEdit} />}
+        {allowEdit && <EditPen onPress={() => onEdit("stage-1")} />}
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
             <MaterialIcons name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />
@@ -98,7 +106,7 @@ const BusinessProfile = ({ allowEdit }: Props) => {
         </StyledKeyValueWrapper>
 
         <Hr />
-        {allowEdit && <EditPen onPress={onEdit} />}
+        {allowEdit && <EditPen onPress={() => onEdit("stage-3")} />}
 
         <StyledKeyValueWrapper>
           <Table data={subCategoriesData} customHeaders={subCategoriesHeaders} columnSizes={[2, 2, 1]} />

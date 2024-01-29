@@ -16,6 +16,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { setBusinessData, setBusinessPhotos } from "../../../../../redux/featuers/business/businessSlice";
 import Progressbar from "../../../../components/progress-bar";
 import { StyledStage2ImgsTitle } from "./upload-images/styled";
+import { useRoute } from "@react-navigation/native";
 
 const Stage2 = () => {
   const businessMetaData = useAppSelector((state) => state.business.metaData);
@@ -30,6 +31,12 @@ const Stage2 = () => {
   const scrollableRef = useRef<ScrollView>(null);
   const dispatch = useAppDispatch();
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const route = useRoute();
+
+  //TODO FIX TS
+  //@ts-ignore
+  const isEditMode = route.params?.editMode;
 
   const onProfileImgUpload = useCallback((asset: Asset) => setProfileImg({ ...profileImg, value: asset }), [profileImg]);
 
@@ -88,8 +95,7 @@ const Stage2 = () => {
 
     // Wait for the dispatchPromise to resolve before navigating to "stage-2"
     await dispatchPromise;
-
-    navigation.navigate("stage-3");
+    isEditMode ? navigation.navigate("business-profile") : navigation.navigate("stage-3");
   };
 
   const errorsNavigation = (errs: string[]) => {
@@ -125,7 +131,7 @@ const Stage2 = () => {
         </StyledStage2Wrapper>
       </ScrollView>
       <NextStageButton onNextStage={onNextStage} disabled={false}>
-        לשלב הבא
+        {!isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage2Wrapper>
   );

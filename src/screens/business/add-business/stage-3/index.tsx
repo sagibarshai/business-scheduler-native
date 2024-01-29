@@ -10,6 +10,7 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppSelector, useAppDispatch } from "../../../../../redux/store";
 import { setBusinessData } from "../../../../../redux/featuers/business/businessSlice";
+import { useRoute } from "@react-navigation/native";
 
 const Satge3 = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,11 @@ const Satge3 = () => {
     { name: "מחליק", price: null, time: null },
   ]);
 
+  const route = useRoute();
+
+  //TODO FIX TS
+  //@ts-ignore
+  const isEditMode = route.params?.editMode;
   const onNextStage = async () => {
     const isFormValid = checkFromValidity();
     if (!isFormValid) return;
@@ -58,7 +64,7 @@ const Satge3 = () => {
       <Progressbar currentStage={3} stages={4} />
       <SubCategories error={!isSubCategoryValid ? subCategoriesIsEmptyErrorMessage : ""} selectedSubCategories={selectedSubCategories} setSelectedSubCategories={setSelectedSubCategories} subCategories={subcategories} />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
-        לשלב הבא
+        {!isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage3Wrapper>
   );

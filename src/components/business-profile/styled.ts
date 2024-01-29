@@ -39,3 +39,5 @@ export const StyledText = styled.Text`
     font-size: ${props => props.theme.fonts.sizes.m};
     font-weight: ${props => props.theme.fonts.weights.m};
     text-align: left;`
+
+    

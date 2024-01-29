@@ -5,27 +5,35 @@ import { Props } from "./types";
 const DisplayImgs = ({ profileImg, coverImg, regularImgs }: Props) => {
   return (
     <StyledWrapper>
-      <StyledRowCoverAndProfileImgsWrapper>
-        <StyleCoverImgWrapper>
-          <StyledCoverImg source={coverImg} />
-        </StyleCoverImgWrapper>
-        <StyledProfileImgWrapper>
-          <StyledProfileImg source={profileImg} />
-        </StyledProfileImgWrapper>
-      </StyledRowCoverAndProfileImgsWrapper>
-      <StyledRow>
-        <ScrollView horizontal>
-          <StyledCol>
-            <StyledRow>
-              {regularImgs.map((source, index) => (
-                <StyleRegularImgWrapper key={index}>
-                  <StyledCoverImg source={source} />
-                </StyleRegularImgWrapper>
-              ))}
-            </StyledRow>
-          </StyledCol>
-        </ScrollView>
-      </StyledRow>
+      {(coverImg || profileImg) && (
+        <StyledRowCoverAndProfileImgsWrapper>
+          {coverImg && (
+            <StyleCoverImgWrapper>
+              <StyledCoverImg source={coverImg} />
+            </StyleCoverImgWrapper>
+          )}
+          {profileImg && (
+            <StyledProfileImgWrapper>
+              <StyledProfileImg source={profileImg} />
+            </StyledProfileImgWrapper>
+          )}
+        </StyledRowCoverAndProfileImgsWrapper>
+      )}
+      {regularImgs && (
+        <StyledRow margin={coverImg || profileImg ? true : false}>
+          <ScrollView horizontal>
+            <StyledCol>
+              <StyledRow margin={coverImg || profileImg ? true : false}>
+                {regularImgs.map((source, index) => (
+                  <StyleRegularImgWrapper key={index}>
+                    <StyledCoverImg source={source} />
+                  </StyleRegularImgWrapper>
+                ))}
+              </StyledRow>
+            </StyledCol>
+          </ScrollView>
+        </StyledRow>
+      )}
     </StyledWrapper>
   );
 };

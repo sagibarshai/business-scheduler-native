@@ -10,11 +10,11 @@ export const StyledImgTitle = styled.Text`
     font-weight: ${props => props.theme.fonts.weights.l};
     text-align: center;
 `
-export const StyledRow = styled.View`
+export const StyledRow = styled.View<{margin?:boolean}>`
     display: flex;
     flex-direction:row;
     gap: ${props => props.theme.spaces.m};
-    margin-top: ${props => props.theme.spaces.m};
+    margin-top: ${props => props.margin ? props.theme.spaces.m : 0};
     align-items: start;
 
 `

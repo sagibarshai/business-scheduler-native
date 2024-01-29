@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-export const StyledEditPenWrapper = styled.View`
+export const StyledEditPenWrapper = styled.TouchableOpacity`
     position: absolute;
     top: 5px;
     right: 5px;

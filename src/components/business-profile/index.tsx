@@ -8,13 +8,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import SelectedDaysAndHoursDisplay from "../selected-days-and-hour-display";
 import DisplayImgs from "../display-imgs";
 import { ScrollView } from "react-native";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Table from "../table";
 import Hr from "../elements/hr";
 import EditPen from "../edit-pen";
+import SaveButton from "../inputs/buttons/save-button";
 
-// change props to: canBeEdit
 const BusinessProfile = ({ allowEdit }: Props) => {
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
   const business = useAppSelector((state) => state.business);
   const subCategoriesHeaders = useMemo(() => {
     return [
@@ -39,9 +41,19 @@ const BusinessProfile = ({ allowEdit }: Props) => {
     }));
   }, []);
 
+  const onToggleEditMode = () => setIsEditMode((prevState) => !prevState);
+
+  if (isEditMode)
+    return (
+      <>
+        <StyledText>edit me</StyledText>
+        <SaveButton onPress={onToggleEditMode} text="שמור" />
+      </>
+    );
+
   return (
     <>
-      <EditPen />
+      {allowEdit && <EditPen onPress={onToggleEditMode} />}
       <ScrollView>
         <StyledWrapper>
           <StyledKeyValueWrapper>

@@ -44,7 +44,7 @@ const App = () => {
       <Provider store={store}>
         <NavigationContainer>
           <StyledAppWrapper platform={Platform}>
-            <KeyboardAvoidingView behavior="padding" enabled={true} style={{ flex: 1 }}>
+            <KeyboardAvoidingView enabled={true} style={{ flex: 1 }}>
               <TouchableWithoutFeedback
                 onPress={() => {
                   Keyboard.dismiss();

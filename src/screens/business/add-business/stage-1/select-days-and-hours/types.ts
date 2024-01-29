@@ -5,7 +5,8 @@ export type Errors = {
     filed: string;
   }[];
   
-export type DaysAndHours = { days: Days;
+export type DaysAndHours = {
+  days: Days;
   from: string;
   to: string;
   editMode: boolean;

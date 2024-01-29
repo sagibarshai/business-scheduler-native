@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 
-import { type ReduxSelectedHoursAndDays } from "../../../src/screens/business/add-business/stage-1/select-days-and-hours/types";
+import { SelectedHoursAndDays, type ReduxSelectedHoursAndDays } from "../../../src/screens/business/add-business/stage-1/select-days-and-hours/types";
 import { SubCatogory } from "../../../src/screens/business/add-business/stage-3/sub-categories/types";
 import { Asset } from "react-native-image-picker";
 
@@ -17,7 +17,7 @@ interface BusinessMetaData {
   address:string;
   name:string;
   categories:string[]
-  workingDaysAndHours:ReduxSelectedHoursAndDays
+  workingDaysAndHours:SelectedHoursAndDays
   phone:string
 }
 

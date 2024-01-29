@@ -23,7 +23,7 @@ import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "../../../../components/inputs/types";
 import { type Days } from "../../../../components/select-days/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useAppDispatch } from "../../../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { setBusinessMetaData } from "../../../../../redux/featuers/business/businessSlice";
 import SearchLocation from "../../../../components/search-location";
 import TelInput from "../../../../components/inputs/tel";
@@ -32,6 +32,7 @@ import { isPhone } from "../../../../utils/valitators";
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
 const Stage1 = () => {
+  const businessMetaData = useAppSelector((state) => state.business.metaData);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const dispatch = useAppDispatch();
 
@@ -41,12 +42,12 @@ const Stage1 = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
   const [isSearchLocationOpen, setIsSearchLocationOpen] = useState<boolean>(false);
 
-  const [categories, setCategories] = useState<InputState<string[]>>({ value: [], error: categoryErrorMessage, isEditMode: false });
+  const [categories, setCategories] = useState<InputState<string[]>>({ value: businessMetaData.categories, error: categoryErrorMessage, isEditMode: false });
 
-  const [businessTel, setBusinessTel] = useState<InputState<string>>({ value: "", error: TelErrorMessage, isEditMode: false });
-  const [businessName, setBusinessName] = useState<InputState<string>>({ value: "", error: nameErrorMessage, isEditMode: false });
-  const [businessAddress, setBusinessAddress] = useState<InputState<string>>({ value: "", error: addressErrorMessage, isEditMode: false });
-  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: [] });
+  const [businessTel, setBusinessTel] = useState<InputState<string>>({ value: businessMetaData.phone, error: TelErrorMessage, isEditMode: false });
+  const [businessName, setBusinessName] = useState<InputState<string>>({ value: businessMetaData.name, error: nameErrorMessage, isEditMode: false });
+  const [businessAddress, setBusinessAddress] = useState<InputState<string>>({ value: businessMetaData.address, error: addressErrorMessage, isEditMode: false });
+  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: businessMetaData.workingDaysAndHours });
 
   const scrollableRef = useRef<ScrollView>(null);
 
@@ -141,14 +142,7 @@ const Stage1 = () => {
         setBusinessMetaData({
           address: businessAddress.value,
           name: businessName.value,
-          workingDaysAndHours: selectedDaysAndHours.value.map((item) => ({
-            days: item.days,
-            from: item.from,
-            to: item.to,
-            editMode: item.editMode,
-            startHour: item.startHour.toString(),
-            endHour: item.endHour.toString(),
-          })),
+          workingDaysAndHours: selectedDaysAndHours.value,
           categories: categories.value,
           phone: businessTel.value,
         })

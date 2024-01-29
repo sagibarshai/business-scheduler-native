@@ -20,11 +20,12 @@ import { StyledStage2ImgsTitle } from "./upload-images/styled";
 const Stage2 = () => {
   const businessMetaData = useAppSelector((state) => state.business.metaData);
   const businessData = useAppSelector((state) => state.business.data);
+  const businessPhotos = useAppSelector((state) => state.business.photos);
 
-  const [profileImg, setProfileImg] = useState<InputState<Asset | undefined>>({ error: "", value: undefined, isEditMode: false });
-  const [coverImg, setCoverImg] = useState<InputState<Asset | undefined>>({ error: "", value: undefined, isEditMode: false });
-  const [businessImgs, setBusinessImgs] = useState<InputState<Asset[]>>({ error: "", value: [], isEditMode: false });
-  const [description, setDescription] = useState<InputState<string>>({ error: "", value: "", isEditMode: false });
+  const [profileImg, setProfileImg] = useState<InputState<Asset | undefined>>({ error: "", value: Object.keys(businessPhotos.profile).length ? businessPhotos.profile : undefined, isEditMode: false });
+  const [coverImg, setCoverImg] = useState<InputState<Asset | undefined>>({ error: "", value: Object.keys(businessPhotos.cover).length ? businessPhotos.cover : undefined, isEditMode: false });
+  const [businessImgs, setBusinessImgs] = useState<InputState<Asset[]>>({ error: "", value: businessPhotos.regular, isEditMode: false });
+  const [description, setDescription] = useState<InputState<string>>({ error: "", value: businessData.description, isEditMode: false });
 
   const scrollableRef = useRef<ScrollView>(null);
   const dispatch = useAppDispatch();

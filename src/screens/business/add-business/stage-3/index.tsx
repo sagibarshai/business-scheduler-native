@@ -13,11 +13,10 @@ import { setBusinessData } from "../../../../../redux/featuers/business/business
 
 const Satge3 = () => {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>([]);
-  const [isSubCategoryValid, setIsSubCategoryValid] = useState<boolean>(true);
-
   const businessData = useAppSelector((state) => state.business.data);
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>(businessData.subCategories);
+  const [isSubCategoryValid, setIsSubCategoryValid] = useState<boolean>(true);
 
   const [subcategories, setSubCategories] = useState<SubCatogory[]>([
     { name: "תספורת אישה", price: null, time: null },

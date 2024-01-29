@@ -13,9 +13,9 @@ import Table from "../table";
 import Hr from "../elements/hr";
 import EditPen from "../edit-pen";
 
-const BusinessProfile = ({ isEditMode }: Props) => {
+// change props to: canBeEdit
+const BusinessProfile = ({ allowEdit }: Props) => {
   const business = useAppSelector((state) => state.business);
-  console.log("business ", business);
   const subCategoriesHeaders = useMemo(() => {
     return [
       { icon: <MaterialCommunityIcons name="hand-extended-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "שירות" },

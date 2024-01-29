@@ -1,3 +1,3 @@
 export interface Props {
-    isEditMode?:boolean
+    allowEdit?:boolean
 }

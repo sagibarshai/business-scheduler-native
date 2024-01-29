@@ -139,7 +139,6 @@ const Stage1 = () => {
             endHour: item.endHour.toString(),
           })),
           categories: categories.value,
-          description: "",
         })
       );
       resolve();

@@ -85,8 +85,8 @@ export const StyledRegularUploadImgWrapper = styled.TouchableOpacity`
 export const StyleRegularImgWrapper = styled.View`
     position: relative;
      background-color: ${props => props.theme.palette.colors.lights.backgrounds.gray};
-    height: 150px;
-    width: 130px;
+    height: 130px;
+    width: 110px;
     border-radius: ${props => props.theme.border.radiuses.m};
     display: flex;
     justify-content: center;

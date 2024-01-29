@@ -8,13 +8,6 @@ import { Keyboard } from "react-native";
 const SearchInput = ({ list, onChange }: Props) => {
   const search = (inputText: string) => list.filter((item) => item.toLocaleLowerCase().includes(inputText.toLowerCase()));
 
-  useEffect(() => {
-    return () => {
-      console.log("run ");
-      Keyboard.dismiss();
-    };
-  }, []);
-
   return (
     <StyledWrapper>
       <StyledPrimaryInput onChange={(e) => onChange(search(e.nativeEvent.text))} />

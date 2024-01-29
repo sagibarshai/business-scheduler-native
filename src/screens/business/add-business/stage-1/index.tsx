@@ -13,7 +13,7 @@ import NextStageButton from "../../../../components/inputs/buttons/next-stage-bu
 
 import { theme } from "../../../../../theme";
 import { days } from "../../../../components/select-days";
-import { addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, editModeErrorMessage, nameErrorMessage } from "./errors/messages";
+import { TelErrorMessage, addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, editModeErrorMessage, nameErrorMessage } from "./errors/messages";
 
 import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1Wrapper, StyledStage1Content } from "./styled";
 
@@ -26,6 +26,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch } from "../../../../../redux/store";
 import { setBusinessMetaData } from "../../../../../redux/featuers/business/businessSlice";
 import SearchLocation from "../../../../components/search-location";
+import TelInput from "../../../../components/inputs/tel";
+import { isPhone } from "../../../../utils/valitators";
 
 // stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
 
@@ -41,6 +43,7 @@ const Stage1 = () => {
 
   const [categories, setCategories] = useState<InputState<string[]>>({ value: [], error: categoryErrorMessage, isEditMode: false });
 
+  const [businessTel, setBusinessTel] = useState<InputState<string>>({ value: "", error: TelErrorMessage, isEditMode: false });
   const [businessName, setBusinessName] = useState<InputState<string>>({ value: "", error: nameErrorMessage, isEditMode: false });
   const [businessAddress, setBusinessAddress] = useState<InputState<string>>({ value: "", error: addressErrorMessage, isEditMode: false });
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: [] });
@@ -78,21 +81,28 @@ const Stage1 = () => {
     }
   };
   // inputs
-  const onInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>, filed: "name") => {
+  const onInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>, filed: "name" | "tel") => {
     const value = event.nativeEvent.text;
     if (filed === "name") {
       let error = "";
       if (value.length < 2) error = nameErrorMessage;
       else error = "";
       setBusinessName({ ...businessName, value, error });
+    } else if (filed === "tel") {
+      let error = "";
+      if (isPhone(value)) error = TelErrorMessage;
+      else error = "";
+      setBusinessTel({ ...businessTel, value, error });
     }
   };
 
-  const onInputToggleEditMode = (filed: "name" | "address") => {
+  const onInputToggleEditMode = (filed: "name" | "address" | "tel") => {
     if (filed === "name") {
       setBusinessName({ ...businessName, isEditMode: !businessName.isEditMode });
     } else if (filed === "address") {
       setBusinessAddress({ ...businessAddress, isEditMode: !businessAddress.isEditMode });
+    } else if (filed === "tel") {
+      setBusinessTel({ ...businessTel, isEditMode: !businessTel.isEditMode });
     }
   };
 
@@ -175,6 +185,7 @@ const Stage1 = () => {
 
           <TextInput placeholder="מה השם ?" onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
           <SearchLocation onSelect={onSelectLocation} value={businessAddress.value} error={isFormSubmitted ? businessAddress.error : ""} icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} isOpen={isSearchLocationOpen} label="כתובת העסק" onToggle={onToggleSearchLocation} placeholder="חפש כתובת כאן" />
+          <TelInput placeholder="מה הטלפון ?" onFocus={() => onInputToggleEditMode("tel")} onBlur={() => onInputToggleEditMode("tel")} error={isFormSubmitted ? businessTel.error : ""} onChange={(event) => onInputChange(event, "tel")} label="טלפון" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="phone-check-outline" />} />
           <StyledDaysAndLabelWrapper>
             <StyledLabelIconWrapper>
               <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />

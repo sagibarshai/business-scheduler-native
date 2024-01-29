@@ -99,3 +99,16 @@ export const StyledProfileUploadImgWrapper = styled.View`
     align-items: center;
     gap: ${props => props.theme.spaces.s};
 `
+export const StyledText = styled.Text``
+
+export const StyledModalContent = styled.View`
+    width: 80%;
+    height: 40%;
+    background-color: black;
+`
+export const StyledModalImg = styled.Image`
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+   
+`

@@ -11,6 +11,7 @@ import { ScrollView } from "react-native";
 import { useMemo } from "react";
 import Table from "../table";
 import Hr from "../elements/hr";
+import EditPen from "../edit-pen";
 
 const BusinessProfile = ({ isEditMode }: Props) => {
   const business = useAppSelector((state) => state.business);
@@ -39,62 +40,63 @@ const BusinessProfile = ({ isEditMode }: Props) => {
   }, []);
 
   return (
-    <ScrollView>
-      <StyledWrapper>
-        <StyledKeyValueWrapper>
-          <DisplayImgs coverImg={business.photos.cover} profileImg={business.photos.profile} />
-        </StyledKeyValueWrapper>
+    <>
+      <EditPen />
+      <ScrollView>
+        <StyledWrapper>
+          <StyledKeyValueWrapper>
+            <DisplayImgs coverImg={business.photos.cover} profileImg={business.photos.profile} />
+          </StyledKeyValueWrapper>
 
-        <StyledKeyValueWrapper>
-          <StyledIconAndTitleWrapper>
-            <MaterialIcons name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />
-            <StyledSectionTitle>קטגוריות</StyledSectionTitle>
-          </StyledIconAndTitleWrapper>
-          <StyledCategoriesWrapper>
-            {business.metaData.categories.map((category) => (
-              <Tag text={category} onPress={() => {}} />
-            ))}
-          </StyledCategoriesWrapper>
-        </StyledKeyValueWrapper>
-        <StyledKeyValueWrapper>
-          <Table data={subCategoriesData} customHeaders={subCategoriesHeaders} columnSizes={[2, 2, 1]} />
-        </StyledKeyValueWrapper>
-        <Hr />
-        <StyledKeyValueWrapper>
-          <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />
-            <StyledSectionTitle>שם העסק</StyledSectionTitle>
-          </StyledIconAndTitleWrapper>
-          <StyledText>{business.metaData.name}</StyledText>
-        </StyledKeyValueWrapper>
-        <StyledKeyValueWrapper>
-          <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />
-            <StyledSectionTitle>כתובת העסק</StyledSectionTitle>
-          </StyledIconAndTitleWrapper>
-          <StyledText>{business.metaData.address}</StyledText>
-        </StyledKeyValueWrapper>
-        <StyledKeyValueWrapper>
-          <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
-            <StyledSectionTitle>ימים ושעות</StyledSectionTitle>
-          </StyledIconAndTitleWrapper>
-          <SelectedDaysAndHoursDisplay selectedDaysAndHours={business.metaData.workingDaysAndHours} />
-        </StyledKeyValueWrapper>
-        <StyledKeyValueWrapper>
-          <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />
-            <StyledSectionTitle>תיאור העסק</StyledSectionTitle>
-          </StyledIconAndTitleWrapper>
-          <StyledText>{business.data.description}</StyledText>
-        </StyledKeyValueWrapper>
-        <Hr />
-
-        <StyledKeyValueWrapper>
-          <DisplayImgs regularImgs={business.photos.regular} />
-        </StyledKeyValueWrapper>
-      </StyledWrapper>
-    </ScrollView>
+          <StyledKeyValueWrapper>
+            <StyledIconAndTitleWrapper>
+              <MaterialIcons name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />
+              <StyledSectionTitle>קטגוריות</StyledSectionTitle>
+            </StyledIconAndTitleWrapper>
+            <StyledCategoriesWrapper>
+              {business.metaData.categories.map((category) => (
+                <Tag text={category} onPress={() => {}} />
+              ))}
+            </StyledCategoriesWrapper>
+          </StyledKeyValueWrapper>
+          <StyledKeyValueWrapper>
+            <Table data={subCategoriesData} customHeaders={subCategoriesHeaders} columnSizes={[2, 2, 1]} />
+          </StyledKeyValueWrapper>
+          <StyledKeyValueWrapper>
+            <StyledIconAndTitleWrapper>
+              <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />
+              <StyledSectionTitle>שם העסק</StyledSectionTitle>
+            </StyledIconAndTitleWrapper>
+            <StyledText>{business.metaData.name}</StyledText>
+          </StyledKeyValueWrapper>
+          <StyledKeyValueWrapper>
+            <StyledIconAndTitleWrapper>
+              <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />
+              <StyledSectionTitle>כתובת העסק</StyledSectionTitle>
+            </StyledIconAndTitleWrapper>
+            <StyledText>{business.metaData.address}</StyledText>
+          </StyledKeyValueWrapper>
+          <StyledKeyValueWrapper>
+            <StyledIconAndTitleWrapper>
+              <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
+              <StyledSectionTitle>ימים ושעות</StyledSectionTitle>
+            </StyledIconAndTitleWrapper>
+            <SelectedDaysAndHoursDisplay selectedDaysAndHours={business.metaData.workingDaysAndHours} />
+          </StyledKeyValueWrapper>
+          <StyledKeyValueWrapper>
+            <StyledIconAndTitleWrapper>
+              <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />
+              <StyledSectionTitle>תיאור העסק</StyledSectionTitle>
+            </StyledIconAndTitleWrapper>
+            <StyledText>{business.data.description}</StyledText>
+          </StyledKeyValueWrapper>
+          <Hr />
+          <StyledKeyValueWrapper>
+            <DisplayImgs regularImgs={business.photos.regular} />
+          </StyledKeyValueWrapper>
+        </StyledWrapper>
+      </ScrollView>
+    </>
   );
 };
 export default BusinessProfile;

@@ -1,4 +1,4 @@
-import { NativeSyntheticEvent, TextInput, TextInputChangeEventData } from "react-native";
+import { KeyboardType, NativeSyntheticEvent, TextInput, TextInputChangeEventData } from "react-native";
 
 export interface StyledProps {
     width?: string;
@@ -20,4 +20,5 @@ export interface StyledProps {
     isTextArea?:boolean
     placeholder?:string
     ref?:React.RefObject<TextInput>
+    keyboardType?:KeyboardType
   }

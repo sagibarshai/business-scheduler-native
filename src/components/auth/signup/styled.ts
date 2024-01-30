@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 
 export const StyledWrapper = styled.View`
     display: flex;
-    gap: ${props => props.theme.spaces.l};
+    gap: ${props => props.theme.spaces.s};
     justify-content: center;
     align-items: center;
     width: 80%;
@@ -17,4 +17,27 @@ export const StyledTitle = styled.Text`
 `
 export const StyledIconWrapper = styled.View`
     margin-top: ${props => props.theme.spaces.l};
+`
+export const StyledLoginButton = styled.TouchableOpacity`
+     font-weight: ${props => props.theme.fonts.weights.l};
+    font-size: ${props => props.theme.fonts.sizes.l};
+    background-color: ${props => props.theme.palette.colors.lights.backgrounds.purple};
+    width: 100%;
+    height: ${props => props.theme.inputs.sizes.m.height};
+    border-radius: ${props => props.theme.border.radiuses.l};
+    justify-content: center;
+    align-items: center;
+`
+
+export const StyledText = styled.Text`
+    color: ${props => props.theme.palette.colors.lights.texts.white};
+    font-size: ${props => props.theme.fonts.sizes.m};
+    font-weight: ${props => props.theme.fonts.weights.m};
+`
+
+export const StyledRow = styled.View`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 `

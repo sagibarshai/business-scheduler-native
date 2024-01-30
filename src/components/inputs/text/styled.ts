@@ -5,10 +5,10 @@ import RTLText from '../../RTL/text';
 import {type  StyledProps } from './types';
 
 
-export const StyledCol = styled.View`
+export const StyledCol = styled.View<StyledProps>`
   display: flex;
   height: fit-content;
-  width: 100%;
+  width: ${props => props.width || '100%'};
   gap: ${(props) => props.theme.spaces.s};
 `;
 

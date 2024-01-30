@@ -1,5 +1,5 @@
 {
-    "prettier.printWidth": 100099,
+    "prettier.printWidth": 200,
     "cSpell.blockCheckingWhenAverageChunkSizeGreaterThan": 80,
     "typescript.format.enable": true,
     "typescript.format.insertSpaceAfterTypeAssertion": true,

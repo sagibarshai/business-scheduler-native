@@ -9,5 +9,6 @@ export interface Props {
     subCategories:SubCatogory[]
     selectedSubCategories:SubCatogory[]
     setSelectedSubCategories: React.Dispatch<React.SetStateAction<SubCatogory[]>>
+    onAddOptionsToSubCategories: (option:SubCatogory) => void
     error?:string
 }

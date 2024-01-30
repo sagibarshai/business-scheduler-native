@@ -4,7 +4,7 @@ import { Props, SubCatogory } from "./types";
 import Table from "../../../../../components/table";
 import PlusButton from "../../../../../components/inputs/buttons/plus-button";
 import Dropdown from "../../../../../components/inputs/dropdown";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import SubCategoriesForm from "./sub-category-form";
 import { CustomHeader } from "../../../../../components/table/types";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,7 +12,7 @@ import IconPrice from "react-native-vector-icons/MaterialIcons";
 
 import { theme } from "../../../../../../theme";
 
-const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCategories, error }: Props) => {
+const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCategories, error, onAddOptionsToSubCategories }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
   const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
@@ -25,14 +25,15 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
       setOverrideContent(<SubCategoriesForm openTimeOnMount={false} subCategoryData={selectedSubCategories[selectedTableRowIndex]} onCancel={onCancelSelectCategory} onSave={onSaveCategoryForm} />);
     } else setOverrideContent(null);
   }, [selectedTableRowIndex]);
+
   useEffect(() => {
     // build table data
     const transformedSubcategories = selectedSubCategories.map(({ name, price, time }) => ({
       service: name,
       time: time ? (
         <>
-          {time?.hours ? `${time.hours} ש׳, ` : ""}
-          {time?.minutes} דק
+          {time?.hours ? `${time.hours} ש׳ ,` : ""}
+          {time?.minutes ? time?.minutes + "דק" : ""}
         </>
       ) : (
         ""
@@ -44,7 +45,14 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
 
   useEffect(() => {
     if (isSubCategoryAdded) {
-      setOverrideContent(<SubCategoriesForm subCategoryData={selectedSubCategories[selectedSubCategories.length - 1]} onCancel={onCancelSelectCategory} onSave={onSaveCategoryForm} />);
+      setOverrideContent(
+        <SubCategoriesForm
+          isNameEditable={selectedSubCategories[selectedSubCategories.length - 1].name === "אחר"}
+          subCategoryData={selectedSubCategories[selectedSubCategories.length - 1]}
+          onCancel={onCancelSelectCategory}
+          onSave={onSaveCategoryForm}
+        />
+      );
     }
     setIsSubCategoryAdded(false);
   }, [selectedSubCategories, isSubCategoryAdded]);
@@ -76,6 +84,9 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
 
     setSelectedSubCategories(updatedSelectedSubCategories);
 
+    // for case of "other" service
+    const isExistOnSubCategories = subCategories.find((sub) => sub.name === categoryData.name);
+    if (!isExistOnSubCategories) onAddOptionsToSubCategories(categoryData);
     setOverrideContent(null);
   };
 
@@ -87,7 +98,11 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
       // check if user left form without filling the reinvent fields
       const lastElement = selectedSubCategories[selectedSubCategories.length - 1];
       if (lastElement) {
-        if (!lastElement.name || !lastElement.price || !lastElement.time) {
+        if (
+          !lastElement.name ||
+          !lastElement.price ||
+          (typeof lastElement.time?.hours === "number" && lastElement.time?.hours === 0 && typeof lastElement.time?.minutes === "number" && lastElement.time?.minutes === 0)
+        ) {
           const updatedSelectedSubCategories = [...selectedSubCategories];
           updatedSelectedSubCategories.pop();
           setSelectedSubCategories(updatedSelectedSubCategories);
@@ -97,16 +112,40 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
   }, [isDropdownOpen]);
 
   const customHeaders: CustomHeader[] = [
-    { icon: <Icon name="hand-extended-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "שירות" },
-    { icon: <Icon name="clock-edit-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "זמן" },
-    { icon: <IconPrice name="currency-exchange" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "מחיר" },
+    {
+      icon: <Icon name="hand-extended-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />,
+      value: "שירות",
+    },
+    {
+      icon: <Icon name="clock-edit-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />,
+      value: "זמן",
+    },
+    {
+      icon: <IconPrice name="currency-exchange" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />,
+      value: "מחיר",
+    },
   ];
 
   const onSelectTableRow = (index: number) => setSelectedTableRowIndex(index);
   return (
     <StyledSubCategoriesWrapper>
       <Table onClickRow={onSelectTableRow} data={tableData} customHeaders={customHeaders} columnSizes={[2, 2, 1]} />
-      {isDropdownOpen && <Dropdown showDropdownButton={false} height="65%" overrideContent={overrideContent} isOpen={isDropdownOpen} error="" icon={<TouchableOpacity />} label="שירותי העסק" onSelect={onSelectSubCategory} onToggle={onToggleDropdown} placeholder="חפש..." options={subCategories.map((subCategory) => subCategory.name)} selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)} />}
+      {isDropdownOpen && (
+        <Dropdown
+          showDropdownButton={false}
+          height="65%"
+          overrideContent={overrideContent}
+          isOpen={isDropdownOpen}
+          error=""
+          icon={<TouchableOpacity />}
+          label="שירותי העסק"
+          onSelect={onSelectSubCategory}
+          onToggle={onToggleDropdown}
+          placeholder="חפש..."
+          options={[...subCategories.map((subCategory) => subCategory.name), "אחר"]}
+          selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)}
+        />
+      )}
       <StyledPlusButtonWrapper>
         <PlusButton onPress={onToggleDropdown} />
         {error && <StyledErrorMessage>{error}</StyledErrorMessage>}

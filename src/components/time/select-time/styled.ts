@@ -4,6 +4,7 @@ import RTLText from "../../RTL/text";
 export const StyledSelectTimeWrapper = styled.View`
     display: flex;
     gap: ${props => props.theme.spaces.s};
+    align-items: start;
 `
 export const StyledLabel = styled(RTLText)`
   color: ${props => props.theme.palette.colors.lights.texts.aqua};

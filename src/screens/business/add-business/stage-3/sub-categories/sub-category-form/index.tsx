@@ -12,11 +12,14 @@ import CancelButton from "../../../../../../components/inputs/buttons/cancel-but
 import NumericInput from "../../../../../../components/inputs/numeric";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { theme } from "../../../../../../../theme";
-import { subCategoryPriceErrorMessage } from "../../errors/messages";
+import { subCategoryNameIsEmpty, subCategoryPriceErrorMessage } from "../../errors/messages";
+import TextInput from "../../../../../../components/inputs/text";
 
-const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount }: Props) => {
+const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount, isNameEditable }: Props) => {
   const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCatogory>(subCategoryData);
   const [priceError, setPriceError] = useState<boolean>(false);
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [serviceName, setServiceName] = useState<string>(selectedSubCategoryData.name === "אחר" ? "" : selectedSubCategoryData.name);
 
   const onSubmitServiceTime = (countdownTime: CountdownProps) => {
     setSelectedSubCategoryData({ ...selectedSubCategoryData, time: countdownTime });
@@ -25,11 +28,20 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount 
     setPriceError(false);
     setSelectedSubCategoryData({ ...selectedSubCategoryData, price: Number(event.nativeEvent.text) });
   };
+  const onServiceNameChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    setServiceName(event.nativeEvent.text);
+    setSelectedSubCategoryData({ ...selectedSubCategoryData, name: event.nativeEvent.text });
+
+    setNameError(false);
+  };
 
   const checkFormValidity = (): boolean => {
     let isValid = false;
     if (!selectedSubCategoryData.price) {
       setPriceError(true);
+    }
+    if (serviceName.length <= 2) {
+      setNameError(true);
       return isValid;
     }
     isValid = true;
@@ -44,11 +56,28 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount 
 
   return (
     <StyledSubCategoryFormWrapper>
-      <StyledTitle>{subCategoryData.name}</StyledTitle>
+      {!isNameEditable && <StyledTitle>{subCategoryData.name}</StyledTitle>}
+      <StyledRow>{isNameEditable && <TextInput label="שם השירות" onChange={onServiceNameChange} width="30%" error={nameError ? subCategoryNameIsEmpty : ""} />}</StyledRow>
       <StyledRow>
-        <Countdown openTimeOnMount={openTimeOnMount} width="40%" defaultHours={selectedSubCategoryData.time?.hours && !Number.isNaN(selectedSubCategoryData.time.hours) ? selectedSubCategoryData.time.hours : 0} defaultMinutes={selectedSubCategoryData.time?.minutes && !Number.isNaN(selectedSubCategoryData.time.minutes) ? selectedSubCategoryData.time.minutes : 30} labelText="כמה זמן ?" modalTitle={`${subCategoryData.name}`} onSubmit={onSubmitServiceTime} />
+        <Countdown
+          openTimeOnMount={openTimeOnMount}
+          width="40%"
+          defaultHours={typeof selectedSubCategoryData.time?.hours === "number" ? selectedSubCategoryData.time?.hours : 0}
+          defaultMinutes={typeof selectedSubCategoryData.time?.minutes === "number" ? selectedSubCategoryData.time?.minutes : 30}
+          labelText="כמה זמן ?"
+          modalTitle={`${subCategoryData.name}`}
+          onSubmit={onSubmitServiceTime}
+        />
 
-        <NumericInput value={selectedSubCategoryData.price?.toString()} withCurrency width="40%" label="מחיר" onChange={onPriceChange} error={priceError ? subCategoryPriceErrorMessage : ""} icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />} />
+        <NumericInput
+          value={selectedSubCategoryData.price?.toString()}
+          withCurrency
+          width="40%"
+          label="מחיר"
+          onChange={onPriceChange}
+          error={priceError ? subCategoryPriceErrorMessage : ""}
+          icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />}
+        />
       </StyledRow>
       <StyledButtonsWrapper>
         <CancelButton onPress={onCancel} text="ביטול" />

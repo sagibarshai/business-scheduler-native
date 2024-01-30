@@ -26,6 +26,8 @@ const Satge3 = () => {
     { name: "מחליק", price: null, time: null },
   ]);
 
+  const onAddOptionsToSubCategories = (otherOption: SubCatogory) => setSubCategories([...subcategories, otherOption]);
+
   const route = useRoute();
 
   //TODO FIX TS
@@ -62,7 +64,13 @@ const Satge3 = () => {
   return (
     <StyledStage3Wrapper>
       <Progressbar currentStage={3} stages={4} />
-      <SubCategories error={!isSubCategoryValid ? subCategoriesIsEmptyErrorMessage : ""} selectedSubCategories={selectedSubCategories} setSelectedSubCategories={setSelectedSubCategories} subCategories={subcategories} />
+      <SubCategories
+        onAddOptionsToSubCategories={onAddOptionsToSubCategories}
+        error={!isSubCategoryValid ? subCategoriesIsEmptyErrorMessage : ""}
+        selectedSubCategories={selectedSubCategories}
+        setSelectedSubCategories={setSelectedSubCategories}
+        subCategories={subcategories}
+      />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
         {!isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>

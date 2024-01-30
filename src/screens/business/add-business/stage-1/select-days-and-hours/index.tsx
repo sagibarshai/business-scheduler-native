@@ -13,14 +13,14 @@ import { StyledSelectTimeWrapper, StyledTimeWrapper, StyledWrapper, StyledTimeSa
 import SelectedDaysAndHoursDisplay from "../../../../../components/selected-days-and-hour-display";
 
 const now = new Date();
-let dateWithTime10: Date = new Date(now.setHours(10, 0, 0));
-let dateWithTime18: Date = new Date(now.setHours(18, 0, 0));
+let dateWithTime9: Date = new Date(now.setHours(9, 0, 0));
+let dateWithTime17: Date = new Date(now.setHours(17, 0, 0));
 
 const SelectDaysAndHours = ({ selectedDays, setSelectedDays, days, selectedDaysAndHours, onSubmitDaysAndHours, error, onEditMode }: Props) => {
-  const [startHour, setStartHour] = useState<Date>(dateWithTime10);
-  const [endHour, setEndHour] = useState<Date>(dateWithTime18);
-  const [parseStartHour, setParseStartHour] = useState<string>("10:00");
-  const [parseEndHour, setParseEndHour] = useState<string>("18:00");
+  const [startHour, setStartHour] = useState<Date>(dateWithTime9);
+  const [endHour, setEndHour] = useState<Date>(dateWithTime17);
+  const [parseStartHour, setParseStartHour] = useState<string>("09:00");
+  const [parseEndHour, setParseEndHour] = useState<string>("17:00");
   const [errors, setErrors] = useState<Errors>([]);
   const [editIndex, setEditIndex] = useState<number>(-1);
 

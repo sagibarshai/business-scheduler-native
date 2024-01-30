@@ -5,5 +5,6 @@ export interface Props {
     onSave:(selectedSubCategoryData:SubCatogory) => void
     onCancel:(selectedSubCategoryData:SubCatogory) => void
     openTimeOnMount?:boolean
+    isNameEditable?:boolean
     
 }

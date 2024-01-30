@@ -13,6 +13,8 @@ import { Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } fr
 
 import { type StyledProps } from "./types";
 import BusinessProfileScreen from "./src/screens/business/business-profile";
+import Login from "./src/screens/auth/login";
+import SignUp from "./src/screens/auth/signup";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -50,7 +52,9 @@ const App = () => {
                   Keyboard.dismiss();
                 }}
               >
-                <SackNavigation.Navigator initialRouteName="add-business" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+                <SackNavigation.Navigator initialRouteName="auth-signUp" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+                  <SackNavigation.Screen options={{ title: "התחברות" }} name="auth-login" component={Login} />
+                  <SackNavigation.Screen options={{ title: "הרשמה" }} name="auth-signUp" component={SignUp} />
                   <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
                   <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="business-profile" component={BusinessProfileScreen} />
                 </SackNavigation.Navigator>

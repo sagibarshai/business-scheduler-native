@@ -42,3 +42,15 @@ export const StyledRow = styled.View`
     justify-content: space-between;
     width: 100%;
 `
+
+export const StyledLoginButtonWrapper = styled.View`
+    display: flex;
+    gap: ${props => props.theme.spaces.s};
+    width: 100%;
+`
+export const StyledErrorMessage = styled(StyledText)`
+    color: ${props => props.theme.palette.colors.lights.errors.red};
+    text-align: center;
+    font-size: ${props => props.theme.fonts.sizes.l};
+    font-weight: ${props => props.theme.fonts.weights.l};
+`

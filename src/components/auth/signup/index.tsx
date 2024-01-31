@@ -2,7 +2,7 @@ import { useState } from "react";
 import { theme } from "../../../../theme";
 import TextInput from "../../inputs/text";
 import { InputState } from "../../inputs/types";
-import { StyledIconWrapper, StyledTitle, StyledWrapper, StyledLoginButton, StyledText, StyledRow } from "./styled";
+import { StyledIconWrapper, StyledTitle, StyledWrapper, StyledLoginButton, StyledText, StyledRow, StyledLoginButtonWrapper, StyledErrorMessage } from "./styled";
 import { Props } from "./types";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -11,7 +11,9 @@ import { isEmail, isPhone } from "../../../utils/valitators";
 import TelInput from "../../inputs/tel";
 import { appAxios } from "../../../../axios";
 import { AxiosError } from "axios";
-// briefcase-clock-outline
+import { CircleSnail } from "react-native-progress";
+import { ScrollView } from "react-native";
+
 const SignUp = ({}: Props) => {
   const [email, setEmail] = useState<InputState<string>>({ error: emailErrorMessage, value: "", isEditMode: false, isValid: false, showErrorMessage: false });
   const [password, setPassword] = useState<InputState<string>>({ error: passwordErrorMessage, value: "", isEditMode: false, isValid: false, showErrorMessage: false });
@@ -20,6 +22,7 @@ const SignUp = ({}: Props) => {
   const [phone, setPhone] = useState<InputState<string>>({ error: phoneErrorMessage, value: "", isEditMode: false, isValid: false, showErrorMessage: false });
 
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onEmailChange = (text: string) => setEmail({ ...email, value: text, isValid: isEmail(text), showErrorMessage: true });
   const onPasswordChange = (text: string) => setPassword({ ...password, value: text, isValid: text.length >= 8, showErrorMessage: true });
@@ -28,6 +31,9 @@ const SignUp = ({}: Props) => {
   const onPhoneChange = (text: string) => setPhone({ ...phone, value: text, isValid: isPhone(text), showErrorMessage: true });
 
   const onSignUp = async () => {
+    setIsLoading(true);
+    setError("");
+
     if (!email.isValid || !password.isValid || !phone.isValid || !firstName.isValid || !lastName.isValid) setError("יש למלא את כל השדות");
     else {
       const body = {
@@ -43,54 +49,66 @@ const SignUp = ({}: Props) => {
         console.log("loginResponse ", loginResponse);
       } catch (err) {
         const error = err as AxiosError;
-        console.log("err ", error);
+        if (error.response?.data) {
+          let errorMessage = error.response.data as { message: string };
+          setError(errorMessage.message);
+        }
+      } finally {
+        setIsLoading(false);
       }
     }
   };
   return (
-    <StyledWrapper>
-      <StyledIconWrapper>{/* <MaterialCommunityIcons size={60} name="briefcase-clock-outline" color={theme.icons.colors.aqua} /> */}</StyledIconWrapper>
-      <StyledTitle>ברוך הבא אל Bazzy</StyledTitle>
-      <TextInput
-        keyboardType={"email-address"}
-        label="אימייל"
-        onChange={(event) => onEmailChange(event.nativeEvent.text)}
-        icon={<MaterialIcons name="alternate-email" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
-        error={email.showErrorMessage && !email.isValid ? email.error : ""}
-      />
-      <TextInput
-        textContentType="newPassword"
-        label="סיסמא"
-        onChange={(event) => onPasswordChange(event.nativeEvent.text)}
-        icon={<MaterialIcons name="security" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
-        error={password.showErrorMessage && !password.isValid ? password.error : ""}
-      />
-      <TelInput
-        label="טלפון"
-        onChange={(event) => onPhoneChange(event.nativeEvent.text)}
-        icon={<MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="phone-check-outline" />}
-        error={phone.showErrorMessage && !phone.isValid ? phone.error : ""}
-      />
-      <StyledRow>
+    <ScrollView>
+      <StyledWrapper>
+        <StyledIconWrapper>
+          <MaterialCommunityIcons size={60} name="briefcase-clock-outline" color={theme.icons.colors.aqua} />
+        </StyledIconWrapper>
+        <StyledTitle>ברוך הבא אל Bazzy</StyledTitle>
         <TextInput
-          label="שם פרטי"
-          onChange={(event) => onFirstNameChange(event.nativeEvent.text)}
-          icon={<MaterialIcons name="person" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
-          error={firstName.showErrorMessage && !firstName.isValid ? firstName.error : ""}
-          width="45%"
+          keyboardType={"email-address"}
+          label="אימייל"
+          onChange={(event) => onEmailChange(event.nativeEvent.text)}
+          icon={<MaterialIcons name="alternate-email" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+          error={email.showErrorMessage && !email.isValid ? email.error : ""}
         />
         <TextInput
-          label="שם משפחה"
-          onChange={(event) => onLastNameChange(event.nativeEvent.text)}
-          icon={<MaterialIcons name="people" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
-          error={lastName.showErrorMessage && !lastName.isValid ? lastName.error : ""}
-          width="45%"
+          textContentType="newPassword"
+          label="סיסמא"
+          onChange={(event) => onPasswordChange(event.nativeEvent.text)}
+          icon={<MaterialIcons name="security" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+          error={password.showErrorMessage && !password.isValid ? password.error : ""}
         />
-      </StyledRow>
-      <StyledLoginButton onPress={onSignUp} disabled={!email.isValid || !password.isValid || !phone.isValid || !firstName.isValid || !lastName.isValid}>
-        <StyledText>צור משתמש</StyledText>
-      </StyledLoginButton>
-    </StyledWrapper>
+        <TelInput
+          label="טלפון"
+          onChange={(event) => onPhoneChange(event.nativeEvent.text)}
+          icon={<MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="phone-check-outline" />}
+          error={phone.showErrorMessage && !phone.isValid ? phone.error : ""}
+        />
+        <StyledRow>
+          <TextInput
+            label="שם פרטי"
+            onChange={(event) => onFirstNameChange(event.nativeEvent.text)}
+            icon={<MaterialIcons name="person" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+            error={firstName.showErrorMessage && !firstName.isValid ? firstName.error : ""}
+            width="45%"
+          />
+          <TextInput
+            label="שם משפחה"
+            onChange={(event) => onLastNameChange(event.nativeEvent.text)}
+            icon={<MaterialIcons name="people" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+            error={lastName.showErrorMessage && !lastName.isValid ? lastName.error : ""}
+            width="45%"
+          />
+        </StyledRow>
+        <StyledLoginButtonWrapper>
+          <StyledLoginButton onPress={onSignUp} disabled={isLoading || !email.isValid || !password.isValid || !phone.isValid || !firstName.isValid || !lastName.isValid}>
+            {isLoading ? <CircleSnail color={theme.palette.colors.lights.texts.white} size={30} /> : <StyledText>צור משתמש</StyledText>}
+          </StyledLoginButton>
+          {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
+        </StyledLoginButtonWrapper>
+      </StyledWrapper>
+    </ScrollView>
   );
 };
 export default SignUp;

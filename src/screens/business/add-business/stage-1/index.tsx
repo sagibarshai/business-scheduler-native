@@ -48,7 +48,11 @@ const Stage1 = () => {
   const [businessTel, setBusinessTel] = useState<InputState<string>>({ value: businessMetaData.phone, error: TelErrorMessage, isEditMode: false });
   const [businessName, setBusinessName] = useState<InputState<string>>({ value: businessMetaData.name, error: nameErrorMessage, isEditMode: false });
   const [businessAddress, setBusinessAddress] = useState<InputState<string>>({ value: businessMetaData.address, error: addressErrorMessage, isEditMode: false });
-  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({ error: daysAndHoursErrorMessage, isEditMode: false, value: businessMetaData.workingDaysAndHours });
+  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({
+    error: daysAndHoursErrorMessage,
+    isEditMode: false,
+    value: businessMetaData.workingDaysAndHours,
+  });
 
   const scrollableRef = useRef<ScrollView>(null);
 
@@ -184,17 +188,61 @@ const Stage1 = () => {
           <Progressbar currentStage={1} stages={4} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
           <StyledStage1Subtitle>נראה שאין לכם עדיין פרופיל, בואו נתחיל</StyledStage1Subtitle>
-          <Dropdown showTags label="קטגוריות" placeholder="הקטגוריות של העסק" icon={<IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />} error={isFormSubmitted ? categories.error : ""} onSelect={onSelectCategory} isOpen={isCategoryOpen} onToggle={onToggleCategoryDropdown} selectedCategories={categories.value} options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]} />
+          <Dropdown
+            showTags
+            label="קטגוריות"
+            placeholder="הקטגוריות של העסק"
+            icon={<IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+            error={isFormSubmitted ? categories.error : ""}
+            onSelect={onSelectCategory}
+            isOpen={isCategoryOpen}
+            onToggle={onToggleCategoryDropdown}
+            selectedCategories={categories.value}
+            options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]}
+          />
 
-          <TextInput placeholder="מה השם ?" onFocus={() => onInputToggleEditMode("name")} onBlur={() => onInputToggleEditMode("name")} error={isFormSubmitted ? businessName.error : ""} onChange={(event) => onInputChange(event, "name")} label="שם העסק" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />} />
-          <SearchLocation onSelect={onSelectLocation} value={businessAddress.value} error={isFormSubmitted ? businessAddress.error : ""} icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />} isOpen={isSearchLocationOpen} label="כתובת העסק" onToggle={onToggleSearchLocation} placeholder="חפש כתובת כאן" />
-          <TelInput placeholder="מה הטלפון ?" onFocus={() => onInputToggleEditMode("tel")} onBlur={() => onInputToggleEditMode("tel")} error={isFormSubmitted ? businessTel.error : ""} onChange={(event) => onInputChange(event, "tel")} label="טלפון" icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="phone-check-outline" />} />
+          <TextInput
+            placeholder="מה השם ?"
+            onFocus={() => onInputToggleEditMode("name")}
+            onBlur={() => onInputToggleEditMode("name")}
+            error={isFormSubmitted ? businessName.error : ""}
+            onChange={(event) => onInputChange(event, "name")}
+            label="שם העסק"
+            icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />}
+          />
+          <SearchLocation
+            onSelect={onSelectLocation}
+            value={businessAddress.value}
+            error={isFormSubmitted ? businessAddress.error : ""}
+            icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />}
+            isOpen={isSearchLocationOpen}
+            label="כתובת העסק"
+            onToggle={onToggleSearchLocation}
+            placeholder="חפש כתובת כאן"
+          />
+          <TelInput
+            placeholder="מה הטלפון ?"
+            onFocus={() => onInputToggleEditMode("tel")}
+            onBlur={() => onInputToggleEditMode("tel")}
+            error={isFormSubmitted ? businessTel.error : ""}
+            onChange={(event) => onInputChange(event, "tel")}
+            label="טלפון"
+            icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="phone-check-outline" />}
+          />
           <StyledDaysAndLabelWrapper>
             <StyledLabelIconWrapper>
               <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
               <StyledDaysLabel>ימים ושעות</StyledDaysLabel>
             </StyledLabelIconWrapper>
-            <SelectDaysAndHours error={isFormSubmitted && (selectedDaysAndHours.isEditMode || selectedDaysAndHours.error) ? selectedDaysAndHours.error : ""} selectedDaysAndHours={selectedDaysAndHours.value} onEditMode={onEditDaysAndHours} onSubmitDaysAndHours={onSubmitDaysAndHours} days={selectedDays} selectedDays={selectedDays} setSelectedDays={setSelectedDays} />
+            <SelectDaysAndHours
+              error={isFormSubmitted && (selectedDaysAndHours.isEditMode || selectedDaysAndHours.error) ? selectedDaysAndHours.error : ""}
+              selectedDaysAndHours={selectedDaysAndHours.value}
+              onEditMode={onEditDaysAndHours}
+              onSubmitDaysAndHours={onSubmitDaysAndHours}
+              days={selectedDays}
+              selectedDays={selectedDays}
+              setSelectedDays={setSelectedDays}
+            />
           </StyledDaysAndLabelWrapper>
         </StyledStage1Content>
       </ScrollView>

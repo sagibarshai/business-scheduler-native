@@ -3,4 +3,5 @@ export type InputState<T> = {
     error: string;
     isEditMode?:boolean
     isValid?:boolean
+    showErrorMessage?:boolean
 }  

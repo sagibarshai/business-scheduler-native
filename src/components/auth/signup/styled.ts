@@ -18,7 +18,7 @@ export const StyledTitle = styled.Text`
 export const StyledIconWrapper = styled.View`
     margin-top: ${props => props.theme.spaces.l};
 `
-export const StyledLoginButton = styled.TouchableOpacity`
+export const StyledLoginButton = styled.TouchableOpacity<{disabled:boolean}>`
      font-weight: ${props => props.theme.fonts.weights.l};
     font-size: ${props => props.theme.fonts.sizes.l};
     background-color: ${props => props.theme.palette.colors.lights.backgrounds.purple};
@@ -27,6 +27,7 @@ export const StyledLoginButton = styled.TouchableOpacity`
     border-radius: ${props => props.theme.border.radiuses.l};
     justify-content: center;
     align-items: center;
+    opacity: ${props => props.disabled ? 0.8 : 1} ;
 `
 
 export const StyledText = styled.Text`

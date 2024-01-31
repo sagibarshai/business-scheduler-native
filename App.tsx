@@ -1,8 +1,8 @@
 import { Provider } from "react-redux";
 import styled, { css } from "styled-components/native";
-import store from "./redux/store";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import store, { useAppSelector } from "./redux/store";
+import { NavigationContainer, ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./theme";
@@ -13,8 +13,8 @@ import { Platform, Keyboard, TouchableWithoutFeedback, KeyboardAvoidingView } fr
 
 import { type StyledProps } from "./types";
 import BusinessProfileScreen from "./src/screens/business/business-profile";
-import Login from "./src/screens/auth/login";
-import SignUp from "./src/screens/auth/signup";
+import AuthScreens from "./src/screens/auth";
+import ConfigRole from "./src/screens/config-role/component";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -34,6 +34,7 @@ const StyledAppWrapper = styled.View<StyledProps>`
 const App = () => {
   const SackNavigation = createNativeStackNavigator();
 
+  const user = useAppSelector((state) => state.user);
   useEffect(() => {
     if (!I18nManager.isRTL) {
       I18nManager.forceRTL(true);
@@ -41,29 +42,32 @@ const App = () => {
     }
   }, []);
 
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  useEffect(() => {
+    if (user.token) {
+      if (user.role === "N/A") navigation.navigate("config-role");
+      else if (user.role === "business") navigation.navigate("add-business");
+    }
+  }, [user.token, user.role]);
+
   return (
-    <ThemeProvider theme={{ ...theme }}>
-      <Provider store={store}>
-        <NavigationContainer>
-          <StyledAppWrapper platform={Platform}>
-            <KeyboardAvoidingView enabled={true} style={{ flex: 1 }}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  Keyboard.dismiss();
-                }}
-              >
-                <SackNavigation.Navigator initialRouteName="auth-signUp" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
-                  <SackNavigation.Screen options={{ title: "התחברות" }} name="auth-login" component={Login} />
-                  <SackNavigation.Screen options={{ title: "הרשמה" }} name="auth-signUp" component={SignUp} />
-                  <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
-                  <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="business-profile" component={BusinessProfileScreen} />
-                </SackNavigation.Navigator>
-              </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-          </StyledAppWrapper>
-        </NavigationContainer>
-      </Provider>
-    </ThemeProvider>
+    <StyledAppWrapper platform={Platform}>
+      <KeyboardAvoidingView enabled={true} style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Keyboard.dismiss();
+          }}
+        >
+          <SackNavigation.Navigator initialRouteName="auth" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+            <SackNavigation.Screen name="auth" component={AuthScreens} />
+            <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
+            <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="business-profile" component={BusinessProfileScreen} />
+            <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="config-role" component={ConfigRole} />
+          </SackNavigation.Navigator>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </StyledAppWrapper>
   );
 };
 

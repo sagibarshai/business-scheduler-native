@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { theme } from "../../../../theme";
 
 export const StyledWrapper = styled.View`
     display: flex;
@@ -53,4 +54,19 @@ export const StyledErrorMessage = styled(StyledText)`
     text-align: center;
     font-size: ${props => props.theme.fonts.sizes.l};
     font-weight: ${props => props.theme.fonts.weights.l};
+`
+
+export const StyledNavigateToLoginPage = styled.TouchableOpacity`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: ${props => props.theme.spaces.l};
+`
+
+
+export const StyledNavigationToLoginPageText = styled(StyledText)<{underline?:boolean}>`
+    color: ${props => props.theme.palette.colors.lights.texts.aqua};
+    text-align: center;
+    text-decoration-line: ${props => props.underline  && "underline" };
+    font-weight: ${props => props.underline ? theme.fonts.weights.l : "normal"} ;
 `

@@ -6,6 +6,8 @@ import { SubCatogory } from "../../../src/screens/business/add-business/stage-3/
 import { Asset } from "react-native-image-picker";
 
 
+
+
 interface BusinessPhotos {
   profile: Asset
   cover: Asset

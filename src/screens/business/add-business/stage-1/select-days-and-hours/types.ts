@@ -29,6 +29,6 @@ export type ReduxSelectedHoursAndDays = ReduxDaysAndHours[]
     days: Days;
     selectedDaysAndHours: SelectedHoursAndDays
     onSubmitDaysAndHours: (data: SelectedHoursAndDays) => void
-    error:string | null
+    error:string | undefined
     onEditMode:() => void
   }

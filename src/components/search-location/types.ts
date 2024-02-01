@@ -4,12 +4,12 @@ export interface Props {
     icon:JSX.Element;
     label:string
     placeholder:string
-    error:string 
+    error?:string 
     onSelect:(location:string) => void
     value:string | null
 
 }
 export interface StyledProps {
-    error:string
+    error?:string
   }
   

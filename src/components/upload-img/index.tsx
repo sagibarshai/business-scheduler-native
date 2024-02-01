@@ -1,12 +1,39 @@
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { launchImageLibrary, ImageLibraryOptions, ImagePickerResponse } from "react-native-image-picker";
+import {
+  launchImageLibrary,
+  ImageLibraryOptions,
+  ImagePickerResponse,
+} from "react-native-image-picker";
 import { Props } from "./types";
 import { theme } from "../../../theme";
-import { StyleCoverImgWrapper, StyleRegularImgWrapper, StyledCoverImg, StyledCoverText, StyledCoverUploadImgWrapper, StyledErrorMessageText, StyledProfileImg, StyledProfileImgWrapper, StyledProfileText, StyledProfileUploadImgWrapper, StyledRegularUploadImgWrapper, StyledXButtonText, StyledXButtonWrapper } from "./styled";
+import {
+  StyleCoverImgWrapper,
+  StyleRegularImgWrapper,
+  StyledCoverImg,
+  StyledCoverText,
+  StyledCoverUploadImgWrapper,
+  StyledErrorMessageText,
+  StyledProfileImg,
+  StyledProfileImgWrapper,
+  StyledProfileText,
+  StyledProfileUploadImgWrapper,
+  StyledRegularUploadImgWrapper,
+  StyledXButtonText,
+  StyledXButtonWrapper,
+} from "./styled";
 import React from "react";
 import PlusButton from "../inputs/buttons/plus-button";
 
-const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError = () => {} }: Props) => {
+const UploadImg = ({
+  variant,
+  error,
+  text,
+  source,
+  onUpload,
+  onDelete,
+  onCancel = () => {},
+  onError = () => {},
+}: Props) => {
   const onUploadImg = () => {
     const options: ImageLibraryOptions = {
       mediaType: "photo",
@@ -15,9 +42,8 @@ const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError =
 
     launchImageLibrary(options, (response: ImagePickerResponse) => {
       if (response.didCancel) {
-        console.log("User cancelled image picker");
+        onCancel();
       } else if (response.errorCode) {
-        console.log("Image picker error: ", response.errorCode);
         onError();
       } else {
         let imageUri = response.assets || response.assets?.[0];
@@ -34,9 +60,17 @@ const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError =
         {!source ? (
           <>
             <StyledProfileImgWrapper>
-              <Icon name="image-outline" color={theme.icons.colors.gray} size={theme.icons.sizes.xl} />
+              <Icon
+                name="image-outline"
+                color={theme.icons.colors.gray}
+                size={theme.icons.sizes.xl}
+              />
             </StyledProfileImgWrapper>
-            {error ? <StyledErrorMessageText>{error}</StyledErrorMessageText> : <StyledProfileText>{text}</StyledProfileText>}
+            {error ? (
+              <StyledErrorMessageText>{error}</StyledErrorMessageText>
+            ) : (
+              <StyledProfileText>{text}</StyledProfileText>
+            )}
           </>
         ) : (
           <StyledProfileImgWrapper>
@@ -52,14 +86,22 @@ const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError =
         {!source ? (
           <>
             <StyleRegularImgWrapper>
-              <Icon name="image-outline" color={theme.icons.colors.gray} size={theme.icons.sizes.xl} />
+              <Icon
+                name="image-outline"
+                color={theme.icons.colors.gray}
+                size={theme.icons.sizes.xl}
+              />
             </StyleRegularImgWrapper>
             <StyledCoverText>{text}</StyledCoverText>
           </>
         ) : (
           <StyleRegularImgWrapper>
             <StyledXButtonWrapper onPress={onDelete}>
-              <Icon name="trash-can-outline" color={theme.icons.colors.black} size={theme.icons.sizes.m} />
+              <Icon
+                name="trash-can-outline"
+                color={theme.icons.colors.black}
+                size={theme.icons.sizes.m}
+              />
             </StyledXButtonWrapper>
             <StyledCoverImg source={source} />
           </StyleRegularImgWrapper>
@@ -72,14 +114,22 @@ const UploadImg = ({ variant, error, text, source, onUpload, onDelete, onError =
         {!source ? (
           <>
             <StyleCoverImgWrapper>
-              <Icon name="image-outline" color={theme.icons.colors.gray} size={theme.icons.sizes.xl} />
+              <Icon
+                name="image-outline"
+                color={theme.icons.colors.gray}
+                size={theme.icons.sizes.xl}
+              />
             </StyleCoverImgWrapper>
             <StyledCoverText>{text}</StyledCoverText>
           </>
         ) : (
           <StyleCoverImgWrapper>
             <StyledXButtonWrapper onPress={onDelete}>
-              <Icon name="trash-can-outline" color={theme.icons.colors.black} size={theme.icons.sizes.m} />
+              <Icon
+                name="trash-can-outline"
+                color={theme.icons.colors.black}
+                size={theme.icons.sizes.m}
+              />
             </StyledXButtonWrapper>
             <StyledCoverImg source={source} />
           </StyleCoverImgWrapper>

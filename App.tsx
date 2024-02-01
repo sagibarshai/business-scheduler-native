@@ -89,7 +89,7 @@ const App = () => {
           }}
         >
           <SackNavigation.Navigator
-            initialRouteName="business-profile"
+            initialRouteName="add-business"
             screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}
           >
             <SackNavigation.Screen name="auth" component={AuthScreens} />

@@ -1,6 +1,6 @@
 export type InputState<T> = {
     value: T;
-    error: string;
+    error?: string;
     isEditMode?:boolean
     isValid?:boolean
     showErrorMessage?:boolean

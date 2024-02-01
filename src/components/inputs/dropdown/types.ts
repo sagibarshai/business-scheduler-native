@@ -1,5 +1,5 @@
 export interface StyledProps {
-    error:string
+    error?:string
   }
   
   export interface Props extends StyledProps {
@@ -7,7 +7,7 @@ export interface StyledProps {
     isOpen?: boolean;
     onToggle: () => void;
     onSelect:(option:string) => void
-    error:string 
+    error?:string
     selectedCategories:string[]
     label:string
     icon:JSX.Element

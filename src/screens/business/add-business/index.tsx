@@ -9,7 +9,7 @@ const AddNewBusiness = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="stage-1"
+      initialRouteName="stage-2"
       screenOptions={{
         headerShown: true,
         headerTitleAlign: "center",

@@ -6,6 +6,7 @@ export interface Props {
     onUpload:(assets:Asset[]) => void
     onDelete?:() => void
     onError?:() => void
+    onCancel?:() => void
     text:string
     error?:string
 }

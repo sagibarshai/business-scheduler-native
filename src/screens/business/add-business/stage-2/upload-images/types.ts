@@ -9,5 +9,6 @@ export interface Props {
     profileImg:Asset | undefined
     coverImg:Asset | undefined
     regularImgs:Asset[]
-    profileImgErrorMessage:string
+    profileImgErrorMessage?:string
+    onCancelProfileImg?:() => void
 }

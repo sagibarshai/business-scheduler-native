@@ -17,7 +17,6 @@ import {
   addressErrorMessage,
   categoryErrorMessage,
   daysAndHoursErrorMessage,
-  editModeErrorMessage,
   nameErrorMessage,
 } from "./errors/messages";
 
@@ -36,27 +35,16 @@ import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
 import { type NativeSyntheticEvent } from "react-native";
 import { type InputState } from "../../../../components/inputs/types";
 import { type Days } from "../../../../components/select-days/types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAppDispatch, useAppSelector } from "../../../../../redux/store";
 import { setBusinessMetaData } from "../../../../../redux/featuers/business/businessSlice";
 import SearchLocation from "../../../../components/search-location";
 import TelInput from "../../../../components/inputs/tel";
 import { isPhone } from "../../../../utils/valitators";
-import { useRoute } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { appAxios } from "../../../../../axios";
-import { RootStackParamList } from "../../../../../types";
 import { useAppNavigation } from "../../../../hooks/use-app-navigation";
 import { useAppRouteParams } from "../../../../hooks/use-app-route-params";
-
-export interface Category {
-  name: string;
-  subCategories: {
-    defaultTime: { hours: number; minutes: number };
-    price: number;
-    name: string;
-  };
-}
+import { Category } from "./types";
 
 const Stage1 = () => {
   const user = useAppSelector((state) => state.user);
@@ -135,8 +123,6 @@ const Stage1 = () => {
   const scrollableRef = useRef<ScrollView>(null);
 
   const isEditMode = useAppRouteParams({ screen: "stage-1" });
-  console.log("isEditMode ", isEditMode);
-  // const isEditMode = stage1Params.is // coming from business profile page (if user want tot edit)
 
   const onSelectCategory = (selectedCategory: string) => {
     const isExist = selectedCategories.value.find((category) => category === selectedCategory);
@@ -196,7 +182,7 @@ const Stage1 = () => {
       });
   };
 
-  const onInputToggleEditMode = (filed: "name" | "address" | "tel" | "categories") => {
+  const onInputToggleEditMode = (filed: "address" | "categories") => {
     if (filed === "address") {
       setBusinessAddress({
         ...businessAddress,
@@ -282,8 +268,6 @@ const Stage1 = () => {
 
           <TextInput
             placeholder="מה השם ?"
-            onFocus={() => onInputToggleEditMode("name")}
-            onBlur={() => onInputToggleEditMode("name")}
             error={businessName.showErrorMessage && !businessName.isValid ? businessName.error : ""}
             onChange={(event) => onInputChange(event, "name")}
             label="שם העסק"
@@ -317,8 +301,6 @@ const Stage1 = () => {
           />
           <TelInput
             placeholder="מה הטלפון ?"
-            onFocus={() => onInputToggleEditMode("tel")}
-            onBlur={() => onInputToggleEditMode("tel")}
             error={
               businessPhone.showErrorMessage && !businessPhone.isValid ? businessPhone.error : ""
             }

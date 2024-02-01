@@ -6,14 +6,40 @@ import { theme } from "../../../../theme";
 
 import { Props } from "./types";
 
-import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption, StyledErrorMessage, StyledInputLabel, StyledRow, StyledDropdownTitle, StyledBottomSheetContent } from "./styled";
+import {
+  DropdownButton,
+  DropdownContainer,
+  StyledDropdownItem,
+  DropdownList,
+  StyledDropdownText,
+  StyledDropdownOption,
+  StyledErrorMessage,
+  StyledInputLabel,
+  StyledRow,
+  StyledDropdownTitle,
+  StyledBottomSheetContent,
+} from "./styled";
 import CustomBottomSheet from "../../bottom-sheet";
 import CheckBox from "react-native-check-box";
 import SearchInput from "../../filter-search-input";
 import { useEffect, useState } from "react";
 import Tag from "../../tags";
 
-const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, error, label, icon, placeholder, showTags, overrideContent, height = "70%", showDropdownButton = true }: Props) => {
+const Dropdown = ({
+  options,
+  selectedCategories,
+  isOpen,
+  onToggle,
+  onSelect,
+  error = "",
+  label,
+  icon,
+  placeholder,
+  showTags,
+  overrideContent,
+  height = "70%",
+  showDropdownButton = true,
+}: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
@@ -36,10 +62,19 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
           {!selectedCategories.length ? (
             <DropdownButton error={error} onPress={onToggle}>
               <StyledDropdownText>{placeholder}</StyledDropdownText>
-              <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />
+              <IconArrowDown
+                color={theme.icons.colors.aqua}
+                size={theme.icons.sizes.m}
+                name="chevron-down"
+              />
             </DropdownButton>
           ) : (
-            <StyledRow>{showTags && selectedCategories.map((category) => <Tag text={category} key={category} onPress={onToggle} />)}</StyledRow>
+            <StyledRow>
+              {showTags &&
+                selectedCategories.map((category) => (
+                  <Tag text={category} key={category} onPress={onToggle} />
+                ))}
+            </StyledRow>
           )}
           <StyledErrorMessage>{error}</StyledErrorMessage>
         </>
@@ -57,10 +92,20 @@ const Dropdown = ({ options, selectedCategories, isOpen, onToggle, onSelect, err
                 <DropdownList>
                   <ScrollView>
                     {filteredList.map((selectedOption) => {
-                      const isSelected = selectedCategories.find((category) => category === selectedOption);
+                      const isSelected = selectedCategories.find(
+                        (category) => category === selectedOption
+                      );
                       return (
-                        <StyledDropdownItem key={selectedOption} onPress={() => handleSelectOption(selectedOption)}>
-                          <CheckBox checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua} uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple} isChecked={Boolean(isSelected)} onClick={() => handleSelectOption(selectedOption)} />
+                        <StyledDropdownItem
+                          key={selectedOption}
+                          onPress={() => handleSelectOption(selectedOption)}
+                        >
+                          <CheckBox
+                            checkedCheckBoxColor={theme.palette.colors.lights.texts.aqua}
+                            uncheckedCheckBoxColor={theme.palette.colors.lights.texts.purple}
+                            isChecked={Boolean(isSelected)}
+                            onClick={() => handleSelectOption(selectedOption)}
+                          />
                           <StyledDropdownOption>{selectedOption}</StyledDropdownOption>
                         </StyledDropdownItem>
                       );

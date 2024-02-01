@@ -1,5 +1,5 @@
 export interface Props {
-    isOpen:boolean
+    isOpen?:boolean
     onToggle:() => void;
     icon:JSX.Element;
     label:string

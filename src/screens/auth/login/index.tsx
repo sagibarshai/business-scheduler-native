@@ -29,14 +29,28 @@ import { useAppDispatch } from "../../../../redux/store";
 const Login = ({ onNavigateToSignUpPage }: Props) => {
   const appDispatch = useAppDispatch();
 
-  const [email, setEmail] = useState<InputState<string>>({ error: emailErrorMessage, value: "", isEditMode: false, isValid: false, showErrorMessage: false });
-  const [password, setPassword] = useState<InputState<string>>({ error: passwordErrorMessage, value: "", isEditMode: false, isValid: false, showErrorMessage: false });
+  const [email, setEmail] = useState<InputState<string>>({
+    error: emailErrorMessage,
+    value: "",
+    isEditMode: false,
+    isValid: false,
+    showErrorMessage: false,
+  });
+  const [password, setPassword] = useState<InputState<string>>({
+    error: passwordErrorMessage,
+    value: "",
+    isEditMode: false,
+    isValid: false,
+    showErrorMessage: false,
+  });
 
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onEmailChange = (text: string) => setEmail({ ...email, value: text, isValid: isEmail(text), showErrorMessage: true });
-  const onPasswordChange = (text: string) => setPassword({ ...password, value: text, isValid: text.length >= 8, showErrorMessage: true });
+  const onEmailChange = (text: string) =>
+    setEmail({ ...email, value: text, isValid: isEmail(text), showErrorMessage: true });
+  const onPasswordChange = (text: string) =>
+    setPassword({ ...password, value: text, isValid: text.length >= 8, showErrorMessage: true });
 
   const onLogin = async () => {
     setIsLoading(true);
@@ -49,8 +63,8 @@ const Login = ({ onNavigateToSignUpPage }: Props) => {
         password: password.value,
       };
       try {
-        const userData: { user: User; token: string } = (await appAxios.post("/auth/login", body)).data;
-        console.log("userData", userData);
+        const userData: { user: User; token: string } = (await appAxios.post("/auth/login", body))
+          .data;
         const user = {
           account_verified: userData.user.account_verified,
           email: userData.user.email,
@@ -62,7 +76,6 @@ const Login = ({ onNavigateToSignUpPage }: Props) => {
           role: userData.user.role,
           token: userData.token,
         };
-
         appDispatch(setUser(user));
       } catch (err) {
         const error = err as AxiosError;
@@ -79,27 +92,50 @@ const Login = ({ onNavigateToSignUpPage }: Props) => {
     <ScrollView>
       <StyledWrapper>
         <StyledIconWrapper>
-          <MaterialCommunityIcons size={100} name="briefcase-clock-outline" color={theme.icons.colors.aqua} />
+          <MaterialCommunityIcons
+            size={100}
+            name="briefcase-clock-outline"
+            color={theme.icons.colors.aqua}
+          />
         </StyledIconWrapper>
         <StyledTitle>ברוך הבא אל Bazzy</StyledTitle>
         <TextInput
           keyboardType="email-address"
           label="אימייל"
           onChange={(event) => onEmailChange(event.nativeEvent.text)}
-          icon={<MaterialIcons name="alternate-email" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+          icon={
+            <MaterialIcons
+              name="alternate-email"
+              color={theme.icons.colors.aqua}
+              size={theme.icons.sizes.m}
+            />
+          }
           error={email.showErrorMessage && !email.isValid ? email.error : ""}
         />
         <TextInput
           textContentType="password"
           label="סיסמא"
           onChange={(event) => onPasswordChange(event.nativeEvent.text)}
-          icon={<MaterialIcons name="security" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
+          icon={
+            <MaterialIcons
+              name="security"
+              color={theme.icons.colors.aqua}
+              size={theme.icons.sizes.m}
+            />
+          }
           error={password.showErrorMessage && !password.isValid ? password.error : ""}
         />
 
         <StyledLoginButtonWrapper>
-          <StyledLoginButton onPress={onLogin} disabled={isLoading || !email.isValid || !password.isValid}>
-            {isLoading ? <CircleSnail color={theme.palette.colors.lights.texts.white} size={30} /> : <StyledText>התחברות</StyledText>}
+          <StyledLoginButton
+            onPress={onLogin}
+            disabled={isLoading || !email.isValid || !password.isValid}
+          >
+            {isLoading ? (
+              <CircleSnail color={theme.palette.colors.lights.texts.white} size={30} />
+            ) : (
+              <StyledText>התחברות</StyledText>
+            )}
           </StyledLoginButton>
           {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
         </StyledLoginButtonWrapper>

@@ -4,7 +4,7 @@ export interface StyledProps {
   
   export interface Props extends StyledProps {
     options: string[];
-    isOpen: boolean;
+    isOpen?: boolean;
     onToggle: () => void;
     onSelect:(option:string) => void
     error:string 

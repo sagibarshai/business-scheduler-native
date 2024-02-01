@@ -1,7 +1,14 @@
 import { useAppSelector } from "../../../redux/store";
 import { theme } from "../../../theme";
 import Tag from "../tags";
-import { StyledCategoriesWrapper, StyledIconAndTitleWrapper, StyledKeyValueWrapper, StyledSectionTitle, StyledText, StyledWrapper } from "./styled";
+import {
+  StyledCategoriesWrapper,
+  StyledIconAndTitleWrapper,
+  StyledKeyValueWrapper,
+  StyledSectionTitle,
+  StyledText,
+  StyledWrapper,
+} from "./styled";
 import { type Props } from "./types";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -12,18 +19,44 @@ import { useMemo, useState } from "react";
 import Table from "../table";
 import Hr from "../elements/hr";
 import EditPen from "../edit-pen";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAppNavigation } from "../../hooks/use-app-navigation";
 
 const BusinessProfile = ({ allowEdit }: Props) => {
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const navigation = useAppNavigation();
 
   const business = useAppSelector((state) => state.business);
   const subCategoriesHeaders = useMemo(() => {
     return [
-      { icon: <MaterialCommunityIcons name="hand-extended-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "שירות" },
-      { icon: <MaterialCommunityIcons name="clock-edit-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "זמן" },
-      { icon: <MaterialIcons name="currency-exchange" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />, value: "מחיר" },
+      {
+        icon: (
+          <MaterialCommunityIcons
+            name="hand-extended-outline"
+            color={theme.icons.colors.aqua}
+            size={theme.icons.sizes.m}
+          />
+        ),
+        value: "שירות",
+      },
+      {
+        icon: (
+          <MaterialCommunityIcons
+            name="clock-edit-outline"
+            color={theme.icons.colors.aqua}
+            size={theme.icons.sizes.m}
+          />
+        ),
+        value: "זמן",
+      },
+      {
+        icon: (
+          <MaterialIcons
+            name="currency-exchange"
+            color={theme.icons.colors.aqua}
+            size={theme.icons.sizes.m}
+          />
+        ),
+        value: "מחיר",
+      },
     ];
   }, []);
 
@@ -42,10 +75,8 @@ const BusinessProfile = ({ allowEdit }: Props) => {
     }));
   }, []);
 
-  const onEdit = (screen: string) => {
-    navigation.navigate(screen, {
-      editMode: true,
-    });
+  const onEdit = (screen: "stage-1" | "stage-2" | "stage-3") => {
+    navigation.navigateTo(screen, { isEditMode: true });
   };
 
   return (
@@ -53,11 +84,19 @@ const BusinessProfile = ({ allowEdit }: Props) => {
       <StyledWrapper>
         {allowEdit && <EditPen onPress={() => onEdit("stage-2")} />}
         <StyledKeyValueWrapper>
-          <DisplayImgs regularImgs={business.photos.regular} coverImg={business.photos.cover} profileImg={business.photos.profile} />
+          <DisplayImgs
+            regularImgs={business.photos.regular}
+            coverImg={business.photos.cover}
+            profileImg={business.photos.profile}
+          />
         </StyledKeyValueWrapper>
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="subtitles-outline" />
+            <MaterialCommunityIcons
+              size={theme.icons.sizes.m}
+              color={theme.icons.colors.aqua}
+              name="subtitles-outline"
+            />
             <StyledSectionTitle>תיאור העסק</StyledSectionTitle>
           </StyledIconAndTitleWrapper>
           <StyledText>{business.data.description}</StyledText>
@@ -66,7 +105,11 @@ const BusinessProfile = ({ allowEdit }: Props) => {
         {allowEdit && <EditPen onPress={() => onEdit("stage-1")} />}
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
-            <MaterialIcons name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />
+            <MaterialIcons
+              name="category"
+              color={theme.icons.colors.aqua}
+              size={theme.icons.sizes.m}
+            />
             <StyledSectionTitle>קטגוריות</StyledSectionTitle>
           </StyledIconAndTitleWrapper>
           <StyledCategoriesWrapper>
@@ -78,38 +121,60 @@ const BusinessProfile = ({ allowEdit }: Props) => {
 
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />
+            <MaterialCommunityIcons
+              size={theme.icons.sizes.m}
+              color={theme.icons.colors.aqua}
+              name="note-text-outline"
+            />
             <StyledSectionTitle>שם העסק</StyledSectionTitle>
           </StyledIconAndTitleWrapper>
           <StyledText>{business.metaData.name}</StyledText>
         </StyledKeyValueWrapper>
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />
+            <MaterialCommunityIcons
+              size={theme.icons.sizes.m}
+              color={theme.icons.colors.aqua}
+              name="home-outline"
+            />
             <StyledSectionTitle>כתובת העסק</StyledSectionTitle>
           </StyledIconAndTitleWrapper>
           <StyledText>{business.metaData.address}</StyledText>
         </StyledKeyValueWrapper>
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />
+            <MaterialCommunityIcons
+              size={theme.icons.sizes.m}
+              color={theme.icons.colors.aqua}
+              name="home-outline"
+            />
             <StyledSectionTitle>טלפון</StyledSectionTitle>
           </StyledIconAndTitleWrapper>
           <StyledText>{business.metaData.phone}</StyledText>
         </StyledKeyValueWrapper>
         <StyledKeyValueWrapper>
           <StyledIconAndTitleWrapper>
-            <MaterialCommunityIcons size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
+            <MaterialCommunityIcons
+              size={theme.icons.sizes.m}
+              color={theme.icons.colors.aqua}
+              name="clock-edit-outline"
+            />
             <StyledSectionTitle>ימים ושעות</StyledSectionTitle>
           </StyledIconAndTitleWrapper>
-          <SelectedDaysAndHoursDisplay selectedDaysAndHours={business.metaData.workingDaysAndHours} />
+          <SelectedDaysAndHoursDisplay
+            selectedDaysAndHours={business.metaData.workingDaysAndHours}
+          />
         </StyledKeyValueWrapper>
 
         <Hr />
         {allowEdit && <EditPen onPress={() => onEdit("stage-3")} />}
 
         <StyledKeyValueWrapper>
-          <Table data={subCategoriesData} customHeaders={subCategoriesHeaders} columnSizes={[2, 2, 1]} />
+          <Table
+            data={subCategoriesData}
+            customHeaders={subCategoriesHeaders}
+            columnSizes={[2, 2, 1]}
+          />
         </StyledKeyValueWrapper>
       </StyledWrapper>
     </ScrollView>

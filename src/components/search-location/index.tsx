@@ -1,6 +1,18 @@
 import CustomBottomSheet from "../bottom-sheet";
 import { Props } from "./types";
-import { DropdownButton, DropdownContainer, StyledDropdownItem, DropdownList, StyledDropdownText, StyledDropdownOption, StyledErrorMessage, StyledInputLabel, StyledRow, StyledDropdownTitle, StyledBottomSheetContent } from "./styled";
+import {
+  DropdownButton,
+  DropdownContainer,
+  StyledDropdownItem,
+  DropdownList,
+  StyledDropdownText,
+  StyledDropdownOption,
+  StyledErrorMessage,
+  StyledInputLabel,
+  StyledRow,
+  StyledDropdownTitle,
+  StyledBottomSheetContent,
+} from "./styled";
 import { theme } from "../../../theme";
 import IconArrowDown from "react-native-vector-icons/MaterialCommunityIcons";
 import { ScrollView } from "react-native-virtualized-view";
@@ -9,12 +21,28 @@ import { useEffect, useRef, useState } from "react";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import { appAxios } from "../../../axios";
 import { AxiosError } from "axios";
+import { useAppSelector } from "../../../redux/store";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onSelect, value }: Props) => {
+const SearchLocation = ({
+  isOpen,
+  onToggle,
+  icon,
+  label,
+  placeholder,
+  error,
+  onSelect,
+  value,
+}: Props) => {
   const [textInput, setTextInput] = useState<string>("");
   const [locationsList, setLocationsList] = useState<string[]>([]);
 
-  const onChangeInput = (e: NativeSyntheticEvent<TextInputChangeEventData>) => setTextInput(e.nativeEvent.text);
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const user = useAppSelector((state) => state.user);
+
+  const onChangeInput = (e: NativeSyntheticEvent<TextInputChangeEventData>) =>
+    setTextInput(e.nativeEvent.text);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,12 +55,18 @@ const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onS
           params: {
             input: textInput,
           },
+          headers: {
+            Authorization: `Berar ${user.token}`,
+          },
         });
+        console.log("response ", response.config);
         const parsedResponse: any = response.data;
         setLocationsList(parsedResponse.locations);
       } catch (err) {
         const error = err as AxiosError;
-        console.log("error ", error);
+        if (error.response?.status === 401) navigation.navigate("auth");
+        onToggle();
+        console.log("error ", error.response?.status);
       }
     };
     fetchData();
@@ -47,7 +81,13 @@ const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onS
 
       <DropdownButton error={error} onPress={onToggle}>
         <StyledDropdownText>{value ? value : placeholder}</StyledDropdownText>
-        {!value && <IconArrowDown color={theme.icons.colors.aqua} size={theme.icons.sizes.m} name="chevron-down" />}
+        {!value && (
+          <IconArrowDown
+            color={theme.icons.colors.aqua}
+            size={theme.icons.sizes.m}
+            name="chevron-down"
+          />
+        )}
       </DropdownButton>
 
       <StyledErrorMessage>{error}</StyledErrorMessage>
@@ -60,7 +100,7 @@ const SearchLocation = ({ isOpen, onToggle, icon, label, placeholder, error, onS
 
             <DropdownList>
               <ScrollView>
-                {locationsList.map((location) => {
+                {locationsList?.map((location) => {
                   return (
                     <StyledDropdownItem key={location} onPress={() => onSelect(location)}>
                       <StyledDropdownOption>{location}</StyledDropdownOption>

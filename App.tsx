@@ -2,7 +2,10 @@ import { Provider } from "react-redux";
 import styled, { css } from "styled-components/native";
 import store, { useAppSelector } from "./redux/store";
 import { NavigationContainer, ParamListBase, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from "@react-navigation/native-stack";
 
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./theme";
@@ -15,6 +18,7 @@ import { type StyledProps } from "./types";
 import BusinessProfileScreen from "./src/screens/business/business-profile";
 import AuthScreens from "./src/screens/auth";
 import ConfigRole from "./src/screens/config-role/component";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -45,25 +49,65 @@ const App = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
-    if (user.token) {
-      if (user.role === "N/A") navigation.navigate("config-role");
-      else if (user.role === "business") navigation.navigate("add-business");
+    // navigation
+    let token = undefined;
+
+    const getToken = async () => {
+      try {
+        token = await AsyncStorage.getItem("token");
+      } catch (err) {
+        console.log("err ", err);
+      }
+    };
+    getToken();
+
+    if (user.token || token) {
+      const navigationAndStore = async () => {
+        try {
+          await AsyncStorage.setItem("token", user.token);
+        } catch (err) {
+          console.log("err ", err);
+        }
+
+        if (user.role === "N/A") navigation.navigate("config-role");
+        else if (user.role === "business") navigation.navigate("add-business");
+      };
+      navigationAndStore();
     }
   }, [user.token, user.role]);
 
   return (
     <StyledAppWrapper platform={Platform}>
-      <KeyboardAvoidingView enabled={true} style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+      <KeyboardAvoidingView
+        enabled={true}
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <TouchableWithoutFeedback
           onPress={() => {
             Keyboard.dismiss();
           }}
         >
-          <SackNavigation.Navigator initialRouteName="auth" screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}>
+          <SackNavigation.Navigator
+            initialRouteName="business-profile"
+            screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}
+          >
             <SackNavigation.Screen name="auth" component={AuthScreens} />
-            <SackNavigation.Screen options={{ title: "הוספת העסק" }} name="add-business" component={AddNewBusiness} />
-            <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="business-profile" component={BusinessProfileScreen} />
-            <SackNavigation.Screen options={{ title: "פרופיל העסק" }} name="config-role" component={ConfigRole} />
+            <SackNavigation.Screen
+              options={{ title: "הוספת העסק" }}
+              name="add-business"
+              component={AddNewBusiness}
+            />
+            <SackNavigation.Screen
+              options={{ title: "פרופיל העסק" }}
+              name="business-profile"
+              component={BusinessProfileScreen}
+            />
+            <SackNavigation.Screen
+              options={{ title: "פרופיל העסק" }}
+              name="config-role"
+              component={ConfigRole}
+            />
           </SackNavigation.Navigator>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>

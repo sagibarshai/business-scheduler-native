@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView } from "react-native";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconCategory from "react-native-vector-icons/MaterialIcons";
@@ -13,9 +12,24 @@ import NextStageButton from "../../../../components/inputs/buttons/next-stage-bu
 
 import { theme } from "../../../../../theme";
 import { days } from "../../../../components/select-days";
-import { TelErrorMessage, addressErrorMessage, categoryErrorMessage, daysAndHoursErrorMessage, editModeErrorMessage, nameErrorMessage } from "./errors/messages";
+import {
+  TelErrorMessage,
+  addressErrorMessage,
+  categoryErrorMessage,
+  daysAndHoursErrorMessage,
+  editModeErrorMessage,
+  nameErrorMessage,
+} from "./errors/messages";
 
-import { StyledDaysLabel, StyledDaysAndLabelWrapper, StyledLabelIconWrapper, StyledStage1Subtitle, StyledStage1Title, StyledStage1Wrapper, StyledStage1Content } from "./styled";
+import {
+  StyledDaysLabel,
+  StyledDaysAndLabelWrapper,
+  StyledLabelIconWrapper,
+  StyledStage1Subtitle,
+  StyledStage1Title,
+  StyledStage1Wrapper,
+  StyledStage1Content,
+} from "./styled";
 
 import { type TextInputChangeEventData } from "react-native";
 import { type SelectedHoursAndDays } from "./select-days-and-hours/types";
@@ -29,133 +43,186 @@ import SearchLocation from "../../../../components/search-location";
 import TelInput from "../../../../components/inputs/tel";
 import { isPhone } from "../../../../utils/valitators";
 import { useRoute } from "@react-navigation/native";
+import { AxiosError } from "axios";
+import { appAxios } from "../../../../../axios";
+import { RootStackParamList } from "../../../../../types";
+import { useAppNavigation } from "../../../../hooks/use-app-navigation";
+import { useAppRouteParams } from "../../../../hooks/use-app-route-params";
 
-// stage 1 on figma (business owner add business name, business location, working hours and days of work and business category)
+export interface Category {
+  name: string;
+  subCategories: {
+    defaultTime: { hours: number; minutes: number };
+    price: number;
+    name: string;
+  };
+}
 
 const Stage1 = () => {
+  const user = useAppSelector((state) => state.user);
   const businessMetaData = useAppSelector((state) => state.business.metaData);
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const dispatch = useAppDispatch();
+  const navigation = useAppNavigation();
+
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [selectedDays, setSelectedDays] = useState<Days>(days);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  const [isCategoryOpen, setIsCategoryOpen] = useState<boolean>(false);
-  const [isSearchLocationOpen, setIsSearchLocationOpen] = useState<boolean>(false);
+  const [selectedCategories, setSelectedCategories] = useState<InputState<string[]>>({
+    value: businessMetaData.categories,
+    error: categoryErrorMessage,
+    isEditMode: false,
+    isValid: false,
+    showErrorMessage: false,
+  });
 
-  const [categories, setCategories] = useState<InputState<string[]>>({ value: businessMetaData.categories, error: categoryErrorMessage, isEditMode: false });
+  const [businessPhone, setBusinessPhone] = useState<InputState<string>>({
+    showErrorMessage: false,
+    isValid: false,
+    value: businessMetaData.phone,
+    error: TelErrorMessage,
+    isEditMode: false,
+  });
 
-  const [businessTel, setBusinessTel] = useState<InputState<string>>({ value: businessMetaData.phone, error: TelErrorMessage, isEditMode: false });
-  const [businessName, setBusinessName] = useState<InputState<string>>({ value: businessMetaData.name, error: nameErrorMessage, isEditMode: false });
-  const [businessAddress, setBusinessAddress] = useState<InputState<string>>({ value: businessMetaData.address, error: addressErrorMessage, isEditMode: false });
-  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<InputState<SelectedHoursAndDays>>({
+  const [businessName, setBusinessName] = useState<InputState<string>>({
+    showErrorMessage: false,
+    isValid: false,
+    value: businessMetaData.name,
+    error: nameErrorMessage,
+    isEditMode: false,
+  });
+
+  const [businessAddress, setBusinessAddress] = useState<InputState<string>>({
+    showErrorMessage: false,
+    isValid: false,
+    value: businessMetaData.address,
+    error: addressErrorMessage,
+    isEditMode: false,
+  });
+
+  const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<
+    InputState<SelectedHoursAndDays>
+  >({
     error: daysAndHoursErrorMessage,
     isEditMode: false,
     value: businessMetaData.workingDaysAndHours,
+    isValid: false,
+    showErrorMessage: false,
   });
+
+  const getCategories = async () => {
+    try {
+      const categoriesResponse: { data: { categories: Category[] } } = await appAxios.get(
+        "/business/categories",
+        {
+          headers: {
+            Authorization: `Berar ${user.token}`,
+          },
+        }
+      );
+      setCategories(categoriesResponse.data.categories);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log("err ", error.response?.data);
+      if (error.response?.status === 401) navigation.navigateTo("auth");
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   const scrollableRef = useRef<ScrollView>(null);
 
-  const route = useRoute();
+  const isEditMode = useAppRouteParams({ screen: "stage-1" });
+  console.log("isEditMode ", isEditMode);
+  // const isEditMode = stage1Params.is // coming from business profile page (if user want tot edit)
 
-  //TODO FIX TS
-  //@ts-ignore
-  const isEditMode = route.params?.editMode;
-
-  // category
   const onSelectCategory = (selectedCategory: string) => {
-    const isExist = categories.value.find((category) => category === selectedCategory);
+    const isExist = selectedCategories.value.find((category) => category === selectedCategory);
     let updatedCategories: string[] = [];
     if (isExist) {
-      updatedCategories = categories.value.filter((category) => category !== selectedCategory);
+      updatedCategories = selectedCategories.value.filter(
+        (category) => category !== selectedCategory
+      );
     } else {
-      updatedCategories = [...categories.value, selectedCategory];
+      updatedCategories = [...selectedCategories.value, selectedCategory];
     }
-    setCategories({ ...categories, value: updatedCategories, error: "", isEditMode: false });
-  };
-
-  const onToggleCategoryDropdown = () => {
-    setIsCategoryOpen(!isCategoryOpen);
-    if (!isCategoryOpen) setCategories({ ...categories, isEditMode: true });
-  };
-  const onToggleSearchLocation = () => {
-    setIsSearchLocationOpen(!isSearchLocationOpen);
-    if (!isCategoryOpen) setBusinessAddress({ ...businessAddress, isEditMode: true });
+    setSelectedCategories({
+      ...selectedCategories,
+      value: updatedCategories,
+      isValid: updatedCategories.length > 0,
+    });
   };
 
   // days and hours
-  const onEditDaysAndHours = () => setSelectedDaysAndHours({ ...selectedDaysAndHours, isEditMode: true, error: "" });
+  const onEditDaysAndHours = () =>
+    setSelectedDaysAndHours({
+      ...selectedDaysAndHours,
+      isEditMode: true,
+    });
 
   const onSubmitDaysAndHours = (data: SelectedHoursAndDays) => {
-    setSelectedDaysAndHours({ ...selectedDaysAndHours, value: data, error: "", isEditMode: false });
+    setSelectedDaysAndHours({
+      ...selectedDaysAndHours,
+      value: data,
+      isEditMode: false,
+      isValid: data.length > 0,
+    });
     if (scrollableRef.current) {
       scrollableRef.current.scrollToEnd();
     }
   };
   // inputs
-  const onInputChange = (event: NativeSyntheticEvent<TextInputChangeEventData>, filed: "name" | "tel") => {
+
+  const onInputChange = (
+    event: NativeSyntheticEvent<TextInputChangeEventData>,
+    filed: "name" | "tel"
+  ) => {
     const value = event.nativeEvent.text;
-    if (filed === "name") {
-      let error = "";
-      if (value.length < 2) error = nameErrorMessage;
-      else error = "";
-      setBusinessName({ ...businessName, value, error });
-    } else if (filed === "tel") {
-      let error = "";
-      if (!isPhone(value)) error = TelErrorMessage;
-      else error = "";
-      setBusinessTel({ ...businessTel, value, error });
+    if (filed === "name")
+      setBusinessName({
+        ...businessName,
+        value,
+        isValid: value.length >= 2,
+        showErrorMessage: true,
+      });
+    else if (filed === "tel")
+      setBusinessPhone({
+        ...businessPhone,
+        value,
+        isValid: isPhone(value),
+        showErrorMessage: true,
+      });
+  };
+
+  const onInputToggleEditMode = (filed: "name" | "address" | "tel" | "categories") => {
+    if (filed === "address") {
+      setBusinessAddress({
+        ...businessAddress,
+        isEditMode: !businessAddress.isEditMode,
+        showErrorMessage: businessAddress.isEditMode,
+        isValid: businessAddress.value.length > 0,
+      });
+    } else if (filed === "categories") {
+      setSelectedCategories({
+        ...selectedCategories,
+        isEditMode: !selectedCategories.isEditMode,
+        showErrorMessage: selectedCategories.isEditMode,
+        isValid: selectedCategories.value.length > 0,
+      });
     }
   };
 
-  const onInputToggleEditMode = (filed: "name" | "address" | "tel") => {
-    if (filed === "name") {
-      setBusinessName({ ...businessName, isEditMode: !businessName.isEditMode });
-    } else if (filed === "address") {
-      setBusinessAddress({ ...businessAddress, isEditMode: !businessAddress.isEditMode });
-    } else if (filed === "tel") {
-      setBusinessTel({ ...businessTel, isEditMode: !businessTel.isEditMode });
-    }
-  };
-
-  // form
-  const checkFormValidity = () => {
-    let errs = [];
-    if (businessAddress.error) errs.push(businessAddress.error);
-    if (businessName.error) errs.push(businessName.error);
-    if (!categories.value.length) errs.push(categories.error);
-    if (!selectedDaysAndHours.value.length) errs.push(selectedDaysAndHours.error);
-    if (businessTel.error) errs.push(businessTel.error);
-    else if (selectedDaysAndHours.isEditMode) {
-      errs.push(editModeErrorMessage);
-      // set this error only on submit !
-      setSelectedDaysAndHours({ ...selectedDaysAndHours, error: editModeErrorMessage });
-    }
-    if (errs.length > 0) return errs;
-    return null;
-  };
-
-  const onNextStage = () => {
-    setIsFormSubmitted(true);
-    const errs = checkFormValidity();
-
-    if (errs) {
-      errorsNavigation(errs);
-      return;
-    }
-
-    handleNavigation();
-  };
-
-  const handleNavigation = async () => {
+  const onNextStage = async () => {
     const dispatchPromise = new Promise<void>((resolve) => {
       dispatch(
         setBusinessMetaData({
           address: businessAddress.value,
           name: businessName.value,
           workingDaysAndHours: selectedDaysAndHours.value,
-          categories: categories.value,
-          phone: businessTel.value,
+          categories: selectedCategories.value,
+          phone: businessPhone.value,
         })
       );
       resolve();
@@ -164,26 +231,28 @@ const Stage1 = () => {
     // Wait for the dispatchPromise to resolve before navigating to "stage-2"
     await dispatchPromise;
 
-    isEditMode ? navigation.navigate("business-profile") : navigation.navigate("stage-2");
-  };
-
-  const errorsNavigation = (errs: string[]) => {
-    if (scrollableRef.current) {
-      if (errs?.length) {
-        if (errs?.length === 1 && selectedDaysAndHours.error) scrollableRef.current.scrollToEnd({ animated: true });
-        else scrollableRef.current.scrollTo({ x: 0, y: 0, animated: true });
-      }
-    }
+    isEditMode ? navigation.navigateTo("business-profile") : navigation.navigateTo("stage-2");
   };
 
   const onSelectLocation = (location: string) => {
-    setBusinessAddress({ ...businessAddress, value: location, error: "" });
-    setIsSearchLocationOpen(false);
+    setBusinessAddress({
+      ...businessAddress,
+      value: location,
+      error: "",
+      isEditMode: !businessAddress.isEditMode,
+      isValid: Boolean(location),
+    });
   };
 
   return (
     <StyledStage1Wrapper>
-      <ScrollView ref={scrollableRef} contentContainerStyle={{ flexGrow: 1, paddingBottom: 80 }}>
+      <ScrollView
+        ref={scrollableRef}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 80,
+        }}
+      >
         <StyledStage1Content>
           <Progressbar currentStage={1} stages={4} />
           <StyledStage1Title>כניסה למערכת</StyledStage1Title>
@@ -192,50 +261,96 @@ const Stage1 = () => {
             showTags
             label="קטגוריות"
             placeholder="הקטגוריות של העסק"
-            icon={<IconCategory name="category" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />}
-            error={isFormSubmitted ? categories.error : ""}
+            icon={
+              <IconCategory
+                name="category"
+                color={theme.icons.colors.aqua}
+                size={theme.icons.sizes.m}
+              />
+            }
+            error={
+              selectedCategories.showErrorMessage && !selectedCategories.isValid
+                ? selectedCategories.error
+                : ""
+            }
             onSelect={onSelectCategory}
-            isOpen={isCategoryOpen}
-            onToggle={onToggleCategoryDropdown}
-            selectedCategories={categories.value}
-            options={["מספרה", "ציפורניים", "מסעדה", "חנות נעליים", "ספריה", "מספרת כלבים", "סטודיו פילאטיס", "בית קפה", "מכולת אורגנית", "סדנת אמיתות"]}
+            isOpen={selectedCategories.isEditMode}
+            onToggle={() => onInputToggleEditMode("categories")}
+            selectedCategories={selectedCategories.value}
+            options={categories.map((category) => category.name)}
           />
 
           <TextInput
             placeholder="מה השם ?"
             onFocus={() => onInputToggleEditMode("name")}
             onBlur={() => onInputToggleEditMode("name")}
-            error={isFormSubmitted ? businessName.error : ""}
+            error={businessName.showErrorMessage && !businessName.isValid ? businessName.error : ""}
             onChange={(event) => onInputChange(event, "name")}
             label="שם העסק"
-            icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="note-text-outline" />}
+            icon={
+              <Icon
+                size={theme.icons.sizes.m}
+                color={theme.icons.colors.aqua}
+                name="note-text-outline"
+              />
+            }
           />
           <SearchLocation
             onSelect={onSelectLocation}
             value={businessAddress.value}
-            error={isFormSubmitted ? businessAddress.error : ""}
-            icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="home-outline" />}
-            isOpen={isSearchLocationOpen}
+            error={
+              businessAddress.showErrorMessage && !businessAddress.isValid
+                ? businessAddress.error
+                : ""
+            }
+            icon={
+              <Icon
+                size={theme.icons.sizes.m}
+                color={theme.icons.colors.aqua}
+                name="home-outline"
+              />
+            }
+            isOpen={businessAddress.isEditMode}
             label="כתובת העסק"
-            onToggle={onToggleSearchLocation}
+            onToggle={() => onInputToggleEditMode("address")}
             placeholder="חפש כתובת כאן"
           />
           <TelInput
             placeholder="מה הטלפון ?"
             onFocus={() => onInputToggleEditMode("tel")}
             onBlur={() => onInputToggleEditMode("tel")}
-            error={isFormSubmitted ? businessTel.error : ""}
+            error={
+              businessPhone.showErrorMessage && !businessPhone.isValid ? businessPhone.error : ""
+            }
             onChange={(event) => onInputChange(event, "tel")}
             label="טלפון"
-            icon={<Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="phone-check-outline" />}
+            icon={
+              <Icon
+                size={theme.icons.sizes.m}
+                color={theme.icons.colors.aqua}
+                name="phone-check-outline"
+              />
+            }
           />
           <StyledDaysAndLabelWrapper>
             <StyledLabelIconWrapper>
-              <Icon size={theme.icons.sizes.m} color={theme.icons.colors.aqua} name="clock-edit-outline" />
+              <Icon
+                size={theme.icons.sizes.m}
+                color={theme.icons.colors.aqua}
+                name="clock-edit-outline"
+              />
               <StyledDaysLabel>ימים ושעות</StyledDaysLabel>
             </StyledLabelIconWrapper>
             <SelectDaysAndHours
-              error={isFormSubmitted && (selectedDaysAndHours.isEditMode || selectedDaysAndHours.error) ? selectedDaysAndHours.error : ""}
+              error={
+                selectedCategories.isValid &&
+                businessName.isValid &&
+                businessAddress.isValid &&
+                businessPhone.isValid &&
+                !selectedDaysAndHours.isValid
+                  ? selectedDaysAndHours.error
+                  : ""
+              }
               selectedDaysAndHours={selectedDaysAndHours.value}
               onEditMode={onEditDaysAndHours}
               onSubmitDaysAndHours={onSubmitDaysAndHours}
@@ -246,7 +361,16 @@ const Stage1 = () => {
           </StyledDaysAndLabelWrapper>
         </StyledStage1Content>
       </ScrollView>
-      <NextStageButton disabled={false} onNextStage={onNextStage}>
+      <NextStageButton
+        disabled={
+          !selectedCategories.isValid ||
+          !businessName.isValid ||
+          !businessAddress.isValid ||
+          !businessPhone.isValid ||
+          !selectedDaysAndHours.isValid
+        }
+        onNextStage={onNextStage}
+      >
         {!isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage1Wrapper>

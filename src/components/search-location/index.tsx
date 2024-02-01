@@ -59,7 +59,6 @@ const SearchLocation = ({
             Authorization: `Berar ${user.token}`,
           },
         });
-        console.log("response ", response.config);
         const parsedResponse: any = response.data;
         setLocationsList(parsedResponse.locations);
       } catch (err) {

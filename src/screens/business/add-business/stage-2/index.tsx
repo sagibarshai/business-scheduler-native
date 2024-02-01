@@ -20,6 +20,7 @@ import Progressbar from "../../../../components/progress-bar";
 import { StyledStage2ImgsTitle } from "./upload-images/styled";
 import { useAppRouteParams } from "../../../../hooks/use-app-route-params";
 import { useAppNavigation } from "../../../../hooks/use-app-navigation";
+import { RootStackParamList } from "../../../../../types";
 
 const Stage2 = () => {
   const businessMetaData = useAppSelector((state) => state.business.metaData);
@@ -51,8 +52,7 @@ const Stage2 = () => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
 
-  const isEditMode = useAppRouteParams({ screen: "stage-2" });
-
+  const stage2Params = useAppRouteParams({ screen: "stage-2" }) as RootStackParamList["stage-2"];
   const onProfileImgUpload = useCallback(
     (asset: Asset) => setProfileImg({ ...profileImg, value: asset, isValid: true }),
     [profileImg]
@@ -111,7 +111,9 @@ const Stage2 = () => {
 
     // Wait for the dispatchPromise to resolve before navigating to "stage-2"
     await dispatchPromise;
-    isEditMode ? navigation.navigateTo("business-profile") : navigation.navigateTo("stage-3");
+    stage2Params?.isEditMode
+      ? navigation.navigateTo("business-profile")
+      : navigation.navigateTo("stage-3");
   };
 
   const onCancelProfileImg = () => {
@@ -161,7 +163,7 @@ const Stage2 = () => {
         </StyledStage2Wrapper>
       </ScrollView>
       <NextStageButton onNextStage={onNextStage} disabled={false}>
-        {!isEditMode ? "לשלב הבא" : "שמור"}
+        {!stage2Params?.isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage2Wrapper>
   );

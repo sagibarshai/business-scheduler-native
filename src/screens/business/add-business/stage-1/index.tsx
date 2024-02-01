@@ -45,6 +45,8 @@ import { appAxios } from "../../../../../axios";
 import { useAppNavigation } from "../../../../hooks/use-app-navigation";
 import { useAppRouteParams } from "../../../../hooks/use-app-route-params";
 import { Category } from "./types";
+import { SubCatogory } from "../stage-3/sub-categories/types";
+import { RootStackParamList } from "../../../../../types";
 
 const Stage1 = () => {
   const user = useAppSelector((state) => state.user);
@@ -101,7 +103,7 @@ const Stage1 = () => {
   const getCategories = async () => {
     try {
       const categoriesResponse: { data: { categories: Category[] } } = await appAxios.get(
-        "/business/categories",
+        "/business/categories-options",
         {
           headers: {
             Authorization: `Berar ${user.token}`,
@@ -122,7 +124,7 @@ const Stage1 = () => {
 
   const scrollableRef = useRef<ScrollView>(null);
 
-  const isEditMode = useAppRouteParams({ screen: "stage-1" });
+  const stage1Params = useAppRouteParams({ screen: "stage-1" }) as RootStackParamList["stage-1"];
 
   const onSelectCategory = (selectedCategory: string) => {
     const isExist = selectedCategories.value.find((category) => category === selectedCategory);
@@ -134,6 +136,7 @@ const Stage1 = () => {
     } else {
       updatedCategories = [...selectedCategories.value, selectedCategory];
     }
+
     setSelectedCategories({
       ...selectedCategories,
       value: updatedCategories,
@@ -217,7 +220,9 @@ const Stage1 = () => {
     // Wait for the dispatchPromise to resolve before navigating to "stage-2"
     await dispatchPromise;
 
-    isEditMode ? navigation.navigateTo("business-profile") : navigation.navigateTo("stage-2");
+    stage1Params?.isEditMode
+      ? navigation.navigateTo("business-profile")
+      : navigation.navigateTo("stage-2");
   };
 
   const onSelectLocation = (location: string) => {
@@ -353,7 +358,7 @@ const Stage1 = () => {
         }
         onNextStage={onNextStage}
       >
-        {!isEditMode ? "לשלב הבא" : "שמור"}
+        {!stage1Params?.isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage1Wrapper>
   );

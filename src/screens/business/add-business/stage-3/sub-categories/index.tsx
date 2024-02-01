@@ -12,7 +12,13 @@ import IconPrice from "react-native-vector-icons/MaterialIcons";
 
 import { theme } from "../../../../../../theme";
 
-const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCategories, error, onAddOptionsToSubCategories }: Props) => {
+const SubCategories = ({
+  subCategories,
+  selectedSubCategories,
+  setSelectedSubCategories,
+  error,
+  onAddOptionsToSubCategories,
+}: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
   const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
@@ -22,18 +28,25 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
   useEffect(() => {
     if (selectedTableRowIndex >= 0) {
       setIsDropdownOpen(true);
-      setOverrideContent(<SubCategoriesForm openTimeOnMount={false} subCategoryData={selectedSubCategories[selectedTableRowIndex]} onCancel={onCancelSelectCategory} onSave={onSaveCategoryForm} />);
+      setOverrideContent(
+        <SubCategoriesForm
+          openTimeOnMount={false}
+          subCategoryData={selectedSubCategories[selectedTableRowIndex]}
+          onCancel={onCancelSelectCategory}
+          onSave={onSaveCategoryForm}
+        />
+      );
     } else setOverrideContent(null);
   }, [selectedTableRowIndex]);
 
   useEffect(() => {
     // build table data
-    const transformedSubcategories = selectedSubCategories.map(({ name, price, time }) => ({
+    const transformedSubcategories = selectedSubCategories.map(({ name, price, defaultTime }) => ({
       service: name,
-      time: time ? (
+      time: defaultTime ? (
         <>
-          {time?.hours ? `${time.hours} ש׳ ,` : ""}
-          {time?.minutes ? time?.minutes + "דק" : ""}
+          {defaultTime?.hours ? `${defaultTime.hours} ש׳ ,` : ""}
+          {defaultTime?.minutes ? defaultTime?.minutes + "דק" : ""}
         </>
       ) : (
         ""
@@ -47,7 +60,6 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
     if (isSubCategoryAdded) {
       setOverrideContent(
         <SubCategoriesForm
-          isNameEditable={selectedSubCategories[selectedSubCategories.length - 1].name === "אחר"}
           subCategoryData={selectedSubCategories[selectedSubCategories.length - 1]}
           onCancel={onCancelSelectCategory}
           onSave={onSaveCategoryForm}
@@ -64,17 +76,31 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
   const onSelectSubCategory = useCallback(
     (subCategory: string) => {
       let updatedSelectedSubCategories = [...selectedSubCategories];
-      const isExist = updatedSelectedSubCategories.find((selectedSubCategory) => selectedSubCategory.name === subCategory);
+      const isExist = updatedSelectedSubCategories.find(
+        (selectedSubCategory) => selectedSubCategory.name === subCategory
+      );
       if (!isExist) {
+        // here
         setIsSubCategoryAdded(true);
-        updatedSelectedSubCategories.push({ name: subCategory, price: null, time: null });
-      } else updatedSelectedSubCategories = updatedSelectedSubCategories.filter((selectedSubCategory) => selectedSubCategory.name !== subCategory);
+        updatedSelectedSubCategories.push({
+          name: subCategory,
+          price: null,
+          defaultTime: { hours: 0, minutes: 0 },
+        });
+      } else
+        updatedSelectedSubCategories = updatedSelectedSubCategories.filter(
+          (selectedSubCategory) => selectedSubCategory.name !== subCategory
+        );
       setSelectedSubCategories(updatedSelectedSubCategories);
     },
     [selectedSubCategories]
   );
   const onCancelSelectCategory = (categoryData: SubCatogory) => {
-    setSelectedSubCategories((prevSelectedSubCategories) => [...prevSelectedSubCategories].filter((selectedSubCategory, index) => index !== prevSelectedSubCategories.length - 1));
+    setSelectedSubCategories((prevSelectedSubCategories) =>
+      [...prevSelectedSubCategories].filter(
+        (selectedSubCategory, index) => index !== prevSelectedSubCategories.length - 1
+      )
+    );
     setOverrideContent(null);
   };
   const onSaveCategoryForm = (categoryData: SubCatogory) => {
@@ -101,7 +127,10 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
         if (
           !lastElement.name ||
           !lastElement.price ||
-          (typeof lastElement.time?.hours === "number" && lastElement.time?.hours === 0 && typeof lastElement.time?.minutes === "number" && lastElement.time?.minutes === 0)
+          (typeof lastElement.defaultTime?.hours === "number" &&
+            lastElement.defaultTime?.hours === 0 &&
+            typeof lastElement.defaultTime?.minutes === "number" &&
+            lastElement.defaultTime?.minutes === 0)
         ) {
           const updatedSelectedSubCategories = [...selectedSubCategories];
           updatedSelectedSubCategories.pop();
@@ -113,15 +142,33 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
 
   const customHeaders: CustomHeader[] = [
     {
-      icon: <Icon name="hand-extended-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />,
+      icon: (
+        <Icon
+          name="hand-extended-outline"
+          color={theme.icons.colors.aqua}
+          size={theme.icons.sizes.m}
+        />
+      ),
       value: "שירות",
     },
     {
-      icon: <Icon name="clock-edit-outline" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />,
+      icon: (
+        <Icon
+          name="clock-edit-outline"
+          color={theme.icons.colors.aqua}
+          size={theme.icons.sizes.m}
+        />
+      ),
       value: "זמן",
     },
     {
-      icon: <IconPrice name="currency-exchange" color={theme.icons.colors.aqua} size={theme.icons.sizes.m} />,
+      icon: (
+        <IconPrice
+          name="currency-exchange"
+          color={theme.icons.colors.aqua}
+          size={theme.icons.sizes.m}
+        />
+      ),
       value: "מחיר",
     },
   ];
@@ -129,7 +176,12 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
   const onSelectTableRow = (index: number) => setSelectedTableRowIndex(index);
   return (
     <StyledSubCategoriesWrapper>
-      <Table onClickRow={onSelectTableRow} data={tableData} customHeaders={customHeaders} columnSizes={[2, 2, 1]} />
+      <Table
+        onClickRow={onSelectTableRow}
+        data={tableData}
+        customHeaders={customHeaders}
+        columnSizes={[2, 2, 1]}
+      />
       {isDropdownOpen && (
         <Dropdown
           showDropdownButton={false}
@@ -142,8 +194,10 @@ const SubCategories = ({ subCategories, selectedSubCategories, setSelectedSubCat
           onSelect={onSelectSubCategory}
           onToggle={onToggleDropdown}
           placeholder="חפש..."
-          options={[...subCategories.map((subCategory) => subCategory.name), "אחר"]}
-          selectedCategories={selectedSubCategories.map((selectedSubCategory) => selectedSubCategory.name)}
+          options={[...subCategories.map((subCategory) => subCategory.name)]}
+          selectedCategories={selectedSubCategories.map(
+            (selectedSubCategory) => selectedSubCategory.name
+          )}
         />
       )}
       <StyledPlusButtonWrapper>

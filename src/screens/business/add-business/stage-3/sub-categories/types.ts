@@ -1,7 +1,9 @@
 import { CountdownProps } from "../../../../../components/time/count-down/types";
 
 export interface SubCatogory {
-    time:CountdownProps | null;
+    // time:CountdownProps | null;
+    defaultTime: { hours: number; minutes: number };
+
     price:number | null;
     name:string;
 }

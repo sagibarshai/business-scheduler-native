@@ -1,4 +1,3 @@
-import { ScrollView } from "react-native";
 import Progressbar from "../../../../components/progress-bar";
 import { StyledStage3Wrapper } from "./styled";
 import { useEffect, useRef, useState } from "react";
@@ -6,33 +5,62 @@ import SubCategories from "./sub-categories";
 import NextStageButton from "../../../../components/inputs/buttons/next-stage-button";
 import { SubCatogory } from "./sub-categories/types";
 import { subCategoriesIsEmptyErrorMessage } from "./errors/messages";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 import { useAppSelector, useAppDispatch } from "../../../../../redux/store";
 import { setBusinessData } from "../../../../../redux/featuers/business/businessSlice";
-import { useRoute } from "@react-navigation/native";
+import { useAppRouteParams } from "../../../../hooks/use-app-route-params";
+import { RootStackParamList } from "../../../../../types";
+import { appAxios } from "../../../../../axios";
+import { AxiosError } from "axios";
+import { useAppNavigation } from "../../../../hooks/use-app-navigation";
 
 const Satge3 = () => {
   const dispatch = useAppDispatch();
   const businessData = useAppSelector((state) => state.business.data);
-  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>(businessData.subCategories);
+  const navigation = useAppNavigation();
+  const [selectedSubCategories, setSelectedSubCategories] = useState<SubCatogory[]>(
+    businessData.subCategories
+  );
   const [isSubCategoryValid, setIsSubCategoryValid] = useState<boolean>(true);
+  const user = useAppSelector((state) => state.user);
+  const businessMetaData = useAppSelector((state) => state.business.metaData);
 
-  const [subcategories, setSubCategories] = useState<SubCatogory[]>([
-    { name: "תספורת אישה", price: null, time: null },
-    { name: "תספורת גבר", price: null, time: null },
-    { name: "תספורת ילד", price: null, time: null },
-    { name: "מחליק", price: null, time: null },
-  ]);
+  const params = useAppRouteParams({ screen: "stage-3" }) as RootStackParamList["stage-3"];
+  const [subcategories, setSubCategories] = useState<SubCatogory[]>([]);
 
-  const onAddOptionsToSubCategories = (otherOption: SubCatogory) => setSubCategories([...subcategories, otherOption]);
+  const getSubCategories = async () => {
+    try {
+      const categoriesResponse: { data: { subCategories: SubCatogory[][] } } = await appAxios.post(
+        "/business/sub-categories-options",
+        { categories: businessMetaData.categories },
+        {
+          headers: {
+            Authorization: `Berar ${user.token}`,
+          },
+        }
+      );
 
-  const route = useRoute();
+      const subCategories = categoriesResponse.data.subCategories.flatMap((subCategoryData) =>
+        subCategoryData.map((sub) => sub)
+      );
+
+      setSubCategories(subCategories);
+    } catch (err) {
+      const error = err as AxiosError;
+      console.log("err ", error.response?.data);
+      if (error.response?.status === 401) navigation.navigateTo("auth");
+    }
+  };
+
+  useEffect(() => {
+    getSubCategories();
+  }, []);
+
+  const onAddOptionsToSubCategories = (otherOption: SubCatogory) =>
+    setSubCategories([...subcategories, otherOption]);
 
   //TODO FIX TS
   //@ts-ignore
-  const isEditMode = route.params?.editMode;
   const onNextStage = async () => {
     const isFormValid = checkFromValidity();
     if (!isFormValid) return;
@@ -42,7 +70,7 @@ const Satge3 = () => {
     });
     await updateDataPromise;
 
-    navigation.navigate("business-profile");
+    navigation.navigateTo("business-profile");
   };
 
   const checkFromValidity = (): boolean => {
@@ -61,6 +89,8 @@ const Satge3 = () => {
     if (selectedSubCategories.length) setIsSubCategoryValid(true);
   }, [selectedSubCategories]);
 
+  if (!subcategories.length) return <StyledStage3Wrapper />;
+
   return (
     <StyledStage3Wrapper>
       <Progressbar currentStage={3} stages={4} />
@@ -72,7 +102,7 @@ const Satge3 = () => {
         subCategories={subcategories}
       />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
-        {!isEditMode ? "לשלב הבא" : "שמור"}
+        {!params?.isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>
     </StyledStage3Wrapper>
   );

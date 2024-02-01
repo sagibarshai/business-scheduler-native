@@ -1,5 +1,6 @@
 import { ParamListBase } from "@react-navigation/native"
 import { Platform } from "react-native"
+import { SubCatogory } from "./src/screens/business/add-business/stage-3/sub-categories/types"
 
 
 
@@ -22,9 +23,9 @@ export interface NestedScreens {
 }
 
 export type RootStackParamList  = {
-    "add-business":{
+    "add-business":  {
         isEditMode?:boolean 
-    }
+    },
     "business-profile":{},
     "config-role":{},
     "auth":{},
@@ -35,7 +36,7 @@ export type RootStackParamList  = {
         isEditMode?:boolean 
     },
     "stage-3":{
-        isEditMode?:boolean 
+        isEditMode?:boolean
     },
     "login":{},
     "signUp":{},

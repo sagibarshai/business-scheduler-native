@@ -1,6 +1,6 @@
 
 
-export interface CountdownProps {hours: number, minutes: number, seconds: number}
+export interface CountdownProps {hours: number, minutes: number}
 
 export interface Props  extends StyledProps{
   defaultHours:number

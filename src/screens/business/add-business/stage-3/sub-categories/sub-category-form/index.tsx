@@ -2,7 +2,12 @@ import Countdown from "../../../../../../components/time/count-down";
 
 import { type Props } from "./types";
 
-import { StyledButtonsWrapper, StyledRow, StyledSubCategoryFormWrapper, StyledTitle } from "./styled";
+import {
+  StyledButtonsWrapper,
+  StyledRow,
+  StyledSubCategoryFormWrapper,
+  StyledTitle,
+} from "./styled";
 import { useState } from "react";
 import { SubCatogory } from "../types";
 import { CountdownProps } from "../../../../../../components/time/count-down/types";
@@ -15,18 +20,24 @@ import { theme } from "../../../../../../../theme";
 import { subCategoryNameIsEmpty, subCategoryPriceErrorMessage } from "../../errors/messages";
 import TextInput from "../../../../../../components/inputs/text";
 
-const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount, isNameEditable }: Props) => {
-  const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCatogory>(subCategoryData);
+const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount }: Props) => {
+  const [selectedSubCategoryData, setSelectedSubCategoryData] =
+    useState<SubCatogory>(subCategoryData);
   const [priceError, setPriceError] = useState<boolean>(false);
   const [nameError, setNameError] = useState<boolean>(false);
-  const [serviceName, setServiceName] = useState<string>(selectedSubCategoryData.name === "אחר" ? "" : selectedSubCategoryData.name);
+  const [serviceName, setServiceName] = useState<string>(
+    selectedSubCategoryData.name === "אחר" ? "" : selectedSubCategoryData.name
+  );
 
   const onSubmitServiceTime = (countdownTime: CountdownProps) => {
-    setSelectedSubCategoryData({ ...selectedSubCategoryData, time: countdownTime });
+    setSelectedSubCategoryData({ ...selectedSubCategoryData, defaultTime: countdownTime });
   };
   const onPriceChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     setPriceError(false);
-    setSelectedSubCategoryData({ ...selectedSubCategoryData, price: Number(event.nativeEvent.text) });
+    setSelectedSubCategoryData({
+      ...selectedSubCategoryData,
+      price: Number(event.nativeEvent.text),
+    });
   };
   const onServiceNameChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     setServiceName(event.nativeEvent.text);
@@ -56,14 +67,31 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount,
 
   return (
     <StyledSubCategoryFormWrapper>
-      {!isNameEditable && <StyledTitle>{subCategoryData.name}</StyledTitle>}
-      <StyledRow>{isNameEditable && <TextInput label="שם השירות" onChange={onServiceNameChange} width="30%" error={nameError ? subCategoryNameIsEmpty : ""} />}</StyledRow>
+      {!false && <StyledTitle>{subCategoryData.name}</StyledTitle>}
+      <StyledRow>
+        {false && (
+          <TextInput
+            label="שם השירות"
+            onChange={onServiceNameChange}
+            width="30%"
+            error={nameError ? subCategoryNameIsEmpty : ""}
+          />
+        )}
+      </StyledRow>
       <StyledRow>
         <Countdown
           openTimeOnMount={openTimeOnMount}
           width="40%"
-          defaultHours={typeof selectedSubCategoryData.time?.hours === "number" ? selectedSubCategoryData.time?.hours : 0}
-          defaultMinutes={typeof selectedSubCategoryData.time?.minutes === "number" ? selectedSubCategoryData.time?.minutes : 30}
+          defaultHours={
+            typeof selectedSubCategoryData.defaultTime?.hours === "number"
+              ? selectedSubCategoryData.defaultTime?.hours
+              : 0
+          }
+          defaultMinutes={
+            typeof selectedSubCategoryData.defaultTime?.minutes === "number"
+              ? selectedSubCategoryData.defaultTime?.minutes
+              : 30
+          }
           labelText="כמה זמן ?"
           modalTitle={`${subCategoryData.name}`}
           onSubmit={onSubmitServiceTime}
@@ -76,7 +104,9 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount,
           label="מחיר"
           onChange={onPriceChange}
           error={priceError ? subCategoryPriceErrorMessage : ""}
-          icon={<Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />}
+          icon={
+            <Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />
+          }
         />
       </StyledRow>
       <StyledButtonsWrapper>

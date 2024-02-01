@@ -61,12 +61,12 @@ const BusinessProfile = ({ allowEdit }: Props) => {
   }, []);
 
   const subCategoriesData = useMemo(() => {
-    return business.data.subCategories.map(({ name, price, time }) => ({
+    return business.data.subCategories.map(({ name, price, defaultTime }) => ({
       service: name,
-      time: time ? (
+      time: defaultTime ? (
         <>
-          {time?.hours ? `${time.hours} ש׳, ` : ""}
-          {time?.minutes} דק
+          {defaultTime?.hours ? `${defaultTime.hours} ש׳, ` : ""}
+          {defaultTime?.minutes} דק
         </>
       ) : (
         ""
@@ -76,7 +76,12 @@ const BusinessProfile = ({ allowEdit }: Props) => {
   }, []);
 
   const onEdit = (screen: "stage-1" | "stage-2" | "stage-3") => {
-    navigation.navigateTo(screen, { isEditMode: true });
+    navigation.navigateTo("add-business", {
+      screen,
+      params: {
+        isEditMode: true,
+      },
+    });
   };
 
   return (

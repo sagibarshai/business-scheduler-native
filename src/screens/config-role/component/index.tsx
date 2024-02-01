@@ -1,5 +1,11 @@
 import { AxiosError } from "axios";
-import { StyledUserText, StyledBusinessButton, StyledBusinessText, StyledUserButton, StyledWrapper } from "./styled";
+import {
+  StyledUserText,
+  StyledBusinessButton,
+  StyledBusinessText,
+  StyledUserButton,
+  StyledWrapper,
+} from "./styled";
 import { appAxios } from "../../../../axios";
 import { useAppDispatch, useAppSelector } from "../../../../redux/store";
 import { setUser } from "../../../../redux/featuers/user/userSlice";
@@ -20,7 +26,6 @@ const ConfigRole = () => {
         }
       );
       dispatch(setUser({ ...user, role }));
-      console.log("setRoleResponse.data ", setRoleResponse.data);
     } catch (err) {
       const error = err as AxiosError;
       console.log(error.response?.data);

@@ -59,8 +59,6 @@ const Satge3 = () => {
   const onAddOptionsToSubCategories = (otherOption: SubCatogory) =>
     setSubCategories([...subcategories, otherOption]);
 
-  //TODO FIX TS
-  //@ts-ignore
   const onNextStage = async () => {
     const isFormValid = checkFromValidity();
     if (!isFormValid) return;

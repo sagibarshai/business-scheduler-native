@@ -20,7 +20,13 @@ import { theme } from "../../../../../../../theme";
 import { subCategoryNameIsEmpty, subCategoryPriceErrorMessage } from "../../errors/messages";
 import TextInput from "../../../../../../components/inputs/text";
 
-const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount }: Props) => {
+const SubCategoriesForm = ({
+  onSave,
+  onCancel,
+  subCategoryData,
+  openTimeOnMount,
+  isNameEditable,
+}: Props) => {
   const [selectedSubCategoryData, setSelectedSubCategoryData] =
     useState<SubCatogory>(subCategoryData);
   const [priceError, setPriceError] = useState<boolean>(false);
@@ -67,13 +73,13 @@ const SubCategoriesForm = ({ onSave, onCancel, subCategoryData, openTimeOnMount 
 
   return (
     <StyledSubCategoryFormWrapper>
-      {!false && <StyledTitle>{subCategoryData.name}</StyledTitle>}
+      {!isNameEditable && <StyledTitle>{subCategoryData.name}</StyledTitle>}
       <StyledRow>
-        {false && (
+        {isNameEditable && (
           <TextInput
             label="שם השירות"
             onChange={onServiceNameChange}
-            width="30%"
+            width="100%"
             error={nameError ? subCategoryNameIsEmpty : ""}
           />
         )}

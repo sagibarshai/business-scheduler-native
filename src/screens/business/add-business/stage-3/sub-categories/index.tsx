@@ -4,7 +4,7 @@ import { Props, SubCatogory } from "./types";
 import Table from "../../../../../components/table";
 import PlusButton from "../../../../../components/inputs/buttons/plus-button";
 import Dropdown from "../../../../../components/inputs/dropdown";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SubCategoriesForm from "./sub-category-form";
 import { CustomHeader } from "../../../../../components/table/types";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -24,6 +24,14 @@ const SubCategories = ({
   const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
   const [tableData, setTableData] = useState<Record<string, React.ReactNode>[]>([]);
   const [selectedTableRowIndex, setSelectedTableRowIndex] = useState<number>(-1);
+
+  const [dropdownOptions, setDropdownOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    const updatedDropdownOptions = subCategories.map((subCategory) => subCategory.name);
+    updatedDropdownOptions.push("אחר");
+    setDropdownOptions(updatedDropdownOptions);
+  }, [subCategories, onAddOptionsToSubCategories]);
 
   useEffect(() => {
     if (selectedTableRowIndex >= 0) {
@@ -60,6 +68,7 @@ const SubCategories = ({
     if (isSubCategoryAdded) {
       setOverrideContent(
         <SubCategoriesForm
+          isNameEditable={selectedSubCategories[selectedSubCategories.length - 1].name === "אחר"}
           subCategoryData={selectedSubCategories[selectedSubCategories.length - 1]}
           onCancel={onCancelSelectCategory}
           onSave={onSaveCategoryForm}
@@ -112,7 +121,9 @@ const SubCategories = ({
 
     // for case of "other" service
     const isExistOnSubCategories = subCategories.find((sub) => sub.name === categoryData.name);
-    if (!isExistOnSubCategories) onAddOptionsToSubCategories(categoryData);
+    if (!isExistOnSubCategories) {
+      onAddOptionsToSubCategories(categoryData);
+    }
     setOverrideContent(null);
   };
 
@@ -194,7 +205,7 @@ const SubCategories = ({
           onSelect={onSelectSubCategory}
           onToggle={onToggleDropdown}
           placeholder="חפש..."
-          options={[...subCategories.map((subCategory) => subCategory.name)]}
+          options={dropdownOptions}
           selectedCategories={selectedSubCategories.map(
             (selectedSubCategory) => selectedSubCategory.name
           )}

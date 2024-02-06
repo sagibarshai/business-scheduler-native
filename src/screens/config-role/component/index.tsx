@@ -16,7 +16,7 @@ const ConfigRole = () => {
 
   const onSubmit = async (role: "business" | "user") => {
     try {
-      const setRoleResponse = await appAxios.put(
+      await appAxios.put(
         "/user/set-role",
         { role },
         {

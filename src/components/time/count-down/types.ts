@@ -10,6 +10,7 @@ export interface Props  extends StyledProps{
   modalTitle:string
   icon?:JSX.Element
   openTimeOnMount?:boolean
+  error?:string
 }
 
 export interface StyledProps {

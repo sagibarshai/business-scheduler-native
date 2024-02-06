@@ -1,17 +1,15 @@
+import { InputState } from "../../../../../components/inputs/types";
 import { CountdownProps } from "../../../../../components/time/count-down/types";
+import { SubCategoryState } from "../types";
 
 export interface SubCatogory {
-    // time:CountdownProps | null;
     defaultTime: { hours: number; minutes: number };
-
     price:number | null;
     name:string;
 }
 export interface Props {
-    subCategories:SubCatogory[]
-    selectedSubCategories:SubCatogory[]
-    setSelectedSubCategories: React.Dispatch<React.SetStateAction<SubCatogory[]>>
-    onAddOptionsToSubCategories: (option:SubCatogory) => void
+    subCategories:SubCategoryState[]
     error?:string
+    setSubCategories:React.Dispatch<React.SetStateAction<SubCategoryState[]>>
     
 }

@@ -19,6 +19,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { theme } from "../../../../../../../theme";
 import { subCategoryNameIsEmpty, subCategoryPriceErrorMessage } from "../../errors/messages";
 import TextInput from "../../../../../../components/inputs/text";
+import { SubCategoryState } from "../../types";
 
 const SubCategoriesForm = ({
   onSave,
@@ -28,36 +29,56 @@ const SubCategoriesForm = ({
   isNameEditable,
 }: Props) => {
   const [selectedSubCategoryData, setSelectedSubCategoryData] =
-    useState<SubCatogory>(subCategoryData);
+    useState<SubCategoryState>(subCategoryData);
+
+  const [timeError, setTimeError] = useState<boolean>(false);
   const [priceError, setPriceError] = useState<boolean>(false);
   const [nameError, setNameError] = useState<boolean>(false);
   const [serviceName, setServiceName] = useState<string>(
-    selectedSubCategoryData.name === "אחר" ? "" : selectedSubCategoryData.name
+    selectedSubCategoryData.name.value === "אחר" ? "" : selectedSubCategoryData.name.value
   );
 
   const onSubmitServiceTime = (countdownTime: CountdownProps) => {
-    setSelectedSubCategoryData({ ...selectedSubCategoryData, defaultTime: countdownTime });
+    setTimeError(false);
+    setSelectedSubCategoryData({
+      ...selectedSubCategoryData,
+      time: { ...selectedSubCategoryData.time, value: countdownTime },
+    });
   };
   const onPriceChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     setPriceError(false);
     setSelectedSubCategoryData({
       ...selectedSubCategoryData,
-      price: Number(event.nativeEvent.text),
+      price: { ...selectedSubCategoryData, value: Number(event.nativeEvent.text) },
     });
   };
   const onServiceNameChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
     setServiceName(event.nativeEvent.text);
-    setSelectedSubCategoryData({ ...selectedSubCategoryData, name: event.nativeEvent.text });
+    setSelectedSubCategoryData({
+      ...selectedSubCategoryData,
+      name: { ...selectedSubCategoryData.name, value: event.nativeEvent.text },
+    });
 
     setNameError(false);
   };
 
   const checkFormValidity = (): boolean => {
     let isValid = false;
-    if (!selectedSubCategoryData.price) {
-      setPriceError(true);
+    if (
+      selectedSubCategoryData.time.value.hours === 0 &&
+      selectedSubCategoryData.time.value.minutes === 0
+    ) {
+      setTimeError(true);
+      return isValid;
     }
-    if (serviceName.length <= 2) {
+    if (
+      !selectedSubCategoryData.price.value ||
+      typeof Number(selectedSubCategoryData.price.value) !== "number"
+    ) {
+      setPriceError(true);
+      return isValid;
+    }
+    if (serviceName.length <= 1) {
       setNameError(true);
       return isValid;
     }
@@ -73,7 +94,7 @@ const SubCategoriesForm = ({
 
   return (
     <StyledSubCategoryFormWrapper>
-      {!isNameEditable && <StyledTitle>{subCategoryData.name}</StyledTitle>}
+      {!isNameEditable && <StyledTitle>{subCategoryData.name.value}</StyledTitle>}
       <StyledRow>
         {isNameEditable && (
           <TextInput
@@ -86,25 +107,26 @@ const SubCategoriesForm = ({
       </StyledRow>
       <StyledRow>
         <Countdown
+          error={timeError ? "הזמן אינו תקין" : ""}
           openTimeOnMount={openTimeOnMount}
           width="40%"
           defaultHours={
-            typeof selectedSubCategoryData.defaultTime?.hours === "number"
-              ? selectedSubCategoryData.defaultTime?.hours
+            typeof selectedSubCategoryData.time.value?.hours === "number"
+              ? selectedSubCategoryData.time.value?.hours
               : 0
           }
           defaultMinutes={
-            typeof selectedSubCategoryData.defaultTime?.minutes === "number"
-              ? selectedSubCategoryData.defaultTime?.minutes
+            typeof selectedSubCategoryData.time.value?.minutes === "number"
+              ? selectedSubCategoryData.time.value?.minutes
               : 30
           }
           labelText="כמה זמן ?"
-          modalTitle={`${subCategoryData.name}`}
+          modalTitle={`${subCategoryData.name.value}`}
           onSubmit={onSubmitServiceTime}
         />
 
         <NumericInput
-          value={selectedSubCategoryData.price?.toString()}
+          value={selectedSubCategoryData.price?.value?.toString()}
           withCurrency
           width="40%"
           label="מחיר"
@@ -116,7 +138,7 @@ const SubCategoriesForm = ({
         />
       </StyledRow>
       <StyledButtonsWrapper>
-        <CancelButton onPress={onCancel} text="ביטול" />
+        <CancelButton onPress={() => onCancel(selectedSubCategoryData)} text="ביטול" />
         <SaveButton text="שמור" onPress={onSaveSubCategoryForm} />
       </StyledButtonsWrapper>
     </StyledSubCategoryFormWrapper>

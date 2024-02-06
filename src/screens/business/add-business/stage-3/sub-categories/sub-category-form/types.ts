@@ -1,10 +1,11 @@
+import { InputState } from "../../../../../../components/inputs/types";
+import { SubCategoryState } from "../../types";
 import { SubCatogory } from "../types";
 
 export interface Props {
-    subCategoryData:SubCatogory
-    onSave:(selectedSubCategoryData:SubCatogory) => void
-    onCancel:(selectedSubCategoryData:SubCatogory) => void
-    openTimeOnMount?:boolean
+    subCategoryData:SubCategoryState
+    onSave:(selectedSubCategoryData:SubCategoryState) => void
+    onCancel:(selectedSubCategoryData:SubCategoryState) => void
+    openTimeOnMount?:boolean    
     isNameEditable?:boolean
-    
 }

@@ -4,152 +4,64 @@ import { Props, SubCatogory } from "./types";
 import Table from "../../../../../components/table";
 import PlusButton from "../../../../../components/inputs/buttons/plus-button";
 import Dropdown from "../../../../../components/inputs/dropdown";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import SubCategoriesForm from "./sub-category-form";
 import { CustomHeader } from "../../../../../components/table/types";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import IconPrice from "react-native-vector-icons/MaterialIcons";
 
 import { theme } from "../../../../../../theme";
+import { SubCategoryState } from "../types";
 
-const SubCategories = ({
-  subCategories,
-  selectedSubCategories,
-  setSelectedSubCategories,
-  error,
-  onAddOptionsToSubCategories,
-}: Props) => {
+const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
+  const [lastActionType, setLastActionType] = useState<"add" | "remove" | null>(null);
+
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
-  const [isSubCategoryAdded, setIsSubCategoryAdded] = useState<boolean>(false);
-  const [tableData, setTableData] = useState<Record<string, React.ReactNode>[]>([]);
-  const [selectedTableRowIndex, setSelectedTableRowIndex] = useState<number>(-1);
-
-  const [dropdownOptions, setDropdownOptions] = useState<string[]>([]);
-
-  useEffect(() => {
-    const updatedDropdownOptions = subCategories.map((subCategory) => subCategory.name);
-    updatedDropdownOptions.push("אחר");
-    setDropdownOptions(updatedDropdownOptions);
-  }, [subCategories, onAddOptionsToSubCategories]);
-
-  useEffect(() => {
-    if (selectedTableRowIndex >= 0) {
-      setIsDropdownOpen(true);
-      setOverrideContent(
-        <SubCategoriesForm
-          openTimeOnMount={false}
-          subCategoryData={selectedSubCategories[selectedTableRowIndex]}
-          onCancel={onCancelSelectCategory}
-          onSave={onSaveCategoryForm}
-        />
-      );
-    } else setOverrideContent(null);
-  }, [selectedTableRowIndex]);
-
-  useEffect(() => {
-    // build table data
-    const transformedSubcategories = selectedSubCategories.map(({ name, price, defaultTime }) => ({
-      service: name,
-      time: defaultTime ? (
-        <>
-          {defaultTime?.hours ? `${defaultTime.hours} ש׳ ,` : ""}
-          {defaultTime?.minutes ? defaultTime?.minutes + "דק" : ""}
-        </>
-      ) : (
-        ""
-      ),
-      price: price ? `₪ ${price} ` : "",
-    }));
-    setTableData(transformedSubcategories);
-  }, [selectedSubCategories]);
-
-  useEffect(() => {
-    if (isSubCategoryAdded) {
-      setOverrideContent(
-        <SubCategoriesForm
-          isNameEditable={selectedSubCategories[selectedSubCategories.length - 1].name === "אחר"}
-          subCategoryData={selectedSubCategories[selectedSubCategories.length - 1]}
-          onCancel={onCancelSelectCategory}
-          onSave={onSaveCategoryForm}
-        />
-      );
-    }
-    setIsSubCategoryAdded(false);
-  }, [selectedSubCategories, isSubCategoryAdded]);
 
   const onToggleDropdown = useCallback(() => {
     setIsDropdownOpen((prevState) => !prevState);
   }, [isDropdownOpen]);
 
-  const onSelectSubCategory = useCallback(
-    (subCategory: string) => {
-      let updatedSelectedSubCategories = [...selectedSubCategories];
-      const isExist = updatedSelectedSubCategories.find(
-        (selectedSubCategory) => selectedSubCategory.name === subCategory
-      );
-      if (!isExist) {
-        // here
-        setIsSubCategoryAdded(true);
-        updatedSelectedSubCategories.push({
-          name: subCategory,
-          price: null,
-          defaultTime: { hours: 0, minutes: 0 },
-        });
-      } else
-        updatedSelectedSubCategories = updatedSelectedSubCategories.filter(
-          (selectedSubCategory) => selectedSubCategory.name !== subCategory
-        );
-      setSelectedSubCategories(updatedSelectedSubCategories);
-    },
-    [selectedSubCategories]
-  );
-  const onCancelSelectCategory = (categoryData: SubCatogory) => {
-    setSelectedSubCategories((prevSelectedSubCategories) =>
-      [...prevSelectedSubCategories].filter(
-        (selectedSubCategory, index) => index !== prevSelectedSubCategories.length - 1
-      )
+  const onSaveCategoryForm = (selectedSubCategoryData: SubCategoryState) => {
+    const updatedSubCategories = [...subCategories];
+    const existSubCategoryIndex = updatedSubCategories.findIndex(
+      (sub) => sub.name.value === selectedSubCategoryData.name.value
     );
+    if (existSubCategoryIndex === -1) return;
+    updatedSubCategories[existSubCategoryIndex] = selectedSubCategoryData;
+    setSubCategories(updatedSubCategories);
+    setLastActionType(null);
     setOverrideContent(null);
   };
-  const onSaveCategoryForm = (categoryData: SubCatogory) => {
-    const updatedSelectedSubCategories = [...selectedSubCategories];
-    // modify the last element
-    updatedSelectedSubCategories[updatedSelectedSubCategories.length - 1] = categoryData;
 
-    setSelectedSubCategories(updatedSelectedSubCategories);
-
-    // for case of "other" service
-    const isExistOnSubCategories = subCategories.find((sub) => sub.name === categoryData.name);
-    if (!isExistOnSubCategories) {
-      onAddOptionsToSubCategories(categoryData);
-    }
+  const onCancelCategoryForm = (selectedSubCategoryData: SubCategoryState) => {
+    const updatedSubCategories = [...subCategories];
+    const existSubCategoryIndex = updatedSubCategories.findIndex(
+      (sub) => sub.name.value === selectedSubCategoryData.name.value
+    );
+    if (existSubCategoryIndex === -1) return;
+    updatedSubCategories[existSubCategoryIndex] = { ...selectedSubCategoryData, isSelected: false };
+    setSubCategories(updatedSubCategories);
     setOverrideContent(null);
+    setLastActionType(null);
   };
 
   useEffect(() => {
-    if (!isDropdownOpen) {
-      // reset from form view back to dropdown
-      setOverrideContent(null);
-      setSelectedTableRowIndex(-1);
-      // check if user left form without filling the reinvent fields
-      const lastElement = selectedSubCategories[selectedSubCategories.length - 1];
-      if (lastElement) {
-        if (
-          !lastElement.name ||
-          !lastElement.price ||
-          (typeof lastElement.defaultTime?.hours === "number" &&
-            lastElement.defaultTime?.hours === 0 &&
-            typeof lastElement.defaultTime?.minutes === "number" &&
-            lastElement.defaultTime?.minutes === 0)
-        ) {
-          const updatedSelectedSubCategories = [...selectedSubCategories];
-          updatedSelectedSubCategories.pop();
-          setSelectedSubCategories(updatedSelectedSubCategories);
-        }
-      }
+    if (lastActionType === "add") {
+      const subCategoryData = subCategories.find(
+        (sub) => sub.name.value === selectedSubCategories[selectedSubCategories.length - 1]
+      );
+      if (!subCategoryData) return;
+      setOverrideContent(
+        <SubCategoriesForm
+          onCancel={onCancelCategoryForm}
+          onSave={onSaveCategoryForm}
+          subCategoryData={subCategoryData}
+        />
+      );
     }
-  }, [isDropdownOpen]);
+  }, [lastActionType]);
 
   const customHeaders: CustomHeader[] = [
     {
@@ -184,15 +96,52 @@ const SubCategories = ({
     },
   ];
 
-  const onSelectTableRow = (index: number) => setSelectedTableRowIndex(index);
+  const onSelectCategory = (option: string) => {
+    // do not send here 'אחר' options
+    let updatedSubCategories = [...subCategories];
+
+    const itemIndex = updatedSubCategories.findIndex((sub) => sub.name.value === option);
+
+    if (itemIndex >= 0 && updatedSubCategories[itemIndex].isSelected) {
+      // remove
+      updatedSubCategories[itemIndex].isSelected = false;
+      setLastActionType("remove");
+    } else {
+      // add
+      updatedSubCategories[itemIndex].isSelected = true;
+      setLastActionType("add");
+    }
+    setSubCategories(updatedSubCategories);
+  };
+
+  const selectedSubCategories = useMemo(() => {
+    const selected = [];
+    for (let i = 0; i < subCategories.length; i++) {
+      if (subCategories[i].isSelected) selected.push(subCategories[i].name.value);
+    }
+    return selected;
+  }, [subCategories]);
+
+  const options = useMemo(() => {
+    const options = subCategories.map(({ name }) => name.value);
+    return options;
+  }, [subCategories]);
+
+  const tableData = useMemo(() => {
+    const data: Record<string, React.ReactNode>[] = subCategories
+      .filter((sub) => sub.isSelected)
+      .map((sub) => ({
+        name: sub.name.value,
+        time: sub.time.value.hours + "שעות" + sub.time.value.minutes + "דקות",
+        price: sub.price.value,
+      }));
+
+    return data;
+  }, [subCategories]);
+
   return (
     <StyledSubCategoriesWrapper>
-      <Table
-        onClickRow={onSelectTableRow}
-        data={tableData}
-        customHeaders={customHeaders}
-        columnSizes={[2, 2, 1]}
-      />
+      <Table data={tableData} customHeaders={customHeaders} columnSizes={[2, 2, 1]} />
       {isDropdownOpen && (
         <Dropdown
           showDropdownButton={false}
@@ -202,13 +151,11 @@ const SubCategories = ({
           error=""
           icon={<TouchableOpacity />}
           label="שירותי העסק"
-          onSelect={onSelectSubCategory}
+          onSelect={onSelectCategory}
           onToggle={onToggleDropdown}
           placeholder="חפש..."
-          options={dropdownOptions}
-          selectedCategories={selectedSubCategories.map(
-            (selectedSubCategory) => selectedSubCategory.name
-          )}
+          options={options}
+          selectedCategories={selectedSubCategories}
         />
       )}
       <StyledPlusButtonWrapper>

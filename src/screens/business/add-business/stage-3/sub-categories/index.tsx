@@ -21,6 +21,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
 
   const onToggleDropdown = useCallback(() => {
     setIsDropdownOpen((prevState) => !prevState);
+    setOverrideContent(null);
   }, [isDropdownOpen]);
 
   const onSaveCategoryForm = (selectedSubCategoryData: SubCategoryState) => {
@@ -46,6 +47,8 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     setOverrideContent(null);
     setLastActionType(null);
   };
+
+  console.log("overrideContent ", overrideContent);
 
   useEffect(() => {
     if (lastActionType === "add") {
@@ -139,9 +142,26 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     return data;
   }, [subCategories]);
 
+  const onClickTableRow = (index: number) => {
+    setIsDropdownOpen(true);
+    setOverrideContent(
+      <SubCategoriesForm
+        onCancel={onCancelCategoryForm}
+        onSave={onSaveCategoryForm}
+        subCategoryData={subCategories[index]}
+        openTimeOnMount={false}
+      />
+    );
+  };
+
   return (
     <StyledSubCategoriesWrapper>
-      <Table data={tableData} customHeaders={customHeaders} columnSizes={[2, 2, 1]} />
+      <Table
+        onClickRow={onClickTableRow}
+        data={tableData}
+        customHeaders={customHeaders}
+        columnSizes={[2, 2, 1]}
+      />
       {isDropdownOpen && (
         <Dropdown
           showDropdownButton={false}

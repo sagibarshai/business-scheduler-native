@@ -15,7 +15,9 @@ import { SubCategoryState } from "../types";
 
 const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
-  const [lastActionType, setLastActionType] = useState<"add" | "remove" | null>(null);
+  const [lastActionType, setLastActionType] = useState<
+    "add" | "remove" | "add-other-category" | null
+  >(null);
 
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
 
@@ -29,8 +31,10 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     const existSubCategoryIndex = updatedSubCategories.findIndex(
       (sub) => sub.name.value === selectedSubCategoryData.name.value
     );
-    if (existSubCategoryIndex === -1) return;
-    updatedSubCategories[existSubCategoryIndex] = selectedSubCategoryData;
+    if (lastActionType === "add-other-category") {
+      updatedSubCategories[updatedSubCategories.length - 1] = selectedSubCategoryData;
+    } else if (existSubCategoryIndex === -1) updatedSubCategories.push(selectedSubCategoryData);
+    else updatedSubCategories[existSubCategoryIndex] = selectedSubCategoryData;
     setSubCategories(updatedSubCategories);
     setLastActionType(null);
     setOverrideContent(null);
@@ -48,10 +52,8 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     setLastActionType(null);
   };
 
-  console.log("overrideContent ", overrideContent);
-
   useEffect(() => {
-    if (lastActionType === "add") {
+    if (lastActionType === "add" || lastActionType === "add-other-category") {
       const subCategoryData = subCategories.find(
         (sub) => sub.name.value === selectedSubCategories[selectedSubCategories.length - 1]
       );
@@ -61,6 +63,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
           onCancel={onCancelCategoryForm}
           onSave={onSaveCategoryForm}
           subCategoryData={subCategoryData}
+          isNameEditable={lastActionType === "add-other-category" || false}
         />
       );
     }
@@ -100,6 +103,30 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
   ];
 
   const onSelectCategory = (option: string) => {
+    if (option === "אחר") {
+      setSubCategories((prev) => [
+        ...prev,
+        {
+          time: {
+            value: {
+              hours: 0,
+              minutes: 30,
+            },
+          },
+          price: {
+            value: 50,
+          },
+          name: {
+            value: "",
+          },
+          isSelected: true,
+          isValid: false,
+        },
+      ]);
+      setLastActionType("add-other-category");
+      return;
+    }
+
     // do not send here 'אחר' options
     let updatedSubCategories = [...subCategories];
 
@@ -127,6 +154,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
 
   const options = useMemo(() => {
     const options = subCategories.map(({ name }) => name.value);
+    options.push("אחר");
     return options;
   }, [subCategories]);
 

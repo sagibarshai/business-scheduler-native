@@ -42,6 +42,10 @@ const Dropdown = ({
 }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
+  useEffect(() => {
+    setFilteredList([...options]);
+  }, [options]);
+
   const handleSelectOption = (selectedOption: string) => onSelect(selectedOption);
 
   const onSearchInputChange = (list: string[]) => setFilteredList(list);

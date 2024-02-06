@@ -8,7 +8,7 @@ import {
   StyledSubCategoryFormWrapper,
   StyledTitle,
 } from "./styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubCatogory } from "../types";
 import { CountdownProps } from "../../../../../../components/time/count-down/types";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";

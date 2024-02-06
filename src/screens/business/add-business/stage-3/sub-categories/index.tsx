@@ -15,9 +15,10 @@ import { SubCategoryState } from "../types";
 
 const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
-  const [lastActionType, setLastActionType] = useState<
-    "add" | "remove" | "add-other-category" | null
-  >(null);
+  const [lastActionData, setLastActionData] = useState<{
+    value: "add" | "remove" | "add-other-category" | null;
+    optionName: string | null;
+  }>({ value: null, optionName: null });
 
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
 
@@ -31,12 +32,12 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     const existSubCategoryIndex = updatedSubCategories.findIndex(
       (sub) => sub.name.value === selectedSubCategoryData.name.value
     );
-    if (lastActionType === "add-other-category") {
+    if (lastActionData.value === "add-other-category") {
       updatedSubCategories[updatedSubCategories.length - 1] = selectedSubCategoryData;
     } else if (existSubCategoryIndex === -1) updatedSubCategories.push(selectedSubCategoryData);
     else updatedSubCategories[existSubCategoryIndex] = selectedSubCategoryData;
     setSubCategories(updatedSubCategories);
-    setLastActionType(null);
+    setLastActionData({ ...lastActionData, value: null });
     setOverrideContent(null);
   };
 
@@ -49,25 +50,34 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     updatedSubCategories[existSubCategoryIndex] = { ...selectedSubCategoryData, isSelected: false };
     setSubCategories(updatedSubCategories);
     setOverrideContent(null);
-    setLastActionType(null);
+    setLastActionData({ ...lastActionData, value: null });
   };
 
   useEffect(() => {
-    if (lastActionType === "add" || lastActionType === "add-other-category") {
-      const subCategoryData = subCategories.find(
-        (sub) => sub.name.value === selectedSubCategories[selectedSubCategories.length - 1]
+    if (lastActionData.value === "add" || lastActionData.value === "add-other-category") {
+      console.log("lastActionData.optionName ", lastActionData.optionName);
+      let subCategoryData = subCategories.find(
+        (sub) => sub.name.value === lastActionData.optionName
       );
+
+      if (!subCategoryData) {
+        // אחר
+        subCategoryData = subCategories.find(
+          (sub) => sub.name.value === selectedSubCategories[selectedSubCategories.length - 1]
+        );
+      }
+
       if (!subCategoryData) return;
       setOverrideContent(
         <SubCategoriesForm
           onCancel={onCancelCategoryForm}
           onSave={onSaveCategoryForm}
           subCategoryData={subCategoryData}
-          isNameEditable={lastActionType === "add-other-category" || false}
+          isNameEditable={lastActionData.value === "add-other-category" || false}
         />
       );
     }
-  }, [lastActionType]);
+  }, [lastActionData.value]);
 
   const customHeaders: CustomHeader[] = [
     {
@@ -123,7 +133,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
           isValid: false,
         },
       ]);
-      setLastActionType("add-other-category");
+      setLastActionData({ value: "add-other-category", optionName: option });
       return;
     }
 
@@ -135,11 +145,11 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     if (itemIndex >= 0 && updatedSubCategories[itemIndex].isSelected) {
       // remove
       updatedSubCategories[itemIndex].isSelected = false;
-      setLastActionType("remove");
+      setLastActionData({ value: "remove", optionName: option });
     } else {
       // add
       updatedSubCategories[itemIndex].isSelected = true;
-      setLastActionType("add");
+      setLastActionData({ value: "add", optionName: option });
     }
     setSubCategories(updatedSubCategories);
   };

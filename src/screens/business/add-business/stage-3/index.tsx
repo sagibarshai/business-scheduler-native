@@ -45,9 +45,9 @@ const Satge3 = () => {
       const parsedSubCategories: SubCategoryState[] = responseSubCategory.map((sub) => ({
         isSelected: false,
         isValid: false,
-        name: { value: sub.name, isValid: false },
-        price: { value: sub.price, isValid: false },
-        time: { value: sub.defaultTime, isValid: false },
+        name: { value: sub.name, isValid: false, showErrorMessage: false },
+        price: { value: sub.price, isValid: false, showErrorMessage: false },
+        time: { value: sub.defaultTime, isValid: false, showErrorMessage: false },
       }));
       setSubCategories(parsedSubCategories);
     } catch (err) {

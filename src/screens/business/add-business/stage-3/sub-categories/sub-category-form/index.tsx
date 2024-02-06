@@ -8,8 +8,7 @@ import {
   StyledSubCategoryFormWrapper,
   StyledTitle,
 } from "./styled";
-import { useEffect, useState } from "react";
-import { SubCatogory } from "../types";
+import { useState } from "react";
 import { CountdownProps } from "../../../../../../components/time/count-down/types";
 import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import SaveButton from "../../../../../../components/inputs/buttons/save-button";
@@ -17,10 +16,8 @@ import CancelButton from "../../../../../../components/inputs/buttons/cancel-but
 import NumericInput from "../../../../../../components/inputs/numeric";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { theme } from "../../../../../../../theme";
-import { subCategoryNameIsEmpty, subCategoryPriceErrorMessage } from "../../errors/messages";
 import TextInput from "../../../../../../components/inputs/text";
 import { SubCategoryState } from "../../types";
-import { isEnabled } from "react-native/Libraries/Performance/Systrace";
 
 const SubCategoriesForm = ({
   onSave,
@@ -30,69 +27,108 @@ const SubCategoriesForm = ({
   isNameEditable,
   disallowServicesNames,
 }: Props) => {
-  const [selectedSubCategoryData, setSelectedSubCategoryData] =
-    useState<SubCategoryState>(subCategoryData);
-
-  const [timeError, setTimeError] = useState<boolean>(false);
-  const [priceError, setPriceError] = useState<boolean>(false);
-  const [nameError, setNameError] = useState<boolean>(false);
-  const [nameErrorMsg, setNameErrorMsg] = useState<string>();
-  const [serviceName, setServiceName] = useState<string>(
-    selectedSubCategoryData.name.value === "אחר" ? "" : selectedSubCategoryData.name.value
+  const isServiceNameNotValid = disallowServicesNames.find(
+    (str) => str === subCategoryData.name.value
   );
-
+  const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCategoryState>({
+    ...subCategoryData,
+    price: {
+      ...subCategoryData.price,
+      isValid: Boolean(
+        typeof subCategoryData.price.value === "number" && subCategoryData.price.value > 0
+      ),
+    },
+    time: {
+      ...subCategoryData.time,
+      isValid: subCategoryData.time.value.hours > 0 || subCategoryData.time.value.minutes > 0,
+    },
+    name: {
+      ...subCategoryData.name,
+      isValid: isNameEditable ? false : true,
+      showErrorMessage: true,
+      error: "מינימום 2 אותיות",
+    },
+  });
   const onSubmitServiceTime = (countdownTime: CountdownProps) => {
-    setTimeError(false);
     setSelectedSubCategoryData({
       ...selectedSubCategoryData,
-      time: { ...selectedSubCategoryData.time, value: countdownTime },
+      time: {
+        ...selectedSubCategoryData.time,
+        value: countdownTime,
+        isValid: countdownTime.hours > 0 || countdownTime.minutes > 0,
+        error: "זמן לא תקין",
+        showErrorMessage: true,
+      },
     });
   };
+
   const onPriceChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    setPriceError(false);
+    // setPriceError(false);
+    const priceValue = Number(event.nativeEvent.text);
     setSelectedSubCategoryData({
       ...selectedSubCategoryData,
-      price: { ...selectedSubCategoryData, value: Number(event.nativeEvent.text) },
+      price: {
+        ...selectedSubCategoryData,
+        value: priceValue,
+        isValid: Boolean(typeof priceValue === "number" && priceValue > 0),
+        showErrorMessage: true,
+        error: "מחיר לא תקין",
+      },
     });
   };
   const onServiceNameChange = (event: NativeSyntheticEvent<TextInputChangeEventData>) => {
-    setServiceName(event.nativeEvent.text);
+    const nameValue = event.nativeEvent.text;
+
+    let isNameValid: boolean = false;
+    let nameErrorMsg: string = "";
+
+    const isServiceNameNotValid = disallowServicesNames.find((str) => str === nameValue);
+    console.log("isServiceNameNotValid ", isServiceNameNotValid, nameValue);
+
+    if (isNameEditable) {
+      if (nameValue.length < 2) nameErrorMsg = "מינימום 2 אותיות";
+      else if (isServiceNameNotValid) {
+        nameErrorMsg = "שם השירות כבר קיים ברשימה";
+      } else isNameValid = true;
+    } else {
+      if (nameValue.length < 2) nameErrorMsg = "מינימום 2 אותיות";
+      else isNameValid = true;
+    }
+
     setSelectedSubCategoryData({
       ...selectedSubCategoryData,
-      name: { ...selectedSubCategoryData.name, value: event.nativeEvent.text },
+      name: {
+        ...selectedSubCategoryData.name,
+        value: nameValue,
+        isValid: isNameValid,
+        showErrorMessage: true,
+        error: nameErrorMsg,
+      },
     });
-
-    setNameError(false);
   };
 
   const checkFormValidity = (): boolean => {
     let isValid = false;
     if (
-      selectedSubCategoryData.time.value.hours === 0 &&
-      selectedSubCategoryData.time.value.minutes === 0
+      !selectedSubCategoryData.price.isValid ||
+      !selectedSubCategoryData.time.isValid ||
+      !selectedSubCategoryData.name.isValid
     ) {
-      setTimeError(true);
+      setSelectedSubCategoryData({
+        ...selectedSubCategoryData,
+        isValid: false,
+        price: { ...selectedSubCategoryData.price, showErrorMessage: true },
+        time: { ...selectedSubCategoryData.time, showErrorMessage: true },
+        name: { ...selectedSubCategoryData.name, showErrorMessage: true },
+      });
       return isValid;
+    } else {
+      isValid = true;
+      setSelectedSubCategoryData({
+        ...selectedSubCategoryData,
+        isValid: true,
+      });
     }
-    if (
-      !selectedSubCategoryData.price.value ||
-      typeof Number(selectedSubCategoryData.price.value) !== "number"
-    ) {
-      setPriceError(true);
-      return isValid;
-    }
-    if (serviceName.length <= 1) {
-      setNameError(true);
-      setNameErrorMsg(subCategoryNameIsEmpty);
-      return isValid;
-    }
-    const isServiceNameNotValid = disallowServicesNames.find((str) => str === serviceName);
-    if (isServiceNameNotValid && !isEnabled) {
-      setNameError(true);
-      setNameErrorMsg("יש לבחור את השירות הנ״ל מהקטגוריות בעמוד הקודם");
-      return isValid;
-    }
-    isValid = true;
     return isValid;
   };
 
@@ -111,13 +147,21 @@ const SubCategoriesForm = ({
             label="שם השירות"
             onChange={onServiceNameChange}
             width="100%"
-            error={nameError ? nameErrorMsg : ""}
+            error={
+              selectedSubCategoryData.name.showErrorMessage && !selectedSubCategoryData.name.isValid
+                ? selectedSubCategoryData.name.error
+                : ""
+            }
           />
         )}
       </StyledRow>
       <StyledRow>
         <Countdown
-          error={timeError ? "הזמן אינו תקין" : ""}
+          error={
+            selectedSubCategoryData.time.showErrorMessage && !selectedSubCategoryData.time.isValid
+              ? selectedSubCategoryData.time.error
+              : ""
+          }
           openTimeOnMount={openTimeOnMount}
           width="40%"
           defaultHours={
@@ -141,7 +185,11 @@ const SubCategoriesForm = ({
           width="40%"
           label="מחיר"
           onChange={onPriceChange}
-          error={priceError ? subCategoryPriceErrorMessage : ""}
+          error={
+            selectedSubCategoryData.price.showErrorMessage && !selectedSubCategoryData.price.isValid
+              ? selectedSubCategoryData.price.error
+              : ""
+          }
           icon={
             <Icon name="price-change" size={theme.icons.sizes.m} color={theme.icons.colors.aqua} />
           }

@@ -234,7 +234,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
       )}
       <StyledPlusButtonWrapper>
         <PlusButton onPress={onToggleDropdown} />
-        {error && <StyledErrorMessage>{error}</StyledErrorMessage>}
+        {error && tableData.length === 0 && <StyledErrorMessage>{error}</StyledErrorMessage>}
       </StyledPlusButtonWrapper>
     </StyledSubCategoriesWrapper>
   );

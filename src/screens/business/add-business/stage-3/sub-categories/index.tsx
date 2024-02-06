@@ -70,6 +70,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
       if (!subCategoryData) return;
       setOverrideContent(
         <SubCategoriesForm
+          disallowServicesNames={options}
           onCancel={onCancelCategoryForm}
           onSave={onSaveCategoryForm}
           subCategoryData={subCategoryData}
@@ -171,22 +172,37 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
   const tableData = useMemo(() => {
     const data: Record<string, React.ReactNode>[] = subCategories
       .filter((sub) => sub.isSelected)
-      .map((sub) => ({
-        name: sub.name.value,
-        time: sub.time.value.hours + "שעות" + sub.time.value.minutes + "דקות",
-        price: sub.price.value,
-      }));
+      .map((sub) => {
+        let parsedTime: string = "";
+        if (sub.time.value.hours >= 1) {
+          parsedTime += ` ${sub.time.value.hours} שעות `;
+        }
+        if (sub.time.value.minutes >= 1) {
+          parsedTime += ` ${sub.time.value.minutes} דקות `;
+        }
+
+        return {
+          name: sub.name.value,
+          time: parsedTime,
+          price: `₪ ${sub.price.value}`,
+        };
+      });
 
     return data;
   }, [subCategories]);
 
   const onClickTableRow = (index: number) => {
     setIsDropdownOpen(true);
+    const selectedName = selectedSubCategories[index];
+
+    const selectedSubCategory = subCategories.find((sub) => sub.name.value === selectedName);
+    if (!selectedSubCategory) return;
     setOverrideContent(
       <SubCategoriesForm
+        disallowServicesNames={options}
         onCancel={onCancelCategoryForm}
         onSave={onSaveCategoryForm}
-        subCategoryData={subCategories[index]}
+        subCategoryData={selectedSubCategory}
         openTimeOnMount={false}
       />
     );

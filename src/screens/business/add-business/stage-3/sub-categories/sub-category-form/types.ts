@@ -4,6 +4,7 @@ import { SubCatogory } from "../types";
 
 export interface Props {
     subCategoryData:SubCategoryState
+    disallowServicesNames:string[]
     onSave:(selectedSubCategoryData:SubCategoryState) => void
     onCancel:(selectedSubCategoryData:SubCategoryState) => void
     openTimeOnMount?:boolean    

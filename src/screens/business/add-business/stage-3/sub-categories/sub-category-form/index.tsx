@@ -20,6 +20,7 @@ import { theme } from "../../../../../../../theme";
 import { subCategoryNameIsEmpty, subCategoryPriceErrorMessage } from "../../errors/messages";
 import TextInput from "../../../../../../components/inputs/text";
 import { SubCategoryState } from "../../types";
+import { isEnabled } from "react-native/Libraries/Performance/Systrace";
 
 const SubCategoriesForm = ({
   onSave,
@@ -27,6 +28,7 @@ const SubCategoriesForm = ({
   subCategoryData,
   openTimeOnMount,
   isNameEditable,
+  disallowServicesNames,
 }: Props) => {
   const [selectedSubCategoryData, setSelectedSubCategoryData] =
     useState<SubCategoryState>(subCategoryData);
@@ -34,6 +36,7 @@ const SubCategoriesForm = ({
   const [timeError, setTimeError] = useState<boolean>(false);
   const [priceError, setPriceError] = useState<boolean>(false);
   const [nameError, setNameError] = useState<boolean>(false);
+  const [nameErrorMsg, setNameErrorMsg] = useState<string>();
   const [serviceName, setServiceName] = useState<string>(
     selectedSubCategoryData.name.value === "אחר" ? "" : selectedSubCategoryData.name.value
   );
@@ -80,6 +83,13 @@ const SubCategoriesForm = ({
     }
     if (serviceName.length <= 1) {
       setNameError(true);
+      setNameErrorMsg(subCategoryNameIsEmpty);
+      return isValid;
+    }
+    const isServiceNameNotValid = disallowServicesNames.find((str) => str === serviceName);
+    if (isServiceNameNotValid && !isEnabled) {
+      setNameError(true);
+      setNameErrorMsg("יש לבחור את השירות הנ״ל מהקטגוריות בעמוד הקודם");
       return isValid;
     }
     isValid = true;
@@ -101,7 +111,7 @@ const SubCategoriesForm = ({
             label="שם השירות"
             onChange={onServiceNameChange}
             width="100%"
-            error={nameError ? subCategoryNameIsEmpty : ""}
+            error={nameError ? nameErrorMsg : ""}
           />
         )}
       </StyledRow>

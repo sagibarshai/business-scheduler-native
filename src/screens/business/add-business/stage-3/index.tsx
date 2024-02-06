@@ -9,7 +9,6 @@ import { useAppRouteParams } from "../../../../hooks/use-app-route-params";
 import { RootStackParamList } from "../../../../../types";
 import { useAppNavigation } from "../../../../hooks/use-app-navigation";
 import { SubCatogory } from "./sub-categories/types";
-import { InputState } from "../../../../components/inputs/types";
 import { appAxios } from "../../../../../axios";
 import { AxiosError } from "axios";
 import SubCategories from "./sub-categories";
@@ -63,38 +62,41 @@ const Satge3 = () => {
   }, []);
 
   const onNextStage = async () => {
-    // const isFormValid = checkFromValidity();
-    // if (!isFormValid) return;
-    // const updateDataPromise = new Promise<void>((resolve) => {
-    //   dispatch(setBusinessData({ ...businessData, subCategories: selectedSubCategories }));
-    //   resolve();
-    // });
-    // await updateDataPromise;
-    // navigation.navigateTo("business-profile");
+    const isFormValid = checkFromValidity();
+    if (!isFormValid) return;
+    const updateDataPromise = new Promise<void>((resolve) => {
+      const selectedSubCategories = subcategories.filter((sub) => sub.isSelected);
+      const parsedSelected: SubCatogory[] = selectedSubCategories.map((sub) => ({
+        name: sub.name.value,
+        price: Number(sub.price.value)!,
+        defaultTime: { hours: sub.time.value.hours, minutes: sub.time.value.minutes },
+      }));
+
+      dispatch(setBusinessData({ ...businessData, subCategories: parsedSelected }));
+      resolve();
+    });
+    await updateDataPromise;
+    navigation.navigateTo("business-profile");
   };
 
-  // const checkFromValidity = (): boolean => {
-  //   let isValid = true;
-  //   if (selectedSubCategories.length === 0) {
-  //     isValid = false;
-  //     setIsSubCategoryValid(false);
-  //   } else {
-  //     setIsSubCategoryValid(true);
-  //   }
+  const checkFromValidity = (): boolean => {
+    let isValid = true;
+    const selectedSubCategories = subcategories.filter((sub) => sub.isSelected);
+    if (selectedSubCategories.length === 0) isValid = false;
 
-  //   return isValid;
-  // };
-
-  // useEffect(() => {
-  //   if (selectedSubCategories.length) setIsSubCategoryValid(true);
-  // }, [selectedSubCategories]);
+    return isValid;
+  };
 
   if (!subcategories.length) return <StyledStage3Wrapper />;
 
   return (
     <StyledStage3Wrapper>
       <Progressbar currentStage={3} stages={4} />
-      <SubCategories setSubCategories={setSubCategories} error={""} subCategories={subcategories} />
+      <SubCategories
+        setSubCategories={setSubCategories}
+        error={"יש למלא לפחות תת קטגוריה אחת"}
+        subCategories={subcategories}
+      />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
         {!params?.isEditMode ? "לשלב הבא" : "שמור"}
       </NextStageButton>

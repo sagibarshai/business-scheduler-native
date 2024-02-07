@@ -46,8 +46,16 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     const existSubCategoryIndex = updatedSubCategories.findIndex(
       (sub) => sub.name.value === selectedSubCategoryData.name.value
     );
-    if (existSubCategoryIndex === -1) return;
-    updatedSubCategories[existSubCategoryIndex] = { ...selectedSubCategoryData, isSelected: false };
+    if (existSubCategoryIndex === -1 && lastActionData.value === "add") return;
+
+    if (lastActionData.value === "add-other-category") {
+      updatedSubCategories.pop();
+    } else {
+      updatedSubCategories[existSubCategoryIndex] = {
+        ...selectedSubCategoryData,
+        isSelected: false,
+      };
+    }
     setSubCategories(updatedSubCategories);
     setOverrideContent(null);
     setLastActionData({ ...lastActionData, value: null });
@@ -55,7 +63,6 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
 
   useEffect(() => {
     if (lastActionData.value === "add" || lastActionData.value === "add-other-category") {
-      console.log("lastActionData.optionName ", lastActionData.optionName);
       let subCategoryData = subCategories.find(
         (sub) => sub.name.value === lastActionData.optionName
       );
@@ -208,6 +215,23 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     );
   };
 
+  // useEffect(() => {
+  //   const lastElement = subCategories[subCategories.length - 1];
+  //   console.log("last element ", lastElement);
+  //   if (
+  //     !lastElement.name.value ||
+  //     typeof Number(lastElement.price.value) !== "number" ||
+  //     typeof Number(lastElement.time.value.hours) !== "number" ||
+  //     typeof Number(lastElement.time.value.minutes) !== "number" ||
+  //     Number(lastElement.time.value.hours) + Number(lastElement.time.value.minutes) === 0
+  //   ) {
+  //     // last element that was submit not valid
+  //     const updatedSubCategories = [...subCategories];
+  //     updatedSubCategories.pop();
+  //     setSubCategories(updatedSubCategories);
+  //   }
+  // }, [overrideContent, sele]);
+
   return (
     <StyledSubCategoriesWrapper>
       <Table
@@ -218,6 +242,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
       />
       {isDropdownOpen && (
         <Dropdown
+          disabledClose={overrideContent === null ? false : true}
           showDropdownButton={false}
           height="65%"
           overrideContent={overrideContent}

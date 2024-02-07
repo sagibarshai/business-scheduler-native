@@ -39,6 +39,7 @@ const Dropdown = ({
   overrideContent,
   height = "70%",
   showDropdownButton = true,
+  disabledClose,
 }: Props) => {
   const [filteredList, setFilteredList] = useState<string[]>([...options]);
 
@@ -84,7 +85,7 @@ const Dropdown = ({
         </>
       )}
       {isOpen && (
-        <CustomBottomSheet height={height} onClose={onToggle}>
+        <CustomBottomSheet height={height} onClose={onToggle} disabledClose={disabledClose}>
           <StyledBottomSheetContent>
             {overrideContent ? (
               overrideContent

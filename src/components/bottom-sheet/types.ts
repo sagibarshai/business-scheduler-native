@@ -1,6 +1,6 @@
 
 export type Props  =  {
-
+    disabledClose?:boolean
     onClose:() => void
 } & React.PropsWithChildren & StyledProps
 

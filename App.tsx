@@ -1,14 +1,13 @@
-import { Provider } from "react-redux";
 import styled, { css } from "styled-components/native";
-import store, { useAppSelector } from "./redux/store";
-import { NavigationContainer, ParamListBase, useNavigation } from "@react-navigation/native";
+import { useAppSelector } from "./redux/store";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
 import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from "@react-navigation/native-stack";
 
-import { ThemeProvider } from "styled-components/native";
-import { theme } from "./theme";
+import { LogBox } from "react-native";
+
 import AddNewBusiness from "./src/screens/business/add-business";
 import { I18nManager } from "react-native";
 import { useEffect } from "react";
@@ -75,6 +74,12 @@ const App = () => {
       navigationAndStore();
     }
   }, [user.token, user.role]);
+
+  LogBox.ignoreAllLogs();
+
+  LogBox.ignoreLogs([
+    "ERROR  A non-serializable value was detected in the state, in the path: `business.metaData.workingDaysAndHours.0.startHour`. Value: 2024-02-06T07:00:00.761Z",
+  ]);
 
   return (
     <StyledAppWrapper platform={Platform}>

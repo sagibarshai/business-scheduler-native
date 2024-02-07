@@ -27,9 +27,6 @@ const SubCategoriesForm = ({
   isNameEditable,
   disallowServicesNames,
 }: Props) => {
-  const isServiceNameNotValid = disallowServicesNames.find(
-    (str) => str === subCategoryData.name.value
-  );
   const [selectedSubCategoryData, setSelectedSubCategoryData] = useState<SubCategoryState>({
     ...subCategoryData,
     price: {
@@ -83,7 +80,6 @@ const SubCategoriesForm = ({
     let nameErrorMsg: string = "";
 
     const isServiceNameNotValid = disallowServicesNames.find((str) => str === nameValue);
-    console.log("isServiceNameNotValid ", isServiceNameNotValid, nameValue);
 
     if (isNameEditable) {
       if (nameValue.length < 2) nameErrorMsg = "מינימום 2 אותיות";

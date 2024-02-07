@@ -16,5 +16,6 @@ export interface StyledProps {
     overrideContent?:React.ReactNode
     height?:string
     showDropdownButton?:boolean
+    disabledClose?:boolean
   }
   

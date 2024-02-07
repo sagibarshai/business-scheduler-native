@@ -58,8 +58,8 @@ const Stage1 = () => {
 
   const [selectedDays, setSelectedDays] = useState<Days>(days);
 
-  const [selectedCategories, setSelectedCategories] = useState<InputState<string[]>>({
-    value: businessMetaData.categories,
+  const [selectedCategory, setSelectedCategory] = useState<InputState<string>>({
+    value: businessMetaData.category,
     error: categoryErrorMessage,
     isEditMode: false,
     isValid: false,
@@ -110,6 +110,7 @@ const Stage1 = () => {
           },
         }
       );
+      console.log("categoriesResponse ", categoriesResponse);
       setCategories(categoriesResponse.data.categories);
     } catch (err) {
       const error = err as AxiosError;
@@ -126,23 +127,13 @@ const Stage1 = () => {
 
   const stage1Params = useAppRouteParams({ screen: "stage-1" }) as RootStackParamList["stage-1"];
 
-  const onSelectCategory = (selectedCategory: string) => {
-    const isExist = selectedCategories.value.find((category) => category === selectedCategory);
-    let updatedCategories: string[] = [];
-    if (isExist) {
-      updatedCategories = selectedCategories.value.filter(
-        (category) => category !== selectedCategory
-      );
-    } else {
-      updatedCategories = [...selectedCategories.value, selectedCategory];
-    }
-
-    setSelectedCategories({
-      ...selectedCategories,
-      value: updatedCategories,
-      isValid: updatedCategories.length > 0,
+  const onSelectCategory = (selected: string) =>
+    setSelectedCategory({
+      ...selectedCategory,
+      value: selected,
+      isValid: Boolean(selected),
+      isEditMode: false,
     });
-  };
 
   // days and hours
   const onEditDaysAndHours = () =>
@@ -194,11 +185,11 @@ const Stage1 = () => {
         isValid: businessAddress.value.length > 0,
       });
     } else if (filed === "categories") {
-      setSelectedCategories({
-        ...selectedCategories,
-        isEditMode: !selectedCategories.isEditMode,
-        showErrorMessage: selectedCategories.isEditMode,
-        isValid: selectedCategories.value.length > 0,
+      setSelectedCategory({
+        ...selectedCategory,
+        isEditMode: !selectedCategory.isEditMode,
+        showErrorMessage: selectedCategory.isEditMode,
+        isValid: selectedCategory.value.length > 0,
       });
     }
   };
@@ -210,7 +201,7 @@ const Stage1 = () => {
           address: businessAddress.value,
           name: businessName.value,
           workingDaysAndHours: selectedDaysAndHours.value,
-          categories: selectedCategories.value,
+          category: selectedCategory.value,
           phone: businessPhone.value,
         })
       );
@@ -260,14 +251,14 @@ const Stage1 = () => {
               />
             }
             error={
-              selectedCategories.showErrorMessage && !selectedCategories.isValid
-                ? selectedCategories.error
+              selectedCategory.showErrorMessage && !selectedCategory.isValid
+                ? selectedCategory.error
                 : ""
             }
             onSelect={onSelectCategory}
-            isOpen={selectedCategories.isEditMode}
+            isOpen={selectedCategory.isEditMode}
             onToggle={() => onInputToggleEditMode("categories")}
-            selectedCategories={selectedCategories.value}
+            selectedCategories={selectedCategory.value ? [selectedCategory.value] : []}
             options={categories.map((category) => category.name)}
           />
 
@@ -330,7 +321,7 @@ const Stage1 = () => {
             </StyledLabelIconWrapper>
             <SelectDaysAndHours
               error={
-                selectedCategories.isValid &&
+                selectedCategory.isValid &&
                 businessName.isValid &&
                 businessAddress.isValid &&
                 businessPhone.isValid &&
@@ -350,7 +341,7 @@ const Stage1 = () => {
       </ScrollView>
       <NextStageButton
         disabled={
-          !selectedCategories.isValid ||
+          !selectedCategory.isValid ||
           !businessName.isValid ||
           !businessAddress.isValid ||
           !businessPhone.isValid ||

@@ -37,7 +37,7 @@ const UploadImg = ({
   const onUploadImg = () => {
     const options: ImageLibraryOptions = {
       mediaType: "photo",
-      includeBase64: false,
+      includeBase64: true,
     };
 
     launchImageLibrary(options, (response: ImagePickerResponse) => {
@@ -74,7 +74,7 @@ const UploadImg = ({
           </>
         ) : (
           <StyledProfileImgWrapper>
-            <StyledProfileImg source={source} />
+            <StyledProfileImg source={{ uri: `data:image/jpeg;base64,${source.base64}` }} />
           </StyledProfileImgWrapper>
         )}
       </StyledProfileUploadImgWrapper>
@@ -103,7 +103,7 @@ const UploadImg = ({
                 size={theme.icons.sizes.m}
               />
             </StyledXButtonWrapper>
-            <StyledCoverImg source={source} />
+            <StyledCoverImg source={{ uri: `data:image/jpeg;base64,${source.base64}` }} />
           </StyleRegularImgWrapper>
         )}
       </StyledRegularUploadImgWrapper>
@@ -131,7 +131,7 @@ const UploadImg = ({
                 size={theme.icons.sizes.m}
               />
             </StyledXButtonWrapper>
-            <StyledCoverImg source={source} />
+            <StyledCoverImg source={{ uri: `data:image/jpeg;base64,${source.base64}` }} />
           </StyleCoverImgWrapper>
         )}
       </StyledCoverUploadImgWrapper>

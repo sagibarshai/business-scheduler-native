@@ -18,7 +18,7 @@ interface BusinessPhotos {
 interface BusinessMetaData {
   address:string;
   name:string;
-  categories:string[]
+  category:string
   workingDaysAndHours:SelectedHoursAndDays
   phone:string
 }
@@ -39,7 +39,7 @@ type Business = {
 const initialState: Business = {
   metaData:{
     address:"",
-    categories:[],
+    category:"",
     name:"",
     workingDaysAndHours:[],
     phone:"",
@@ -64,7 +64,7 @@ const businessSlice = createSlice({
         const businessMetaData = action.payload;
         state.metaData.address = businessMetaData.address;
         state.metaData.name = businessMetaData.name;
-        state.metaData.categories = businessMetaData.categories;
+        state.metaData.category = businessMetaData.category;
         state.metaData.workingDaysAndHours = businessMetaData.workingDaysAndHours
         state.metaData.phone = businessMetaData.phone
       }

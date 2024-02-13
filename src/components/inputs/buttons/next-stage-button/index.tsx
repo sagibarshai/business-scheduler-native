@@ -1,7 +1,13 @@
 import { theme } from "../../../../../theme";
-import { StyledIconWrapper, StyledNextStageButton, StyledNextStageButtonText, StyledRow } from "./styled";
+import {
+  StyledIconWrapper,
+  StyledNextStageButton,
+  StyledNextStageButtonText,
+  StyledRow,
+} from "./styled";
 import { Props } from "./types";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 const NextStageButton = ({ disabled, onNextStage, children }: Props) => {
   return (
     <StyledNextStageButton disabled={disabled} onPress={onNextStage}>

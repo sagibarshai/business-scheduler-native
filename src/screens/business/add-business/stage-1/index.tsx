@@ -110,7 +110,6 @@ const Stage1 = () => {
           },
         }
       );
-      console.log("categoriesResponse ", categoriesResponse);
       setCategories(categoriesResponse.data.categories);
     } catch (err) {
       const error = err as AxiosError;
@@ -120,8 +119,10 @@ const Stage1 = () => {
   };
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    if (user.token) {
+      getCategories();
+    }
+  }, [user.token]);
 
   const scrollableRef = useRef<ScrollView>(null);
 

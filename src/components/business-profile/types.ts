@@ -2,5 +2,4 @@ import { SubCatogory } from "../../screens/business/add-business/stage-3/sub-cat
 
 export interface Props {
     allowEdit:boolean;
-    subCategoriesList:SubCatogory[]
 }

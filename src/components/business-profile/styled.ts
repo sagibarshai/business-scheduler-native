@@ -7,6 +7,9 @@ export const StyledWrapper = styled.View`
     width: 100%;
     height: 100%;
     padding: 24px;
+    padding-bottom: 150px;
+    ;
+
     
 `
 export const StyledSectionTitle = styled.Text`
@@ -41,3 +44,10 @@ export const StyledText = styled.Text`
     text-align: left;`
 
     
+
+export const StyledBusinessProfileWrapper = styled.View`
+    flex: 1; 
+    padding-bottom: 50px;
+    display: flex;
+    gap: ${props =>props.theme.spaces.l};
+`

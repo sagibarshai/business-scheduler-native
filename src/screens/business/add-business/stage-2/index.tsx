@@ -27,8 +27,6 @@ const Stage2 = () => {
   const businessData = useAppSelector((state) => state.business.data);
   const businessPhotos = useAppSelector((state) => state.business.photos);
 
-  console.log("businessMetaData ", businessMetaData.workingDaysAndHours[0]);
-
   const [profileImg, setProfileImg] = useState<InputState<Asset | undefined>>({
     error: profileImgErrorMessage,
     value: businessPhotos.profile?.uri ? businessPhotos.profile : undefined,
@@ -59,8 +57,6 @@ const Stage2 = () => {
     (asset: Asset) => setProfileImg({ ...profileImg, value: asset, isValid: true }),
     [profileImg]
   );
-
-  console.log(" profileImg.value?.base64 ", profileImg.value?.fileSize);
 
   const onCoverImgUpload = useCallback(
     (asset: Asset) => setCoverImg({ ...coverImg, value: asset }),

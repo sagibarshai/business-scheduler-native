@@ -1,4 +1,7 @@
-import { NativeStackNavigationProp, createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from "@react-navigation/native-stack";
 
 import SignUp from "./signup";
 import Login from "./login";
@@ -14,9 +17,27 @@ const AuthScreens = () => {
   const onNavigateToLoginPage = () => navigation.navigate("login");
 
   return (
-    <Stack.Navigator initialRouteName="signUp">
-      <Stack.Screen name="signup" options={{ title: "הרשמה" }} children={() => <SignUp onNavigateToLoginPage={onNavigateToLoginPage} />} />
-      <Stack.Screen name="login" options={{ title: "התחברות" }} children={() => <Login onNavigateToSignUpPage={onNavigateToSignUpPage} />} />
+    <Stack.Navigator
+      initialRouteName="signUp"
+      screenOptions={{
+        headerShown: true,
+        headerTitleAlign: "center",
+        title: "הוספת עסק",
+        headerBackTitleVisible: false,
+        headerBackButtonMenuEnabled: true,
+        contentStyle: { backgroundColor: "transparent" },
+      }}
+    >
+      <Stack.Screen
+        name="signup"
+        options={{ title: "הרשמה" }}
+        children={() => <SignUp onNavigateToLoginPage={onNavigateToLoginPage} />}
+      />
+      <Stack.Screen
+        name="login"
+        options={{ title: "התחברות" }}
+        children={() => <Login onNavigateToSignUpPage={onNavigateToSignUpPage} />}
+      />
     </Stack.Navigator>
   );
 };

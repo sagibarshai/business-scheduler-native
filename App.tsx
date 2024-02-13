@@ -32,6 +32,7 @@ const StyledAppWrapper = styled.View<StyledProps>`
         `}
   display: flex;
   margin: auto;
+  padding: 20px;
 `;
 
 const App = () => {

@@ -13,12 +13,14 @@ import { appAxios } from "../../../../../axios";
 import { AxiosError } from "axios";
 import SubCategories from "./sub-categories";
 import { SubCategoryState } from "./types";
+import { SelectedHoursAndDays } from "../stage-1/select-days-and-hours/types";
 
 const Satge3 = () => {
   const dispatch = useAppDispatch();
   const businessData = useAppSelector((state) => state.business.data);
   const businessMetaData = useAppSelector((state) => state.business.metaData);
   const navigation = useAppNavigation();
+  const business = useAppSelector((state) => state.business);
 
   const user = useAppSelector((state) => state.user);
 
@@ -30,7 +32,7 @@ const Satge3 = () => {
     try {
       const categoriesResponse: { data: { subCategories: SubCatogory[][] } } = await appAxios.post(
         "/business/sub-categories-options",
-        { categories: businessMetaData.categories },
+        { categories: [businessMetaData.category] },
         {
           headers: {
             Authorization: `Berar ${user.token}`,
@@ -71,11 +73,11 @@ const Satge3 = () => {
         price: Number(sub.price.value)!,
         defaultTime: { hours: sub.time.value.hours, minutes: sub.time.value.minutes },
       }));
-
       dispatch(setBusinessData({ ...businessData, subCategories: parsedSelected }));
       resolve();
     });
     await updateDataPromise;
+
     navigation.navigateTo("business-profile");
   };
 
@@ -98,7 +100,7 @@ const Satge3 = () => {
         subCategories={subcategories}
       />
       <NextStageButton onNextStage={onNextStage} disabled={false}>
-        {!params?.isEditMode ? "לשלב הבא" : "שמור"}
+        {!params?.isEditMode ? "סיום" : "שמור"}
       </NextStageButton>
     </StyledStage3Wrapper>
   );

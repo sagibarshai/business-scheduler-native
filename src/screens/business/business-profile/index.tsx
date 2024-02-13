@@ -8,8 +8,22 @@ const BusinessProfileScreen = ({ allowEdit = true }: Props) => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="business-profile">
-      <Stack.Screen options={{ title: "פרופיל העסק" }} name="business-profile-component" children={() => <BusinessProfile allowEdit={allowEdit} />} />
+    <Stack.Navigator
+      initialRouteName="business-profile"
+      screenOptions={{
+        headerShown: true,
+        headerTitleAlign: "center",
+        title: "הוספת עסק",
+        headerBackTitleVisible: false,
+        headerBackButtonMenuEnabled: true,
+        contentStyle: { backgroundColor: "transparent" },
+      }}
+    >
+      <Stack.Screen
+        options={{ title: "פרופיל העסק" }}
+        name="business-profile-component"
+        children={() => <BusinessProfile allowEdit={allowEdit} />}
+      />
     </Stack.Navigator>
   );
 };

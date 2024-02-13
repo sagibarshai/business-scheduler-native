@@ -16,7 +16,7 @@ const AddNewBusiness = () => {
         title: "הוספת עסק",
         headerBackTitleVisible: false,
         headerBackButtonMenuEnabled: true,
-        contentStyle: { backgroundColor: "transparent", padding: 20 },
+        contentStyle: { backgroundColor: "transparent" },
       }}
     >
       <Stack.Screen name="stage-1" component={Stage1} />

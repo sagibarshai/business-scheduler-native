@@ -12,8 +12,12 @@ import IconPrice from "react-native-vector-icons/MaterialIcons";
 
 import { theme } from "../../../../../../theme";
 import { SubCategoryState } from "../types";
+import { useAppSelector } from "../../../../../../redux/store";
 
 const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
+  const businessData = useAppSelector((state) => state.business.data);
+
+  // const [selectedSubCategories,setSelectedSubCategories] =
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [lastActionData, setLastActionData] = useState<{
     value: "add" | "remove" | "add-other-category" | null;
@@ -164,11 +168,12 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
 
   const selectedSubCategories = useMemo(() => {
     const selected = [];
+
     for (let i = 0; i < subCategories.length; i++) {
       if (subCategories[i].isSelected) selected.push(subCategories[i].name.value);
     }
     return selected;
-  }, [subCategories]);
+  }, [subCategories, businessData.subCategories]);
 
   const options = useMemo(() => {
     const options = subCategories.map(({ name }) => name.value);
@@ -214,23 +219,6 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
       />
     );
   };
-
-  // useEffect(() => {
-  //   const lastElement = subCategories[subCategories.length - 1];
-  //   console.log("last element ", lastElement);
-  //   if (
-  //     !lastElement.name.value ||
-  //     typeof Number(lastElement.price.value) !== "number" ||
-  //     typeof Number(lastElement.time.value.hours) !== "number" ||
-  //     typeof Number(lastElement.time.value.minutes) !== "number" ||
-  //     Number(lastElement.time.value.hours) + Number(lastElement.time.value.minutes) === 0
-  //   ) {
-  //     // last element that was submit not valid
-  //     const updatedSubCategories = [...subCategories];
-  //     updatedSubCategories.pop();
-  //     setSubCategories(updatedSubCategories);
-  //   }
-  // }, [overrideContent, sele]);
 
   return (
     <StyledSubCategoriesWrapper>

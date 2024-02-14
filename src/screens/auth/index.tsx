@@ -18,7 +18,7 @@ const AuthScreens = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="signUp"
+      initialRouteName="login"
       screenOptions={{
         headerShown: true,
         headerTitleAlign: "center",

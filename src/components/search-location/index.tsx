@@ -56,7 +56,7 @@ const SearchLocation = ({
             input: textInput,
           },
           headers: {
-            Authorization: `Berar ${user.token}`,
+            authorization: `Berar ${user.token}`,
           },
         });
         const parsedResponse: any = response.data;

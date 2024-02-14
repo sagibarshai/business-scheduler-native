@@ -74,7 +74,7 @@ const UploadImg = ({
           </>
         ) : (
           <StyledProfileImgWrapper>
-            <StyledProfileImg source={{ uri: `data:image/jpeg;base64,${source.base64}` }} />
+            <StyledProfileImg source={{ uri: `data:${source?.type};base64,${source?.base64}` }} />
           </StyledProfileImgWrapper>
         )}
       </StyledProfileUploadImgWrapper>
@@ -103,7 +103,7 @@ const UploadImg = ({
                 size={theme.icons.sizes.m}
               />
             </StyledXButtonWrapper>
-            <StyledCoverImg source={{ uri: `data:image/jpeg;base64,${source.base64}` }} />
+            <StyledCoverImg source={{ uri: `data:${source?.type};base64,${source?.base64}` }} />
           </StyleRegularImgWrapper>
         )}
       </StyledRegularUploadImgWrapper>
@@ -131,7 +131,7 @@ const UploadImg = ({
                 size={theme.icons.sizes.m}
               />
             </StyledXButtonWrapper>
-            <StyledCoverImg source={{ uri: `data:image/jpeg;base64,${source.base64}` }} />
+            <StyledCoverImg source={{ uri: `data:${source?.type};base64,${source?.base64}` }} />
           </StyleCoverImgWrapper>
         )}
       </StyledCoverUploadImgWrapper>

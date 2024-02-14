@@ -35,7 +35,7 @@ const Satge3 = () => {
         { categories: [businessMetaData.category] },
         {
           headers: {
-            Authorization: `Berar ${user.token}`,
+            authorization: `Berar ${user.token}`,
           },
         }
       );

@@ -1,4 +1,4 @@
-import styled from "styled-components/native";
+import styled, { css } from "styled-components/native";
 import { theme } from "../../../../theme";
 
 export const StyledWrapper = styled.View`
@@ -67,6 +67,15 @@ export const StyledNavigateToLoginPage = styled.TouchableOpacity`
 export const StyledNavigationToLoginPageText = styled(StyledText)<{underline?:boolean}>`
     color: ${props => props.theme.palette.colors.lights.texts.aqua};
     text-align: center;
-    text-decoration-line: ${props => props.underline  && "underline" };
-    font-weight: ${props => props.underline ? theme.fonts.weights.l : "normal"} ;
+    ${props => {
+        if(props.underline) css`
+    text-decoration-line: underline;
+
+    font-weight: ${props => props.theme.fonts.weights.l} ;
+        `
+
+        return css``
+    }}
+
+
 `

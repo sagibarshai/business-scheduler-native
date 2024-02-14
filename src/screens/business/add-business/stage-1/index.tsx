@@ -106,7 +106,7 @@ const Stage1 = () => {
         "/business/categories-options",
         {
           headers: {
-            Authorization: `Berar ${user.token}`,
+            authorization: `Berar ${user.token}`,
           },
         }
       );

@@ -21,7 +21,7 @@ const ConfigRole = () => {
         { role },
         {
           headers: {
-            Authorization: `Berar ${user.token}`,
+            authorization: `Berar ${user.token}`,
           },
         }
       );

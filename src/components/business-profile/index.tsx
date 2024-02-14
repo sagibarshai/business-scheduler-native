@@ -16,7 +16,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import SelectedDaysAndHoursDisplay from "../selected-days-and-hour-display";
 import DisplayImgs from "../display-imgs";
 import { ScrollView } from "react-native";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Table from "../table";
 import Hr from "../elements/hr";
 import EditPen from "../edit-pen";
@@ -29,6 +29,8 @@ import Progressbar from "../progress-bar";
 
 const BusinessProfile = ({ allowEdit }: Props) => {
   const navigation = useAppNavigation();
+
+  const [dataL, setDataL] = useState<any>(null);
 
   const user = useAppSelector((state) => state.user);
   const business = useAppSelector((state) => state.business);
@@ -68,6 +70,22 @@ const BusinessProfile = ({ allowEdit }: Props) => {
   }, []);
 
   const subCategoriesData = useMemo(() => {
+    if (dataL) {
+      //@ts-ignore
+      return dataL?.businessData?.sub_categories?.map(({ name, price, defaultTime }) => ({
+        service: name,
+        time: defaultTime ? (
+          <>
+            {defaultTime?.hours ? `${defaultTime.hours} ש׳, ` : ""}
+            {defaultTime?.minutes} דק
+          </>
+        ) : (
+          ""
+        ),
+        price: price ? `₪ ${price} ` : "",
+      }));
+    }
+
     return business.data.subCategories.map(({ name, price, defaultTime }) => ({
       service: name,
       time: defaultTime ? (
@@ -80,7 +98,7 @@ const BusinessProfile = ({ allowEdit }: Props) => {
       ),
       price: price ? `₪ ${price} ` : "",
     }));
-  }, []);
+  }, [dataL]);
 
   const onEdit = (screen: "stage-1" | "stage-2" | "stage-3") => {
     navigation.navigateTo("add-business", {
@@ -133,7 +151,7 @@ const BusinessProfile = ({ allowEdit }: Props) => {
           img_type: "profile",
           size: business.photos.profile.fileSize!.toString(),
         },
-        coverImg: {
+        coverImg: business.photos.cover && {
           base64: business.photos.cover.base64!,
           file_type: business.photos.cover.type!,
           img_type: "cover",
@@ -146,7 +164,6 @@ const BusinessProfile = ({ allowEdit }: Props) => {
           size: data.fileSize!.toString(),
         })),
       };
-
       if (business.photos.cover?.uri) {
         body["coverImg"] = {
           base64: business.photos.cover.base64!,
@@ -170,7 +187,7 @@ const BusinessProfile = ({ allowEdit }: Props) => {
         { ...body },
         {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -178,6 +195,129 @@ const BusinessProfile = ({ allowEdit }: Props) => {
       console.log("err ", err);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await appAxios.get("/business", {
+          headers: { authorization: `Bearer ${user.token}` },
+        });
+        const data = res.data;
+        setDataL(data);
+      } catch (err) {
+        console.log("err ", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (dataL) {
+    return (
+      <StyledBusinessProfileWrapper>
+        <ScrollView style={{ display: "flex", flex: 1 }}>
+          <Progressbar currentStage={4} stages={4} />
+
+          <StyledWrapper>
+            {allowEdit && <EditPen onPress={() => onEdit("stage-2")} />}
+            <StyledKeyValueWrapper>
+              <DisplayImgs
+                regularImgs={dataL.businessImgs.filter((img: any) => img.img_type === "regular")}
+                coverImg={dataL.businessImgs.find((img: any) => img.img_type === "cover")}
+                profileImg={dataL.businessImgs.find((img: any) => img.img_type === "profile")}
+              />
+            </StyledKeyValueWrapper>
+            <StyledKeyValueWrapper>
+              <StyledIconAndTitleWrapper>
+                <MaterialCommunityIcons
+                  size={theme.icons.sizes.m}
+                  color={theme.icons.colors.aqua}
+                  name="subtitles-outline"
+                />
+                <StyledSectionTitle>תיאור העסק</StyledSectionTitle>
+              </StyledIconAndTitleWrapper>
+              <StyledText>{dataL.businessData.business_description}</StyledText>
+            </StyledKeyValueWrapper>
+            <Hr />
+            {allowEdit && <EditPen onPress={() => onEdit("stage-1")} />}
+            <StyledKeyValueWrapper>
+              <StyledIconAndTitleWrapper>
+                <MaterialIcons
+                  name="category"
+                  color={theme.icons.colors.aqua}
+                  size={theme.icons.sizes.m}
+                />
+                <StyledSectionTitle>קטגוריות</StyledSectionTitle>
+              </StyledIconAndTitleWrapper>
+              <StyledCategoriesWrapper>
+                <Tag text={dataL.businessData.category} onPress={() => {}} />
+              </StyledCategoriesWrapper>
+            </StyledKeyValueWrapper>
+
+            <StyledKeyValueWrapper>
+              <StyledIconAndTitleWrapper>
+                <MaterialCommunityIcons
+                  size={theme.icons.sizes.m}
+                  color={theme.icons.colors.aqua}
+                  name="note-text-outline"
+                />
+                <StyledSectionTitle>שם העסק</StyledSectionTitle>
+              </StyledIconAndTitleWrapper>
+              <StyledText>{dataL.businessData.business_name}</StyledText>
+            </StyledKeyValueWrapper>
+            <StyledKeyValueWrapper>
+              <StyledIconAndTitleWrapper>
+                <MaterialCommunityIcons
+                  size={theme.icons.sizes.m}
+                  color={theme.icons.colors.aqua}
+                  name="home-outline"
+                />
+                <StyledSectionTitle>כתובת העסק</StyledSectionTitle>
+              </StyledIconAndTitleWrapper>
+              <StyledText>{dataL.businessData.address}</StyledText>
+            </StyledKeyValueWrapper>
+            <StyledKeyValueWrapper>
+              <StyledIconAndTitleWrapper>
+                <MaterialCommunityIcons
+                  size={theme.icons.sizes.m}
+                  color={theme.icons.colors.aqua}
+                  name="home-outline"
+                />
+                <StyledSectionTitle>טלפון</StyledSectionTitle>
+              </StyledIconAndTitleWrapper>
+              <StyledText>{dataL.businessData.phone}</StyledText>
+            </StyledKeyValueWrapper>
+            <StyledKeyValueWrapper>
+              <StyledIconAndTitleWrapper>
+                <MaterialCommunityIcons
+                  size={theme.icons.sizes.m}
+                  color={theme.icons.colors.aqua}
+                  name="clock-edit-outline"
+                />
+                <StyledSectionTitle>ימים ושעות</StyledSectionTitle>
+              </StyledIconAndTitleWrapper>
+              <SelectedDaysAndHoursDisplay
+                selectedDaysAndHours={dataL.businessData.working_days_and_hours}
+              />
+            </StyledKeyValueWrapper>
+
+            <Hr />
+            {allowEdit && <EditPen onPress={() => onEdit("stage-3")} />}
+
+            <StyledKeyValueWrapper>
+              <Table
+                data={subCategoriesData}
+                customHeaders={subCategoriesHeaders}
+                columnSizes={[2, 2, 1]}
+              />
+            </StyledKeyValueWrapper>
+          </StyledWrapper>
+        </ScrollView>
+        <NextStageButton onNextStage={postBusiness} disabled={false}>
+          סיום
+        </NextStageButton>
+      </StyledBusinessProfileWrapper>
+    );
+  }
 
   return (
     <StyledBusinessProfileWrapper>

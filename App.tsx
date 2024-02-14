@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components/native";
-import { useAppSelector } from "./redux/store";
+import { useAppDispatch, useAppSelector } from "./redux/store";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import {
   NativeStackNavigationProp,
@@ -18,6 +18,8 @@ import BusinessProfileScreen from "./src/screens/business/business-profile";
 import AuthScreens from "./src/screens/auth";
 import ConfigRole from "./src/screens/config-role/component";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { User, setUser } from "./redux/featuers/user/userSlice";
+import { appAxios } from "./axios";
 
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
@@ -36,6 +38,8 @@ const StyledAppWrapper = styled.View<StyledProps>`
 `;
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
   const SackNavigation = createNativeStackNavigator();
 
   const user = useAppSelector((state) => state.user);
@@ -49,32 +53,34 @@ const App = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
-    // navigation
-    let token = undefined;
+    const excute = async () => {
+      let token: string | null = null;
 
-    const getToken = async () => {
-      try {
+      if (!user.token) {
         token = await AsyncStorage.getItem("token");
-      } catch (err) {
-        console.log("err ", err);
-      }
-    };
-    getToken();
-
-    if (user.token || token) {
-      const navigationAndStore = async () => {
-        try {
-          await AsyncStorage.setItem("token", user.token);
-        } catch (err) {
-          console.log("err ", err);
+        if (!token) navigation.navigate("auth");
+        else {
+          const res = await appAxios.get("/user", {
+            headers: { authorization: `Bearer ${token}` },
+          });
+          const userData = res.data.user as User;
+          const setUserPromise = new Promise<void>((resolve) => {
+            dispatch(setUser({ ...userData, token: token! }));
+            resolve();
+          });
+          await setUserPromise;
+          if (userData.role === "N/A") navigation.navigate("config-role");
+          else if (userData.role === "business") navigation.navigate("add-business");
         }
+      } else {
+        await AsyncStorage.setItem("token", user.token);
 
         if (user.role === "N/A") navigation.navigate("config-role");
         else if (user.role === "business") navigation.navigate("add-business");
-      };
-      navigationAndStore();
-    }
-  }, [user.token, user.role]);
+      }
+    };
+    excute();
+  }, [user]);
 
   LogBox.ignoreAllLogs();
 
@@ -95,7 +101,7 @@ const App = () => {
           }}
         >
           <SackNavigation.Navigator
-            initialRouteName="add-business"
+            initialRouteName="auth"
             screenOptions={{ contentStyle: { backgroundColor: "transparent" }, headerShown: false }}
           >
             <SackNavigation.Screen name="auth" component={AuthScreens} />

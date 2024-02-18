@@ -2,7 +2,7 @@ import { StyledTableWrapper, StyledCol, StyledRow, StyledText, StyledHeaderRow }
 import { Props } from "./types";
 
 const Table = ({ data, customHeaders, columnSizes, onClickRow = () => {} }: Props) => {
-  if (!data.length && !customHeaders) return <StyledTableWrapper />;
+  if (!data || (!data.length && !customHeaders)) return <StyledTableWrapper />;
   const headers = customHeaders ? customHeaders : Object.keys(data[0]);
 
   return (
@@ -10,10 +10,16 @@ const Table = ({ data, customHeaders, columnSizes, onClickRow = () => {} }: Prop
       <StyledRow>
         {headers.map((header, index) => {
           return (
-            <StyledCol flex={columnSizes ? columnSizes[index] : undefined} isHeader key={typeof header === "string" ? header : header.value}>
+            <StyledCol
+              flex={columnSizes ? columnSizes[index] : undefined}
+              isHeader
+              key={typeof header === "string" ? header : header.value}
+            >
               <StyledHeaderRow>
                 {typeof header === "string" ? "" : header.icon}
-                <StyledText isHeader>{typeof header === "string" ? header : header.value}</StyledText>
+                <StyledText isHeader>
+                  {typeof header === "string" ? header : header.value}
+                </StyledText>
               </StyledHeaderRow>
             </StyledCol>
           );

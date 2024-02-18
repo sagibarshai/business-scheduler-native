@@ -29,13 +29,13 @@ const Stage2 = () => {
 
   const [profileImg, setProfileImg] = useState<InputState<Asset | undefined>>({
     error: profileImgErrorMessage,
-    value: businessPhotos.profile?.uri ? businessPhotos.profile : undefined,
+    value: businessPhotos.profile ? businessPhotos.profile : undefined,
     isValid: false,
     showErrorMessage: false,
   });
   const [coverImg, setCoverImg] = useState<InputState<Asset | undefined>>({
     error: "",
-    value: businessPhotos.cover?.uri ? businessPhotos.cover : undefined,
+    value: businessPhotos.cover ? businessPhotos.cover : undefined,
     isValid: true,
   });
   const [businessImgs, setBusinessImgs] = useState<InputState<Asset[]>>({

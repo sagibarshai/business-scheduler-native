@@ -21,6 +21,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User, setUser } from "./redux/featuers/user/userSlice";
 import { appAxios } from "./axios";
 
+import { decode, encode } from "base-64";
+
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
+
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
     props.platform.OS === "ios"

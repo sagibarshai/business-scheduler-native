@@ -8,14 +8,14 @@ import { Asset } from "react-native-image-picker";
 
 
 
-interface BusinessPhotos {
+export interface BusinessPhotos {
   profile: Asset
   cover: Asset
   regular:Asset[]
 }
 
 
-interface BusinessMetaData {
+export interface BusinessMetaData {
   address:string;
   name:string;
   category:string
@@ -23,7 +23,7 @@ interface BusinessMetaData {
   phone:string
 }
 
-interface BusinessData {
+export interface BusinessData {
   subCategories:SubCatogory[]
   description:string
 }

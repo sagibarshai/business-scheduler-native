@@ -30,7 +30,7 @@ const DisplayImgs = ({ profileImg, coverImg, regularImgs }: Props) => {
     setModalImgSource({ uri: `data:${asset?.type};base64,${asset?.base64}` });
     onToggleModal();
   };
-  console.log("profileImg?.base64 ", profileImg?.base64);
+
   return (
     <StyledWrapper>
       {(coverImg || profileImg) && (
@@ -38,7 +38,7 @@ const DisplayImgs = ({ profileImg, coverImg, regularImgs }: Props) => {
           {coverImg && (
             <StyleCoverImgWrapper onTouchStart={() => onPressImg(coverImg)}>
               <StyledCoverImg
-                source={{ uri: `data:${coverImg?.type!};base64,${coverImg?.base64}` }}
+                source={{ uri: `data:${coverImg?.type};base64,${coverImg?.base64}` }}
               />
             </StyleCoverImgWrapper>
           )}

@@ -13,14 +13,12 @@ import { appAxios } from "../../../../../axios";
 import { AxiosError } from "axios";
 import SubCategories from "./sub-categories";
 import { SubCategoryState } from "./types";
-import { SelectedHoursAndDays } from "../stage-1/select-days-and-hours/types";
 
 const Satge3 = () => {
   const dispatch = useAppDispatch();
   const businessData = useAppSelector((state) => state.business.data);
   const businessMetaData = useAppSelector((state) => state.business.metaData);
   const navigation = useAppNavigation();
-  const business = useAppSelector((state) => state.business);
 
   const user = useAppSelector((state) => state.user);
 

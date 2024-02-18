@@ -22,4 +22,5 @@ export interface StyledProps {
     ref?:React.RefObject<TextInput>
     keyboardType?:KeyboardType
     textContentType?:TextInputProps['textContentType']
+    value:string
   }

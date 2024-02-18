@@ -21,16 +21,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { User, setUser } from "./redux/featuers/user/userSlice";
 import { appAxios } from "./axios";
 
-import { decode, encode } from "base-64";
-
-if (!global.btoa) {
-  global.btoa = encode;
-}
-
-if (!global.atob) {
-  global.atob = decode;
-}
-
 const StyledAppWrapper = styled.View<StyledProps>`
   ${(props) =>
     props.platform.OS === "ios"
@@ -63,11 +53,10 @@ const App = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   useEffect(() => {
-    const excute = async () => {
+    const handleToken = async () => {
       let token: string | null = null;
 
       if (!user.token) {
-        token = await AsyncStorage.getItem("token");
         if (!token) navigation.navigate("auth");
         else {
           const res = await appAxios.get("/user", {
@@ -89,7 +78,7 @@ const App = () => {
         else if (user.role === "business") navigation.navigate("add-business");
       }
     };
-    excute();
+    handleToken();
   }, [user]);
 
   LogBox.ignoreAllLogs();

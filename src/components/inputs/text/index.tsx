@@ -2,17 +2,38 @@ import React from "react";
 
 import { type Props } from "./types";
 
-import { StyledCol, StyledErrorMessage, StyledInputLabel, StyledPrimaryInput, StyledRow } from "./styled";
+import {
+  StyledCol,
+  StyledErrorMessage,
+  StyledInputLabel,
+  StyledPrimaryInput,
+  StyledRow,
+} from "./styled";
 import { theme } from "../../../../theme";
 
-const TextInput = ({ icon, label, placeholder, onChange, error, onBlur, onFocus, isTextArea, keyboardType, textContentType, ...props }: Props) => (
+const TextInput = ({
+  icon,
+  label,
+  placeholder,
+  onChange,
+  error,
+  onBlur,
+  onFocus,
+  isTextArea,
+  keyboardType,
+  textContentType,
+  value,
+  ...props
+}: Props) => (
   <StyledCol {...props}>
     <StyledRow>
       {icon}
       <StyledInputLabel>{label}</StyledInputLabel>
     </StyledRow>
     <StyledPrimaryInput
-      secureTextEntry={textContentType === "password" || textContentType === "newPassword" ? true : false}
+      secureTextEntry={
+        textContentType === "password" || textContentType === "newPassword" ? true : false
+      }
       returnKeyType="done"
       textContentType={textContentType}
       keyboardType={keyboardType}
@@ -24,6 +45,7 @@ const TextInput = ({ icon, label, placeholder, onChange, error, onBlur, onFocus,
       onFocus={onFocus}
       error={error}
       onChange={(event) => onChange(event)}
+      value={value}
     />
     <StyledErrorMessage>{error}</StyledErrorMessage>
   </StyledCol>

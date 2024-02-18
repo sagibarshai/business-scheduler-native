@@ -17,13 +17,13 @@ import { useAppSelector } from "../../../../../../redux/store";
 const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
   const businessData = useAppSelector((state) => state.business.data);
 
-  // const [selectedSubCategories,setSelectedSubCategories] =
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
   const [lastActionData, setLastActionData] = useState<{
     value: "add" | "remove" | "add-other-category" | null;
     optionName: string | null;
   }>({ value: null, optionName: null });
 
+  const [tableData, setTableData] = useState<Record<string, React.ReactNode>[]>([]);
   const [overrideContent, setOverrideContent] = useState<React.ReactNode>(null);
 
   const onToggleDropdown = useCallback(() => {
@@ -181,7 +181,7 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
     return options;
   }, [subCategories]);
 
-  const tableData = useMemo(() => {
+  useEffect(() => {
     const data: Record<string, React.ReactNode>[] = subCategories
       .filter((sub) => sub.isSelected)
       .map((sub) => {
@@ -199,9 +199,35 @@ const SubCategories = ({ subCategories, setSubCategories, error }: Props) => {
           price: `₪ ${sub.price.value}`,
         };
       });
-
-    return data;
+    setTableData(data);
   }, [subCategories]);
+
+  useEffect(() => {
+    const data: Record<string, React.ReactNode>[] = businessData.subCategories.map((sub) => {
+      let parsedTime: string = "";
+      if (sub.defaultTime.hours >= 1) {
+        parsedTime += ` ${sub.defaultTime.hours} שעות `;
+      }
+      if (sub.defaultTime.minutes >= 1) {
+        parsedTime += ` ${sub.defaultTime.minutes} דקות `;
+      }
+
+      return {
+        name: sub.name,
+        time: parsedTime,
+        price: `₪ ${sub.price}`,
+      };
+    });
+    setTableData(data);
+
+    const updatedSubCategories = [...subCategories];
+    for (let sub of updatedSubCategories) {
+      const isExist = businessData.subCategories.map((s) => s.name === sub.name.value);
+      if (isExist) sub.isSelected = true;
+    }
+    setSubCategories(updatedSubCategories);
+    setIsDropdownOpen(true);
+  }, []);
 
   const onClickTableRow = (index: number) => {
     setIsDropdownOpen(true);

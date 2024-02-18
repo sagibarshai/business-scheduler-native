@@ -47,7 +47,6 @@ const Stage2 = () => {
     value: businessData.description,
     isEditMode: true,
   });
-
   const scrollableRef = useRef<ScrollView>(null);
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
@@ -142,6 +141,7 @@ const Stage2 = () => {
           />
           <StyledTextareaWrapper>
             <Textarea
+              value={description.value}
               onFocus={() => {
                 scrollableRef.current?.scrollToEnd();
               }}

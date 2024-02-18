@@ -57,7 +57,7 @@ const UploadImg = ({
   if (variant === "profile")
     return (
       <StyledProfileUploadImgWrapper onPress={onUploadImg}>
-        {!source ? (
+        {!source?.base64 ? (
           <>
             <StyledProfileImgWrapper>
               <Icon
@@ -111,7 +111,7 @@ const UploadImg = ({
   else
     return (
       <StyledCoverUploadImgWrapper onPress={onUploadImg}>
-        {!source ? (
+        {!source?.base64 ? (
           <>
             <StyleCoverImgWrapper>
               <Icon

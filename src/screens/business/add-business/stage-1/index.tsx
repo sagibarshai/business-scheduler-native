@@ -53,7 +53,6 @@ const Stage1 = () => {
   const businessMetaData = useAppSelector((state) => state.business.metaData);
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
-
   const [categories, setCategories] = useState<Category[]>([]);
 
   const [selectedDays, setSelectedDays] = useState<Days>(days);
@@ -89,6 +88,7 @@ const Stage1 = () => {
     error: addressErrorMessage,
     isEditMode: false,
   });
+  console.log(businessAddress.value);
 
   const [selectedDaysAndHours, setSelectedDaysAndHours] = useState<
     InputState<SelectedHoursAndDays>
@@ -264,6 +264,7 @@ const Stage1 = () => {
           />
 
           <TextInput
+            value={businessName.value}
             placeholder="מה השם ?"
             error={businessName.showErrorMessage && !businessName.isValid ? businessName.error : ""}
             onChange={(event) => onInputChange(event, "name")}
